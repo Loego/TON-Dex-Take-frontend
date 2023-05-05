@@ -1,16 +1,15 @@
 import { ArrowRightIcon, Square3Stack3DIcon, ShareIcon, ArrowTrendingDownIcon, ShieldCheckIcon, RocketLaunchIcon } from "@heroicons/react/20/solid"
 
 
-export const PriorityPage = () => {
+export const UtilitiesPage  = () => {
     return(
         <div className=" bg-littledark pl-10 pt-16 pb-20">
-            <div className="container w-4/5 mx-auto flex flex-col gap-20 justify-center">
-                <div className="py-0 text-center">
-                    <span className=" font-sans text-[#B7B6CE]">WHY TON</span>
-                    <h1 className="mt-3 font-serif font-black text-[#ffffff]">TON Prioritises</h1>
+            <div className="container w-4/5 mx-auto flex flex-col gap-10 justify-center">
+                <div className="py-0 text-left">
+                    <h1 className="mt-3 font-serif font-black text-[#ffffff]">Utilities</h1>
                 </div>
                 <div className=" p-2 flex flex-row justify-between gap-6">
-                    <img src = "src/assets/img/the_glass_circles.png" className="w-1/2 hidden lg:block"></img>
+                 
                     <div className=" w-1/2 flex flex-col gap-4 justify-between">
                         <div className="flex flex-col gap-3">
                             <span className="flex flex-row gap-2 font-semibold text-[#ffffff]"><Square3Stack3DIcon className="w-6 h-6 text-btn_color"></Square3Stack3DIcon>Layer-1 Blockchain</span>
@@ -32,7 +31,8 @@ export const PriorityPage = () => {
                             <span className="flex flex-row gap-2 font-semibold text-[#ffffff]"><RocketLaunchIcon className="w-6 h-6 text-btn_color"></RocketLaunchIcon>World-Class Speed</span>
                             <span className=" text-[#B7B6CE]">Transactions are confirmed in a matter of seconds</span>
                         </div>
-                    </div>
+                    </div>    
+                    <img src = "src/assets/img/the_glass_cube.png" className="hidden w-1/2 scale-x-150 scale-y-125 lg:block"></img>
                 </div>
             </div>
         </div>

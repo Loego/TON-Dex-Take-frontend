@@ -3,6 +3,7 @@ import { MainPanel } from "./MainPanel";
 import { SwapPanel } from "./SwapPanel";
 import { LiquidityPanel } from "./LiquidityPanel";
 import { useState } from "react";
+import { Breadcrumbs } from "../Common/BreadCrumb";
 let PanelContent = <MainPanel />
 
 export const Exchange = () => {
@@ -35,6 +36,7 @@ export const Exchange = () => {
             <div className="px-3 gap-4 flex py-5">
                 <button className=" bg-btn_color" onClick={ () => set_state_flag(1) }>Swap</button>
                 <button className="bg-btn_color" onClick={ () => set_state_flag(2) }>Liquidity</button>
+                {/* <Breadcrumbs /> */}
             </div>
             { PanelContent }
         </div>

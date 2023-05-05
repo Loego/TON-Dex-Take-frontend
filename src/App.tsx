@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Link, Switch, BrowserRouter, useLocatio
 import { Header } from "./components/Header/Header";
 import { Exchange } from './components/Exchange/Exchange';
 import { LandingPage } from './components/LandingPage/LandingPage';
+import { Footer } from './components/Footer/Footer';
 import { LiveChat } from './components/LiveChat/LiveChat';
 import { KeyPair, mnemonicToWalletKey } from 'ton-crypto';
 import { base32Decode, TonClient, TupleBuilder } from 'ton';
@@ -177,6 +178,7 @@ function App() {
           <Switch>
               <Route path = "/exchange" component={ Exchange } />
           </Switch>
+        <Footer />
         </div>
         
       </div>

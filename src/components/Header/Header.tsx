@@ -108,18 +108,18 @@ export const Header = () => {
           </Transition>
         </Popover>
 
-        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-gray-900">
           Features
-        </a>
+        </Link>
         <Link to ="/exchange" className="text-sm font-semibold leading-6 text-gray-900">
           Exchange
         </Link>
-        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-          Marketplace
-        </a>
-        <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-gray-900">
+          MarketPlace
+        </Link>
+        <Link to = "/exchange" className="text-sm font-semibold leading-6 text-gray-900">
           Company
-        </a>
+        </Link>
       </Popover.Group>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-12">
         <Link to = "/ConnectWallet" className="inline-flex gap-2 text-sm font-semibold leading-6 text-gray-900">
@@ -189,12 +189,9 @@ export const Header = () => {
               >
                 Marketplace
               </a>
-              <a
-                href="#"
-                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-              >
+              <Link to = "/exchange" className="text-sm font-semibold leading-6 text-gray-900">
                 Company
-              </a>
+              </Link>
               <Link to = "/exchange" className="text-sm font-semibold leading-6 text-gray-900">
                 Exchange
               </Link>
