@@ -1,4 +1,4 @@
-import {TonConnectButton, TonConnectUIProvider} from "@tonconnect/ui-react";
+import {TonConnectButton, TonConnectUI, TonConnectUIProvider, useTonConnectUI} from "@tonconnect/ui-react";
 import {
     ArrowPathIcon,
     Bars3Icon,
@@ -37,6 +37,7 @@ function classNames(...classes: string[]) {
 export const Header = () => {
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [tonConnectUi] = useTonConnectUI();
 
     return <header className="bg-littledark">
     <nav className="mx-auto flex items-center justify-between p-6 lg:px-20" aria-label="Global">
@@ -122,10 +123,11 @@ export const Header = () => {
         </Link>
       </Popover.Group>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-12">
-        <Link to = "/ConnectWallet" className="inline-flex gap-2 text-sm font-semibold leading-6 text-gray-900">
+        <button className="inline-flex gap-2 text-sm font-semibold leading-6 text-gray-900 bg-transparent"
+          onClick={() => tonConnectUi.connectWallet()}>
           <p>Connect Wallet</p>
           <WalletIcon className="h-6 w-6" aria-hidden="true" />
-        </Link>
+        </button>
       </div>
     </nav>
     <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -197,12 +199,13 @@ export const Header = () => {
               </Link>
             </div>
             <div className="py-6">
-              <a
+              {/* <a
                 href="#"
                 className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >
                 Connect Wallet
-              </a>
+              </a> */}
+              <TonConnectButton />
             </div>
           </div>
         </div>

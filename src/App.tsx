@@ -13,6 +13,7 @@ import { LiveChat } from './components/LiveChat/LiveChat';
 import { KeyPair, mnemonicToWalletKey } from 'ton-crypto';
 import { base32Decode, TonClient, TupleBuilder } from 'ton';
 import { config } from "dotenv"
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
 config()
 
 
@@ -168,7 +169,9 @@ function App() {
     // alert("You can check through https://tonviewer.com/EQArx2PlFfgb5c7fUvkn-jOF1onYzYt1e9Nz41yunshgl7KH");
 
   return (
+  
     <BrowserRouter>
+      <TonConnectUIProvider manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json">
       <div className='App'>
         <Header />
         <div className='bg-dashboard_dark h-full'>
@@ -182,7 +185,9 @@ function App() {
         </div>
         
       </div>
+      </TonConnectUIProvider>
       </BrowserRouter>
+    
       /* <div className='Container'>
         <a
           className={`Button `}
