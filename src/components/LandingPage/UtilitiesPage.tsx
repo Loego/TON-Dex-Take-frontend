@@ -32,7 +32,7 @@ export const UtilitiesPage  = () => {
                             <span className=" text-[#B7B6CE]">Transactions are confirmed in a matter of seconds</span>
                         </div>
                     </div>    
-                    <img src = "src/assets/img/the_glass_cube.png" className="hidden w-1/2 scale-x-150 scale-y-125 lg:block"></img>
+                    <img src = "assets/img/the_glass_cube.png" className="hidden w-1/2 scale-x-150 scale-y-125 lg:block"></img>
                 </div>
             </div>
         </div>
