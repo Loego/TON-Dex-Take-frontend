@@ -7,8 +7,6 @@ import { Breadcrumbs } from "../Common/BreadCrumb";
 let PanelContent = <MainPanel />
 
 export const Exchange = () => {
-    console.log("Hello");
-
     const [state_flag, set_state_flag] = useState(0);
     // const setSwap = () => {
     //     console.log("Swap button clicked");

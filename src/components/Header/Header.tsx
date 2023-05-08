@@ -28,7 +28,6 @@ const callsToAction = [
   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
   { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
-// import './header.scss';
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')

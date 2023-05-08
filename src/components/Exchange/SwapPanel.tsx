@@ -1,10 +1,40 @@
 import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
 import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress} from "@tonconnect/ui-react";
+import TonWeb from "tonweb";
 import { useEffect } from 'react';
 
-import './index.css';
+import './TONConnectButton.scss';
 
 export const SwapPanel = () => {
+
+  // const provider = new TonWeb.HttpProvider(import.meta.env.VITE_endpointUrl);
+
+
+  async function Click() {
+  
+    const tonweb = new TonWeb();
+    const walletAddress = "EQArx2PlFfgb5c7fUvkn-jOF1onYzYt1e9Nz41yunshgl7KH";
+    const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, { address: walletAddress });
+    const data = await jettonWallet.getData();
+
+
+    // console.log("This step1", jettonWallet); 
+    // const data = await jettonWallet.getData();
+
+
+    // const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, {address: data.jettonMinterAddress.toString(false)});
+
+  
+  
+    // console.log("This step2"); 
+    
+    // console.log('Jetton balance:', data.balance.toString());
+    // console.log('Jetton owner address:', data.ownerAddress.toString(true, true, true));
+  }
+  
+
+
+
   const [tonConnectUi] = useTonConnectUI()
   const wallet = useTonWallet()
   const userFriendlyAddress = useTonAddress()
@@ -22,11 +52,11 @@ export const SwapPanel = () => {
   //       }
   // }), []);
 
-  console.log("userFriendlyAddress: ", userFriendlyAddress)
-  console.log("raw address: ", rawAddress);
-  console.log(wallet);
+  // console.log("userFriendlyAddress: ", userFriendlyAddress)
+  // console.log("raw address: ", rawAddress);
+  // console.log(wallet);
 
-  console.log("===>",tonConnectUi.connectWallet);
+  // console.log("===>",tonConnectUi.connectWallet);
     return(
       //   <div className='Container'>
       //   <a
@@ -114,7 +144,7 @@ export const SwapPanel = () => {
                 </div>
               </div>
             </div>
-            <button className=" bg-[#662483] w-full mt-8">Swap</button>
+            <button className=" bg-[#662483] w-full mt-8" onClick={Click}>Swap</button>
           </div>
         </div>
       </div>
