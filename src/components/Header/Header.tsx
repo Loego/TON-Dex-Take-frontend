@@ -59,7 +59,7 @@ export const Header = () => {
           </button> : <></> }
           
         </div>
-        <Popover.Group className="hidden lg:gap-x-20 lg:flex items-center">
+        <Popover.Group className="hidden lg:gap-x-12 lg:flex items-center">
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white">
               Product
@@ -201,9 +201,8 @@ export const Header = () => {
               </Link>
             </div>
             <div className="py-6">
-              <button
-                
-                className="-mx-3 block w-full bg-btn_color rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-purple-800"
+              <button className="-mx-3 block w-full bg-btn_color rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-purple-800"
+              onClick={() => tonConnectUi.connectWallet()}
               >
                 Connect Wallet
               </button>
