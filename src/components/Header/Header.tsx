@@ -95,7 +95,7 @@ export const Header = () => {
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+              <div className="grid grid-cols-2 divide-x divide-white/70 bg-gray-50">
                 {callsToAction.map((item) => (
                   <a
                     key={item.name}
@@ -154,7 +154,7 @@ export const Header = () => {
           </button>
         </div>
         <div className="mt-6 flow-root">
-          <div className="-my-6 divide-y divide-gray-500/10">
+          <div className="-my-6 divide-y divide-white/75">
             <div className="space-y-2 py-6">
               <Disclosure as="div" className="-mx-3">
                 {({ open }) => (
@@ -201,13 +201,13 @@ export const Header = () => {
               </Link>
             </div>
             <div className="py-6">
-              {/* <a
-                href="#"
-                className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              <button
+                
+                className="-mx-3 block w-full bg-btn_color rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-purple-800"
               >
                 Connect Wallet
-              </a> */}
-              <TonConnectButton />
+              </button>
+              {/* <TonConnectButton /> */}
             </div>
           </div>
         </div>
