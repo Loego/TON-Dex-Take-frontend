@@ -4,6 +4,7 @@ import TonWeb from "tonweb";
 import { useEffect } from 'react';
 
 import './TONConnectButton.scss';
+import { Address } from 'tonweb/dist/types/utils/address';
 
 export const SwapPanel = () => {
 
@@ -16,6 +17,8 @@ export const SwapPanel = () => {
     const walletAddress = "EQArx2PlFfgb5c7fUvkn-jOF1onYzYt1e9Nz41yunshgl7KH";
     const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, { address: walletAddress });
     const data = await jettonWallet.getData();
+  
+    const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, { address: new TonWeb.utils.Address('')});
 
 
     // console.log("This step1", jettonWallet); 
