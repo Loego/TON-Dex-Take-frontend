@@ -5,9 +5,9 @@ import React, { ChangeEvent, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, BrowserRouter, useLocation } from "react-router-dom";
 
 // import { Router, ROUTER_REVISION, ROUTER_REVISION_ADDRESS } from '@ston-fi/sdk';
-import { Header } from "./components/Header/Header";
 import { Exchange } from './components/Exchange/Exchange';
 import { LandingPage } from './components/LandingPage/LandingPage';
+import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { LiveChat } from './components/LiveChat/LiveChat';
 import { KeyPair, mnemonicToWalletKey } from 'ton-crypto';
@@ -15,8 +15,6 @@ import { base32Decode, TonClient, TupleBuilder } from 'ton';
 import { config } from "dotenv"
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 config()
-
-
 // const client = new TonClient({ endpoint: endpointUrl, apiKey: api_key });
 // const balance = (await provider.getBalance(WALLET_ADDRESS))/1000000000;
 
@@ -169,12 +167,11 @@ function App() {
     // alert("You can check through https://tonviewer.com/EQArx2PlFfgb5c7fUvkn-jOF1onYzYt1e9Nz41yunshgl7KH");
 
   return (
-  
     <BrowserRouter>
       <TonConnectUIProvider manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json">
       <div className='App'>
         <Header />
-        <div className='bg-dashboard_dark h-full'>
+        <div className='bg-dashboard_dark pt-20 h-full'>
           <Switch>
             <Route exact path="/" component={ LandingPage } />
           </Switch>

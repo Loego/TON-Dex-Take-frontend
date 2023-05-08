@@ -39,40 +39,42 @@ export const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [tonConnectUi] = useTonConnectUI();
 
-    return <header className="bg-littledark">
-    <nav className="mx-auto flex items-center justify-between p-6 lg:px-20" aria-label="Global">
-      <div className="flex lg:flex-1">
-        <a href="#" className="-m-1.5 p-1.5">
-          <span className="sr-only">Your Company</span>
-          <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-        </a>
-      </div>
-      <div className="flex lg:hidden">
-        <button
-          type="button"
-          className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          onClick={() => setMobileMenuOpen(true)}
-        >
-          <span className="sr-only">Open main menu</span>
-          <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-        </button>
-      </div>
-      <Popover.Group className="hidden lg:gap-x-20 items-center lg:flex">
-        <Popover className="relative">
-          <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-            Product
-            <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
-          </Popover.Button>
-
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in duration-150"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-1"
+    return (
+    <header className="bg-littledark fixed w-full">
+      <nav className="mx-auto flex items-center justify-between p-6 lg:px-20" aria-label="Global">
+        <div className="flex lg:flex-1">
+          <a href="#" className="-m-1.5 p-1.5">
+            <span className="sr-only">Your Company</span>
+            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+          </a>
+        </div>
+        <div className="flex lg:hidden">
+          { mobileMenuOpen == false ? <button
+            type="button"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+            onClick={() => setMobileMenuOpen(true)} 
           >
+            <span className="sr-only">Open main menu</span>
+            <Bars3Icon className="h-6 w-6"  aria-hidden="true"/>
+          </button> : <></> }
+          
+        </div>
+        <Popover.Group className="hidden lg:gap-x-20 lg:flex items-center">
+          <Popover className="relative">
+            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white">
+              Product
+              <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+            </Popover.Button>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-200"
+              enterFrom="opacity-0 translate-y-1"
+              enterTo="opacity-100 translate-y-0"
+              leave="transition ease-in duration-150"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-1"
+            >
             <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
               <div className="p-4">
                 {products.map((item) => (
@@ -109,21 +111,21 @@ export const Header = () => {
           </Transition>
         </Popover>
 
-        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-gray-900">
+        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-white">
           Features
         </Link>
-        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-gray-900">
+        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-white">
           Exchange
         </Link>
-        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-gray-900">
+        <Link to ="/exchange" className="text-sm font-semibold leading-6 text-white">
           MarketPlace
         </Link>
-        <Link to = "/exchange" className="text-sm font-semibold leading-6 text-gray-900">
+        <Link to = "/exchange" className="text-sm font-semibold leading-6 text-white">
           Company
         </Link>
       </Popover.Group>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-12">
-        <button className="inline-flex gap-2 text-sm font-semibold leading-6 text-gray-900 bg-transparent"
+        <button className="inline-flex gap-2 text-sm font-semibold leading-6 text-white bg-transparent"
           onClick={() => tonConnectUi.connectWallet()}>
           <p>Connect Wallet</p>
           <WalletIcon className="h-6 w-6" aria-hidden="true" />
@@ -132,7 +134,7 @@ export const Header = () => {
     </nav>
     <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
       <div className="fixed inset-0 z-10" />
-      <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+      <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-dark/50 px-6 py-6">
         <div className="flex items-center justify-between">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
@@ -144,7 +146,7 @@ export const Header = () => {
           </a>
           <button
             type="button"
-            className="-m-2.5 rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 rounded-md p-2.5 text-white"
             onClick={() => setMobileMenuOpen(false)}
           >
             <span className="sr-only">Close menu</span>
@@ -157,7 +159,7 @@ export const Header = () => {
               <Disclosure as="div" className="-mx-3">
                 {({ open }) => (
                   <>
-                    <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 hover:bg-gray-50">
+                    <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black">
                       Product
                       <ChevronDownIcon
                         className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
@@ -170,7 +172,7 @@ export const Header = () => {
                           key={item.name}
                           as="a"
                           href={item.href}
-                          className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                          className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"
                         >
                           {item.name}
                         </Disclosure.Button>
@@ -181,20 +183,20 @@ export const Header = () => {
               </Disclosure>
               <a
                 href="#"
-                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"
               >
                 Features
               </a>
               <a
                 href="#"
-                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"
               >
                 Marketplace
               </a>
-              <Link to = "/exchange" className="text-sm font-semibold leading-6 text-gray-900">
+              <Link to = "/exchange" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black">
                 Company
               </Link>
-              <Link to = "/exchange" className="text-sm font-semibold leading-6 text-gray-900">
+              <Link to = "/exchange" className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black">
                 Exchange
               </Link>
             </div>
@@ -212,4 +214,7 @@ export const Header = () => {
       </Dialog.Panel>
     </Dialog>
   </header>
+    )
 }
+
+

@@ -3,6 +3,7 @@ import {useTonConnectUI, useTonWallet} from "@tonconnect/ui-react";
 
 export const SwapPanel = () => {
   const [tonConnectUi] = useTonConnectUI();
+  console.log(tonConnectUi.uiOptions)
     return(
       //   <div className='Container'>
       //   <a
