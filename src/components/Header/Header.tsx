@@ -134,7 +134,7 @@ export const Header = () => {
     </nav>
     <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
       <div className="fixed inset-0 z-10" />
-      <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-dark/50 px-6 py-6">
+      <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-700 px-6 py-6">
         <div className="flex items-center justify-between">
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
@@ -200,8 +200,8 @@ export const Header = () => {
                 Exchange
               </Link>
             </div>
-            <div className="py-6">
-              <button className="-mx-3 block w-full bg-btn_color rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-purple-800"
+            <div className="py-6 flex justify-center">
+              <button className="-mx-3 block w-1/2 bg-btn_color rounded-lg px-2 py-1.5 text-base font-bold leading-7 text-white hover:bg-purple-800"
               onClick={() => tonConnectUi.connectWallet()}
               >
                 Connect Wallet

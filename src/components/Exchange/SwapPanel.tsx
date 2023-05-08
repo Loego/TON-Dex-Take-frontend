@@ -2,6 +2,8 @@ import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
 import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress} from "@tonconnect/ui-react";
 import { useEffect } from 'react';
 
+import './index.css';
+
 export const SwapPanel = () => {
   const [tonConnectUi] = useTonConnectUI()
   const wallet = useTonWallet()
@@ -75,8 +77,7 @@ export const SwapPanel = () => {
       <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-0 container pt-2">
         <div className="flex flex-row items-center p-0 justify-between">
           <span className=" font-black text-3xl font-sans text-[#FFFFFF]">Swap</span>
-          <button className=" bg-[rgb(102,36,131)] px-7 py-2" onClick={() => tonConnectUi.connectWallet()}>Connect Wallet</button>
-          <TonConnectButton className=' bg-btn_color' />
+          <TonConnectButton />
         </div>
         <div className="container lg:px-20 pt-14">
           <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
