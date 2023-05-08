@@ -1,9 +1,30 @@
 import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
-import {useTonConnectUI, useTonWallet} from "@tonconnect/ui-react";
+import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress} from "@tonconnect/ui-react";
+import { useEffect } from 'react';
 
 export const SwapPanel = () => {
-  const [tonConnectUi] = useTonConnectUI();
-  console.log(tonConnectUi.uiOptions)
+  const [tonConnectUi] = useTonConnectUI()
+  const wallet = useTonWallet()
+  const userFriendlyAddress = useTonAddress()
+  const rawAddress = useTonAddress(false)
+
+  // const checkProofInYourBackend = (proof, account) => {
+
+  // }
+
+
+  // useEffect(() =>
+  // tonConnectUi.onStatusChange(wallet => {
+  //       if (wallet?.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
+  //           checkProofInYourBackend(wallet.connectItems.tonProof.proof, wallet.account);
+  //       }
+  // }), []);
+
+  console.log("userFriendlyAddress: ", userFriendlyAddress)
+  console.log("raw address: ", rawAddress);
+  console.log(wallet);
+
+  console.log("===>",tonConnectUi.connectWallet);
     return(
       //   <div className='Container'>
       //   <a
@@ -54,7 +75,8 @@ export const SwapPanel = () => {
       <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-0 container pt-2">
         <div className="flex flex-row items-center p-0 justify-between">
           <span className=" font-black text-3xl font-sans text-[#FFFFFF]">Swap</span>
-          <button className=" bg-[#662483] px-7 py-2" onClick={() => tonConnectUi.connectWallet()}>Connect Wallet</button>
+          <button className=" bg-[rgb(102,36,131)] px-7 py-2" onClick={() => tonConnectUi.connectWallet()}>Connect Wallet</button>
+          <TonConnectButton className=' bg-btn_color' />
         </div>
         <div className="container lg:px-20 pt-14">
           <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
