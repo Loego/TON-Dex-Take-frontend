@@ -39,6 +39,15 @@ export const TONCOIN = {
   "logoURI": "https://ton.org/download/toncoin_symbol.png"
 };
 
+export const TAN = {
+  "name": "TAN TOKEN",
+  "symbol": "TAN",
+  "address": "EQBPL2ZXLh4dMtIHjxh7EXGVYH-8_Uz3km4QIOkT8KbqeezG",
+  "chainId": 0,
+  "decimals": 9,
+  "logoURI": "https://tokens.pancakeswap.finance/images/0xa1faa113cbE53436Df28FF0aEe54275c13B40975.png"
+}
+
 export const USDT = {
   "name": "Tether",
   "symbol": "USDT",
@@ -850,5 +859,14 @@ const _tokens: Token[] = [
     "chainId": 56,
     "decimals": 18,
     "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0xFbe0b4aE6E5a200c36A341299604D5f71A5F0a48/logo.png"
-  }
+  },
+  {
+    "name": "TAN",
+    "symbol": "TAN",
+    "address": "",
+    "chainId": 56,
+    "decimals": 9,
+    "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0xFbe0b4aE6E5a200c36A341299604D5f71A5F0a48/logo.png"
+  },
+
 ];

@@ -1,4 +1,4 @@
-
+import { useState } from 'react';
 import TokenInput from '../TokenInput/TokenInput';
 import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
 import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress} from "@tonconnect/ui-react";
@@ -6,11 +6,20 @@ import TonWeb from "tonweb";
 import { useEffect } from 'react';
 import { Address } from 'tonweb/dist/types/utils/address';
 import './TONConnectButton.scss';
-import { TONCOIN, Token } from '../../api/tokens';
-
+import { TONCOIN, TAN } from '../../api/tokens';
 
 
 export const SwapPanel = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  }
+
 
   // const provider = new TonWeb.HttpProvider(import.meta.env.VITE_endpointUrl);
 
@@ -107,20 +116,27 @@ export const SwapPanel = () => {
           <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
             <div className="flex flex-col p-0 gap-5">
               <TokenInput
-                label='0'
+                label='From'
                 value={0}
                 onChange={() => {}}
-                token={TONCOIN}
-                onSelectToken={() => {}}
+                token={TAN}
+                onSelectToken={() => { handleOpenModal }}
               />
               <div className='flex flex-row'>
                 <span className='p-3'><ArrowsUpDownIcon className='w-8 h-8 text-[#662483] hover:text-[#FFFFFF]'></ArrowsUpDownIcon></span>
               </div>
-              
+              <TokenInput
+                label='To'
+                value={0}
+                onChange={() => {}}
+                token={TONCOIN}
+                onSelectToken={() => { handleOpenModal }}
+              />
             </div>
             <button className=" bg-[#662483] w-full mt-8" onClick={()=> { SwapClick()}}>Swap</button>
           </div>
         </div>
+      
       </div>
     )
 }
