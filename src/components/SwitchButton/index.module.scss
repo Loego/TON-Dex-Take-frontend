@@ -1,0 +1,91 @@
+@import "../../assets/styles/colors";
+@import "../../assets/styles/mixins";
+@import "../../assets/styles/constants";
+
+.panel {
+  border: solid 2px $border-color;
+  border-radius: $border-radius;
+  padding: 2rem 3rem;
+  display: flex;
+  background-color: white;
+  flex-flow: column nowrap;
+  max-width: 400px;
+  min-width: 250px;
+}
+
+.header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+
+  .text {
+    h2 {
+      margin: 0 0 1rem;
+      font-weight: 700;
+    }
+
+    span {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+      stroke: $primary-color;
+
+      @include hover-lighten;
+    }
+  }
+}
+
+.switchButton {
+  margin: 1rem 0;
+  align-self: center;
+  border: 2px solid $border-color;
+  width: 4rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  background-color: #662483;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    height: 22px;
+    width: 22px;
+    transition: transform 0.2s;
+    color: whitesmoke;
+  }
+
+  @include hover-lighten;
+
+  &:hover {
+    svg {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+.info {
+  display: flex;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 1rem 0;
+  align-content: center;
+  gap: 10px;
+
+  span {
+    flex: 1;
+  }
+}

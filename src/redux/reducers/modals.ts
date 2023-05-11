@@ -18,7 +18,6 @@ export const modalsSlice = createSlice({
   },
 });
 
-
 export const { showModal }= modalsSlice.actions;
 
 export const selectModals = (state: RootState): ModalsState => state.modals;

@@ -1,7 +1,7 @@
 import './App.css';
 import TonWeb from 'tonweb';
 import { Buffer } from 'buffer';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, BrowserRouter, useLocation } from "react-router-dom";
 
 // import { Router, ROUTER_REVISION, ROUTER_REVISION_ADDRESS } from '@ston-fi/sdk';
@@ -14,6 +14,9 @@ import { KeyPair, mnemonicToWalletKey } from 'ton-crypto';
 import { base32Decode, TonClient, TupleBuilder } from 'ton';
 import { config } from "dotenv"
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import Modals from "./components/Modals"
+import { useAppDispatch } from './redux/hooks';
+import { retrieveTokens } from './redux/reducers/tokens';
 config()
 // const client = new TonClient({ endpoint: endpointUrl, apiKey: api_key });
 // const balance = (await provider.getBalance(WALLET_ADDRESS))/1000000000;
@@ -33,6 +36,15 @@ config()
 // });
 
 function App() {
+
+  const wallet_address = import.meta.env.VITE_WALLET_ADDRESS;
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(retrieveTokens (wallet_address));
+  }, [dispatch, wallet_address]);
+
   // const [inputTON, setInputTON] = useState<number>();
   // const [inputALEX, setInputALEX] = useState<number>();
 
@@ -167,7 +179,7 @@ function App() {
     // alert("You can check through https://tonviewer.com/EQArx2PlFfgb5c7fUvkn-jOF1onYzYt1e9Nz41yunshgl7KH");
 
   return (
-    <BrowserRouter>
+    <>
       <TonConnectUIProvider manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json">
       <div className='App'>
         <Header />
@@ -178,12 +190,12 @@ function App() {
           <Switch>
               <Route path = "/exchange" component={ Exchange } />
           </Switch>
+          <Modals />
         <Footer />
         </div>
-        
       </div>
       </TonConnectUIProvider>
-      </BrowserRouter>
+      </>
     
       /* <div className='Container'>
         <a

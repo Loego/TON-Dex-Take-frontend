@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import TokenInput from '../TokenInput/TokenInput';
 import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
 import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress} from "@tonconnect/ui-react";
 import TonWeb from "tonweb";
@@ -7,19 +6,49 @@ import { useEffect } from 'react';
 import { Address } from 'tonweb/dist/types/utils/address';
 import './TONConnectButton.scss';
 import { TONCOIN, TAN } from '../../api/tokens';
+import { showModal } from '../../redux/reducers/modals';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { changeInput, selectionModal, selectSwap, switchInputs } from '../../redux/reducers/swap';
+import SwitchButton from '../SwitchButton/SwitchButton';
+import TokenInput from '../TokenInput/TokenInput';
 
 
 export const SwapPanel = () => {
+
+  const dispatch = useAppDispatch();
+  const swapState = useAppSelector(selectSwap);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenModal = () => {
+    console.log("ok")
     setIsOpen(true);
   };
 
   const handleCloseModal = () => {
+    console.log("close")
     setIsOpen(false);
   }
 
+  const setOpenState = () => {
+    setIsOpen(false);
+    console.log("set False");
+  }
+
+  const handleSelectToken = (key:"from"|"to") => {
+    console.log("sss", key);
+    dispatch(selectionModal(key));
+    dispatch(showModal("swap-selection"));
+  }
+
+  const handleFromChange = (value: number) => dispatch(changeInput({ key:"from", value }));
+  const handleToChange = (value: number) => dispatch(changeInput({ key:"to", value }));
+
+  const handleSwitch = () => dispatch(switchInputs());
+  
+
+  const handleSelectFromToken = () => handleSelectToken("from");
+  const handleSelectToToken = () => handleSelectToken("to");
 
   // const provider = new TonWeb.HttpProvider(import.meta.env.VITE_endpointUrl);
 
@@ -59,7 +88,7 @@ export const SwapPanel = () => {
   // console.log(wallet);
 
   // console.log("===>",tonConnectUi.connectWallet);
-
+    
     return(
       //   <div className='Container'>
       //   <a
@@ -117,20 +146,21 @@ export const SwapPanel = () => {
             <div className="flex flex-col p-0 gap-5">
               <TokenInput
                 label='From'
-                value={0}
-                onChange={() => {}}
-                token={TAN}
-                onSelectToken={() => { handleOpenModal }}
+                value={swapState.inputs.from}
+                onChange={handleFromChange}
+                token={swapState.from}
+                onSelectToken={handleSelectFromToken}
               />
-              <div className='flex flex-row'>
+              {/* <div className='flex flex-row'>
                 <span className='p-3'><ArrowsUpDownIcon className='w-8 h-8 text-[#662483] hover:text-[#FFFFFF]'></ArrowsUpDownIcon></span>
-              </div>
+              </div> */}
+              <SwitchButton onClick={handleSwitch} />
               <TokenInput
                 label='To'
-                value={0}
-                onChange={() => {}}
-                token={TONCOIN}
-                onSelectToken={() => { handleOpenModal }}
+                value={swapState.inputs.to}
+                onChange={handleToChange}
+                token={swapState.to}
+                onSelectToken={handleSelectToToken}
               />
             </div>
             <button className=" bg-[#662483] w-full mt-8" onClick={()=> { SwapClick()}}>Swap</button>

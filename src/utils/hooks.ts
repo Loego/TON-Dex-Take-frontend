@@ -1,7 +1,7 @@
 import { AsyncThunk } from "@reduxjs/toolkit";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { selectAccount } from "../redux/reducers/account";
+// import { selectAccount } from "../redux/reducers/account";
 import { TokenBalanced } from "../redux/types/tokens";
 
 type FuncType = AsyncThunk<{
@@ -14,7 +14,8 @@ type FuncType = AsyncThunk<{
 }, {}>
 
 export const useInputBalanceEffect = (from: TokenBalanced|null, to: TokenBalanced|null, action: FuncType) => {
-  const { walletAddress } = useAppSelector(selectAccount);
+  //const { walletAddress } = useAppSelector(selectAccount);
+  const walletAddress = import.meta.env.VITE_WALLET_ADDRESS;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
