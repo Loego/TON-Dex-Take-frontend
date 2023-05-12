@@ -14,6 +14,7 @@ import SwitchButton from '../SwitchButton/SwitchButton';
 import TokenInput from '../TokenInput/TokenInput';
 
 import './TONConnectButton.scss';
+import SwapHeader from "./SwapHeader";
 
 export const SwapPanel = () => {
 
@@ -160,6 +161,7 @@ export const SwapPanel = () => {
         <div className="container lg:px-20 pt-14">
           <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
             <div className="flex flex-col p-0 gap-5">
+              <SwapHeader />
               <TokenInput
                 label='From'
                 value={swapState.inputs.from}

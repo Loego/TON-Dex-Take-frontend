@@ -10,7 +10,7 @@ import SelectionModal from "../SelectionModal";
 // import ConfirmRemoveLiquidity from "../ConfirmRemoveLiquidity";
 import ConfirmSwapModal from "../ConfirmSwapModal";
 
-// import SwapSettingsModal from "../SwapSettingsModal";
+import SwapSettingsModal from "../SwapSettingsModal";
 import styles from "./index.module.scss";
 
 export default function Modals() {
@@ -46,6 +46,8 @@ export default function Modals() {
           <SelectionModal onSelected={handleSwapSelection} />
            : modalsState.shown === "swap-confirmation" ?
               <ConfirmSwapModal/>
+                : modalsState.shown === "swap-settings" ?
+                  <SwapSettingsModal/>
           // :modalsState.shown === "liquidity-selection" ?
             // <SelectionModal onSelected={handleLiquiditySelection}/>
             

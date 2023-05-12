@@ -5,7 +5,6 @@ export type Modal = null|
                     "confirm-supply"|
                     "confirm-remove"|
                     "swap-settings";
-
 export interface ModalsState {
     shown: Modal;
 }
