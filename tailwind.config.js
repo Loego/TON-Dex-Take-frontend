@@ -19,7 +19,8 @@ export default {
         dark: "#0F0C1D",
         background: "#27262C",
         btn_color: "#662483",
-        transparent: "transparent"
+        transparent: "transparent",
+        icon_color: "#1FC7D4"
       }
   },
   plugins: [],

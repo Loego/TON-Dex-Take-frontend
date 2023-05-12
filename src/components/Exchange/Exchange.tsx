@@ -1,7 +1,7 @@
 import {TonConnectButton, TonConnectUIProvider} from "@tonconnect/ui-react";
 import { MainPanel } from "./MainPanel";
 import { SwapPanel } from "./SwapPanel";
-import { LiquidityPanel } from "./LiquidityPanel";
+import LiquidityPage from "../LiquidityPage";
 import { useState } from "react";
 import { Breadcrumbs } from "../Common/BreadCrumb";
 let PanelContent = <MainPanel />
@@ -25,7 +25,7 @@ export const Exchange = () => {
     if(state_flag == 1)
         PanelContent = <SwapPanel />
     else if(state_flag == 2)
-        PanelContent = <LiquidityPanel />
+        PanelContent = <LiquidityPage />
     else if(state_flag == 0)
         PanelContent = <MainPanel />
     

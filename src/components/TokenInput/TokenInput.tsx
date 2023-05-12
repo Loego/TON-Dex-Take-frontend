@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { TokenBalanced } from "../../redux/types/tokens";
 
+import "./index.module.scss";
+
 interface IProps {
     label: string;
     value: number;
@@ -34,20 +36,20 @@ export default function TokenInput({ label, onChange, value, token, onSelectToke
                 <label>{label}</label>
                 <label>Available: </label>
             </div>
-            <div className=" bg-[#FFFFFF] border border-[#B9BBBE] h-11 rounded-md flex flex-nowrap flex-row items-center gap-3">
+            <div className=" rounded-lg bg-[#130F25] border border-[#2B2649] h-11 flex flex-nowrap flex-row items-center gap-3">
                 <div className='px-3 py-2 '>
-                    <input type="number" className=" text-dark w-full outline-none" value={`${value}`} onChange={handleChange} />
+                    <input type="number" className=" text-white w-full bg-[#130F25] outline-none" value={`${value}`} onChange={handleChange} />
                 </div>
-                <div className='px-3 py-2 border-l-2 border-[#B9BBBE] h-11 w-full flex flex-row justify-between' onClick={onSelectToken}>
+                <div className='px-3 py-2 border-l-2 border-[#2B2649] h-11 w-full flex flex-row justify-between' onClick={onSelectToken}>
                     <div className="flex flex-row items-center justify-end gap-2 flex-nowrap">
                         { token != null?
-                            <img src={token?.logoURI} alt={token.name} className="h-8 w-8" /> : null }
-                        <span className="text-dark"> { token !== null ? token.symbol: "Select Token"} </span>
+                            <img src={token?.logoURI} alt={token.name} className="h-8 w-8 bg-transparent rounded-full" /> : null }
+                        <span className="text-white"> { token !== null ? token.symbol: "Select Token"} </span>
                     </div>
-                    <span className="flex flex-row text-dark items-center select-none">
+                    <span className="flex flex-row text-white items-center select-none">
                         { showMax && token?.balance ? 
                             <small
-                                className=""
+                                className=" text-white"
                                 onClick={handleMaxClick}>MAX
                             </small> : ""
                         }

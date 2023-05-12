@@ -27,10 +27,10 @@ export default function SwapHeader() {
     </div>
     <div className="flex flex-row flex-nowrap gap-2">
         <button className="p-2 outline-0 border-0 bg-transparent hover:bg-white/80" onClick={handleSettingsClick}>
-            <WrenchScrewdriverIcon className="w-7 h-7 text-[#1FC7D4] hover:opacity-50"></WrenchScrewdriverIcon>
+            <WrenchScrewdriverIcon className="w-7 h-7 text-icon_color hover:opacity-50"></WrenchScrewdriverIcon>
         </button>
         {showChartIcon ? <button className="p-1 outline-0 border-0 bg-transparent hover:bg-white/80" onClick={handleChartClick}>
-            <PresentationChartLineIcon className="w-8 h-8 text-[#1FC7D4] hover:opacity-50"></PresentationChartLineIcon>
+            <PresentationChartLineIcon className="w-8 h-8 text-icon_color hover:opacity-50"></PresentationChartLineIcon>
         </button> : null}
     </div>
   </div>;

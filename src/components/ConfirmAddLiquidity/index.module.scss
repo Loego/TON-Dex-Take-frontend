@@ -3,8 +3,8 @@
 @import "../../assets/styles/mixins";
 
 .container {
-  border-radius: 20px;
-  background-color: whitesmoke;
+  border-radius: $border-radius;
+  background-color: white;
   padding: 2.5rem;
   display: flex;
   flex-flow: column nowrap;
@@ -17,13 +17,11 @@
     display: flex;
     align-items: center;
     flex: 1;
-    
 
     h2 {
       font-weight: 700;
       margin: 0;
       flex: 1;
-      color: darkblue;
     }
 
     svg {
@@ -34,37 +32,31 @@
 
 .transactionSummary {
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row wrap;
   font-size: 1.125rem;
   font-weight: 700;
-  gap: 0.75rem;
-  color: black;
+  align-items: flex-end;
+  justify-content: flex-start;
 
-  svg {
-    width: 2rem;
-    height: 1rem;
-    stroke: black;
+  h1 {
+    font-size: 2rem;
+    margin: 0;
+    display: inline;
+    margin-right: 1rem;
+    color: $primary-dark-color;
   }
 
-  .tokenItem {
-    display: flex;
-    flex-flow: row nowrap;
-    gap: 0.75rem;
-    
+  span {
+    margin-left: 0.75rem;
+  }
 
-    img {
-      max-width: 2rem;
-      min-width: 2rem;
-      max-height: 2rem;
-      min-height: 2rem;
-      
+  img {
+    max-width: 1.5rem;
+    max-height: 1.5rem;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
 
-      @include round-image;
-    }
-
-    .amount {
-      flex: 1;
-    }
+    @include round-image;
   }
 }
 
@@ -74,7 +66,6 @@
   text-align: justify;
   margin: 0 0 1rem;
   font-size: 1rem;
-  color: black;
 
   strong {
     font-weight: 700;
@@ -88,7 +79,6 @@
   grid-auto-rows: 20px;
   gap: 0.5rem;
   font-size: 1rem;
-  color: black;
 
   label {
     font-weight: 500;
@@ -96,7 +86,20 @@
 
   span {
     font-weight: 700;
-    text-align: end;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+
+    img {
+      min-width: 1.5rem;
+      min-height: 1.5rem;
+      max-width: 1.5rem;
+      max-height: 1.5rem;
+
+      @include round-image;
+    }
   }
 
   .priceImpactIncr {

@@ -11,8 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { changeInput, selectionModal, selectSwap, switchInputs, syncTokenBalances } from '../../redux/reducers/swap';
 import Info from "../icons/Info";
 import SwitchButton from '../SwitchButton/SwitchButton';
-import TokenInput from '../TokenInput/TokenInput';
-
+// import TokenInput from '../TokenInput/TokenInput';
+import TokenInput from "../TokenInput2";
 import './TONConnectButton.scss';
 import SwapHeader from "./SwapHeader";
 
@@ -33,14 +33,14 @@ export const SwapPanel = () => {
   // console.log("connected:", connected)
 
   const handleSwap = () => {
-    if (!connected) {
-      // await WalletConnector.connectWallet();
-      // if(userFriendlyAddress != "")
-     //dispatch(connect(userFriendlyAddress));
-     console.log("done");
-    }else{
+    // if (!connected) {
+    //   // await WalletConnector.connectWallet();
+    //   // if(userFriendlyAddress != "")
+    //  //dispatch(connect(userFriendlyAddress));
+    //  console.log("done");
+    // }else{
       dispatch(showModal("swap-confirmation"));
-    }
+    // }
   };
 
   const handleSelectToken = (key:"from"|"to") => {
@@ -160,7 +160,7 @@ export const SwapPanel = () => {
         </div>
         <div className="container lg:px-20 pt-14">
           <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
-            <div className="flex flex-col p-0 gap-5">
+            <div className="flex flex-col py-2 px-4 gap-5">
               <SwapHeader />
               <TokenInput
                 label='From'

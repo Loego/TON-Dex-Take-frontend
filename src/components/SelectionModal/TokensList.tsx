@@ -27,9 +27,11 @@ interface ITokenProps {
 }
 
 function TokenItem({ token, onClick }:ITokenProps){
-  return <div className={styles.token} onClick={onClick}>
-    <img alt={token.name} src={token.logoURI}/>
-    <span className={styles.name}>{token.name}</span>
-    <span className={styles.value}>{token.balance}</span>
-  </div>;
+  return (
+      <div className={styles.token} onClick={onClick}>
+        <img alt={token.name} src={token.logoURI}/>
+        <span className={styles.name}>{token.name}</span>
+        <span className={styles.value}>{token.balance}</span>
+      </div>
+  );
 }

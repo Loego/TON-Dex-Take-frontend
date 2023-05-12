@@ -21,14 +21,19 @@ export default function SwapSettingsModal() {
   return (
     <div
       className={styles.container}
-      onClick={preventClickThroughs}>
+      onClick={preventClickThroughs}
+    >
       <div className={styles.title}>
         <h2 className=" text-2xl">Swap Settings</h2>
         <Close onClick={handleDismiss}/>
       </div>
+      <hr />
       <SlippageTolerance/>
+      <hr />
       <TxDeadline/>
+      <hr />
       <ExpertMode/>
+      <hr />
       <Multihops/>
     </div>
   );

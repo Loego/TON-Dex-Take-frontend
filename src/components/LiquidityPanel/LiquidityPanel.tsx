@@ -1,6 +1,22 @@
 import { AdjustmentsHorizontalIcon, ArrowPathIcon } from "@heroicons/react/20/solid"
+import { useAppDispatch, useAppSelector } from "../../redux/hooks"
+import { connect, selectAccount } from "../../redux/reducers/account";
+import { panel } from "../../redux/reducers/liquidity";
+import List from "./List";
 
 export const LiquidityPanel = () => {
+
+    const dispatch = useAppDispatch();
+    const accountState = useAppSelector(selectAccount);
+    const connected = accountState.walletAddress != null && accountState.walletAddress != "";
+    const handleAddLiquidity = () => {
+        // if (!connected) {
+        //     //dispatch(connect());
+        //   }else{
+            dispatch(panel("add"));
+        //   }
+    }
+
     return(
         <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-5 container pt-5">
             <div className=" rounded-t-2xl bg-[#130F25] border border-[#2B2649] py-6 px-8 flex flex-row justify-between">
@@ -14,12 +30,14 @@ export const LiquidityPanel = () => {
                     </button>
                 </div>
             </div>
-            <div className=" bg-[#000000] px-5 py-7 border-x border-[#2B2649]">
-                <p className=" text-center">Connect to a wallet to view your liquidity.</p>
+            <div className=" border-x bg-[#000000] border border-[#2B2649] px-12 py-7">
+                <button className=" bg-btn_color w-full" onClick={handleAddLiquidity}> + Add Liquidity</button>
             </div>
-            <div className=" rounded-b-2xl bg-[#130F25] border border-[#2B2649] py-6 px-8">
-                <button className=" bg-btn_color w-full"> + Add Liquidity</button>
+            <div className="rounded-b-2xl bg-[#130F25] border border-[#2B2649] py-6 px-8">
+                {/* <p className=" text-center">Connect to a wallet to view your liquidity.</p> */}
+                <List />
             </div>
+            {/* <List /> */}
         </div>
     )
     
