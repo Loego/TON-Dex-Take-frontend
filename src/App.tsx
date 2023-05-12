@@ -3,20 +3,17 @@ import TonWeb from 'tonweb';
 import { Buffer } from 'buffer';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, BrowserRouter, useLocation } from "react-router-dom";
-
-// import { Router, ROUTER_REVISION, ROUTER_REVISION_ADDRESS } from '@ston-fi/sdk';
 import { Exchange } from './components/Exchange/Exchange';
 import { LandingPage } from './components/LandingPage/LandingPage';
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { LiveChat } from './components/LiveChat/LiveChat';
-import { KeyPair, mnemonicToWalletKey } from 'ton-crypto';
-import { base32Decode, TonClient, TupleBuilder } from 'ton';
 import { config } from "dotenv"
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import Modals from "./components/Modals"
-import { useAppDispatch } from './redux/hooks';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { retrieveTokens } from './redux/reducers/tokens';
+import { selectAccount } from "./redux/reducers/account";
+import Modals from "./components/Modals"
 config()
 // const client = new TonClient({ endpoint: endpointUrl, apiKey: api_key });
 // const balance = (await provider.getBalance(WALLET_ADDRESS))/1000000000;
@@ -37,13 +34,12 @@ config()
 
 function App() {
 
-  const wallet_address = import.meta.env.VITE_WALLET_ADDRESS;
-
+  const { walletAddress } = useAppSelector(selectAccount);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(retrieveTokens (wallet_address));
-  }, [dispatch, wallet_address]);
+  useEffect(()=>{
+    dispatch(retrieveTokens( walletAddress ));
+  }, [dispatch, walletAddress]);
 
   // const [inputTON, setInputTON] = useState<number>();
   // const [inputALEX, setInputALEX] = useState<number>();
@@ -181,19 +177,19 @@ function App() {
   return (
     <>
       <TonConnectUIProvider manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json">
-      <div className='App'>
-        <Header />
-        <div className='bg-dashboard_dark pt-20 h-full'>
-          <Switch>
-            <Route exact path="/" component={ LandingPage } />
-          </Switch>
-          <Switch>
-              <Route path = "/exchange" component={ Exchange } />
-          </Switch>
-          <Modals />
-        <Footer />
+        <div className='App'>
+          <Header />
+          <div className='bg-dashboard_dark pt-20 h-full'>
+            <Switch>
+              <Route exact path="/" component={ LandingPage } />
+            </Switch>
+            <Switch>
+                <Route path = "/exchange" component={ Exchange } />
+            </Switch>
+            <Modals />
+          <Footer />
+          </div>
         </div>
-      </div>
       </TonConnectUIProvider>
       </>
     

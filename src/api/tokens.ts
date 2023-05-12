@@ -20,7 +20,7 @@ export const listTokens = async (page: number): Promise<Token[]> => {
 
 export const tokenInfo = async (address: string): Promise<Token|undefined> => {
   await delay(100);
-  return _tokens.find(token=>token.address === address)??undefined;
+  return _tokens.find(token => token.address === address)??undefined;
 };
 
 export const tokenBalance = async (tokenAddress: string, address: string): Promise<number> => {
@@ -39,15 +39,6 @@ export const TONCOIN = {
   "logoURI": "https://ton.org/download/toncoin_symbol.png"
 };
 
-export const TAN = {
-  "name": "TAN TOKEN",
-  "symbol": "TAN",
-  "address": "EQBPL2ZXLh4dMtIHjxh7EXGVYH-8_Uz3km4QIOkT8KbqeezG",
-  "chainId": 0,
-  "decimals": 9,
-  "logoURI": "https://tokens.pancakeswap.finance/images/0xa1faa113cbE53436Df28FF0aEe54275c13B40975.png"
-}
-
 export const USDT = {
   "name": "Tether",
   "symbol": "USDT",
@@ -61,28 +52,20 @@ const _tokens: Token[] = [
   TONCOIN,
   USDT,
   {
+    "name": "TAN Token",
+    "symbol": "TAN",
+    "address": "EQBPL2ZXLh4dMtIHjxh7EXGVYH-8_Uz3km4QIOkT8KbqeezG",
+    "chainId": 0,
+    "decimals": 9,
+    "logoURI": "https://tokens.pancakeswap.finance/images/0xa1faa113cbE53436Df28FF0aEe54275c13B40975.png"
+  },
+  {
     "name": "Cardano Token",
     "symbol": "ADA",
     "address": "0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47",
     "chainId": 56,
     "decimals": 18,
     "logoURI": "https://tokens.pancakeswap.finance/images/0x3EE2200Efb3400fAbB9AacF31297cBdD1d435D47.png"
-  },
-  {
-    "name": "ALICE",
-    "symbol": "ALICE",
-    "address": "0xAC51066d7bEC65Dc4589368da368b212745d63E8",
-    "chainId": 56,
-    "decimals": 6,
-    "logoURI": "https://tokens.pancakeswap.finance/images/0xAC51066d7bEC65Dc4589368da368b212745d63E8.png"
-  },
-  {
-    "name": "AlinX",
-    "symbol": "ALIX",
-    "address": "0xaF6Bd11A6F8f9c44b9D18f5FA116E403db599f8E",
-    "chainId": 56,
-    "decimals": 18,
-    "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0xaF6Bd11A6F8f9c44b9D18f5FA116E403db599f8E/logo.png"
   },
   {
     "name": "AlphaToken",
@@ -115,14 +98,6 @@ const _tokens: Token[] = [
     "chainId": 56,
     "decimals": 18,
     "logoURI": "https://tokens.pancakeswap.finance/images/0x0Eb3a705fc54725037CC9e008bDede697f62F335.png"
-  },
-  {
-    "name": "Axie Infinity Shard",
-    "symbol": "AXS",
-    "address": "0x715D400F88C167884bbCc41C5FeA407ed4D2f8A0",
-    "chainId": 56,
-    "decimals": 18,
-    "logoURI": "https://tokens.pancakeswap.finance/images/0x715D400F88C167884bbCc41C5FeA407ed4D2f8A0.png"
   },
   {
     "name": "Baby Doge Coin",
@@ -171,14 +146,6 @@ const _tokens: Token[] = [
     "chainId": 56,
     "decimals": 18,
     "logoURI": "https://tokens.pancakeswap.finance/images/0x08ba0619b1e7A582E0BCe5BBE9843322C954C340.png"
-  },
-  {
-    "name": "BinaryX",
-    "symbol": "BNX",
-    "address": "0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97",
-    "chainId": 56,
-    "decimals": 18,
-    "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0x8C851d1a123Ff703BD1f9dabe631b69902Df5f97/logo.png"
   },
   {
     "name": "BunnyPark",
@@ -860,13 +827,6 @@ const _tokens: Token[] = [
     "decimals": 18,
     "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0xFbe0b4aE6E5a200c36A341299604D5f71A5F0a48/logo.png"
   },
-  {
-    "name": "TAN",
-    "symbol": "TAN",
-    "address": "",
-    "chainId": 56,
-    "decimals": 9,
-    "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0xFbe0b4aE6E5a200c36A341299604D5f71A5F0a48/logo.png"
-  },
+  
 
 ];

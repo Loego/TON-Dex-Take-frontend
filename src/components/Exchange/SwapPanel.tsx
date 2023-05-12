@@ -1,42 +1,48 @@
+import TonWeb from "tonweb";
 import { useState } from 'react';
 import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
-import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress} from "@tonconnect/ui-react";
-import TonWeb from "tonweb";
+import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress, TonConnectUI} from "@tonconnect/ui-react";
 import { useEffect } from 'react';
 import { Address } from 'tonweb/dist/types/utils/address';
-import './TONConnectButton.scss';
-import { TONCOIN, TAN } from '../../api/tokens';
 import { showModal } from '../../redux/reducers/modals';
+import { connect, selectAccount } from "../../redux/reducers/account";
+import { useInputBalanceEffect } from "../../utils/hooks";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { changeInput, selectionModal, selectSwap, switchInputs } from '../../redux/reducers/swap';
+import { changeInput, selectionModal, selectSwap, switchInputs, syncTokenBalances } from '../../redux/reducers/swap';
+import Info from "../icons/Info";
 import SwitchButton from '../SwitchButton/SwitchButton';
 import TokenInput from '../TokenInput/TokenInput';
 
+import './TONConnectButton.scss';
 
 export const SwapPanel = () => {
 
-  const dispatch = useAppDispatch();
+  const accountState = useAppSelector(selectAccount);
   const swapState = useAppSelector(selectSwap);
+  const dispatch = useAppDispatch();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const connected = accountState.walletAddress !== null && accountState.walletAddress !== "";
 
-  const handleOpenModal = () => {
-    console.log("ok")
-    setIsOpen(true);
+  // const [WalletConnector] = useTonConnectUI();
+  
+  // if(WalletConnector.connected) WalletConnector.disconnect()
+
+  // const userFriendlyAddress = useTonAddress()
+
+  // console.log("connected:", connected)
+
+  const handleSwap = () => {
+    if (!connected) {
+      // await WalletConnector.connectWallet();
+      // if(userFriendlyAddress != "")
+     //dispatch(connect(userFriendlyAddress));
+     console.log("done");
+    }else{
+      dispatch(showModal("swap-confirmation"));
+    }
   };
 
-  const handleCloseModal = () => {
-    console.log("close")
-    setIsOpen(false);
-  }
-
-  const setOpenState = () => {
-    setIsOpen(false);
-    console.log("set False");
-  }
-
   const handleSelectToken = (key:"from"|"to") => {
-    console.log("sss", key);
     dispatch(selectionModal(key));
     dispatch(showModal("swap-selection"));
   }
@@ -46,14 +52,24 @@ export const SwapPanel = () => {
 
   const handleSwitch = () => dispatch(switchInputs());
   
-
   const handleSelectFromToken = () => handleSelectToken("from");
   const handleSelectToToken = () => handleSelectToken("to");
 
+
+  const confirmDisabled = connected &&
+  ((swapState.from === null || swapState.to === null) ||
+   (swapState.inputs.from === 0 || swapState.inputs.to === 0));
+
+  //useInputBalanceEffect(swapState.from, swapState.to, syncTokenBalances);
+
   // const provider = new TonWeb.HttpProvider(import.meta.env.VITE_endpointUrl);
 
-  async function SwapClick() {
-  
+  function SwapClick() {
+ 
+    // res.disconnect()
+    // console.log("disconnected", userFriendlyAddress)
+    
+    
     // const tonweb = new TonWeb();
     // const walletAddress = "EQArx2PlFfgb5c7fUvkn-jOF1onYzYt1e9Nz41yunshgl7KH";
     // const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, { address: walletAddress });
@@ -69,10 +85,10 @@ export const SwapPanel = () => {
     console.log("clicked")
   }
   
-  const [tonConnectUi] = useTonConnectUI()
-  const wallet = useTonWallet()
-  const userFriendlyAddress = useTonAddress()
-  const rawAddress = useTonAddress(false)
+  // const [tonConnectUi] = useTonConnectUI()
+  // const wallet = useTonWallet()
+  // const userFriendlyAddress = useTonAddress()
+  // const rawAddress = useTonAddress(false)
 
   // const checkProofInYourBackend = (proof, account) => {
   // }
@@ -162,11 +178,20 @@ export const SwapPanel = () => {
                 token={swapState.to}
                 onSelectToken={handleSelectToToken}
               />
+              <span className='flex flex-row items-center gap-2'>
+                {swapState.conversionRate !== 0 && swapState.from !== null && swapState.to !== null?
+                  <>
+                    <Info />
+                    <span>
+                    1 {swapState.from?.symbol} = {swapState.conversionRate} {swapState.to?.symbol} (${swapState.usdtRate})
+                    </span>
+                  </>
+                  :null }
+              </span>
             </div>
-            <button className=" bg-[#662483] w-full mt-8" onClick={()=> { SwapClick()}}>Swap</button>
+            <button className=" bg-[#662483] w-full mt-8" onClick={handleSwap} >Swap</button>
           </div>
         </div>
-      
       </div>
     )
 }
