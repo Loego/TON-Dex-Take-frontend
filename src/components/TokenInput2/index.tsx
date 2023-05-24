@@ -2,18 +2,18 @@ import React from "react";
 import { TokenBalanced } from "../../redux/types/tokens";
 import styles from "./index.module.scss";
 
-
 interface IProps {
-    label: string;
-    value: number;
-    token: TokenBalanced|null;
-    onChange?: (value: number) => void;
-    onSelectToken?: () => void;
-    showMax?: boolean;
+  label: string;
+  value: number;
+  token: TokenBalanced|null;
+  onChange?: (value: number) => void;
+  onSelectToken?: () => void;
+  showMax?: boolean;
 }
 
-export default function TokenInput({ label, onChange, value, token,onSelectToken,showMax }:IProps) {
+export default function TokenInput({ label, onChange, value, token, onSelectToken, showMax }:IProps) {
 
+  // we can get changed values when the users input number
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     if (!!onChange && value.match(/^\d*(\.\d+)?$/g)){

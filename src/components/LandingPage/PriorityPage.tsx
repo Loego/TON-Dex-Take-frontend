@@ -5,9 +5,9 @@ export const PriorityPage = () => {
     return(
         <div className=" bg-littledark pl-10 pt-16 pb-20">
             <div className="container w-4/5 mx-auto flex flex-col gap-20 justify-center">
-                <div className="py-0 text-center">
+                <div className="py-0 text-center flex flex-col">
                     <span className=" font-sans text-[#B7B6CE]">WHY TON</span>
-                    <h1 className="mt-3 font-serif font-black text-[#ffffff]">TON Prioritises</h1>
+                    <span className="mt-3 sm:text-3xl lg:text-5xl font-serif font-black text-[#ffffff]">TON Prioritises</span>
                 </div>
                 <div className=" p-2 flex flex-row justify-between gap-6">
                     <img src = "assets/img/the_glass_circles.png" className="w-1/2 hidden lg:block"></img>

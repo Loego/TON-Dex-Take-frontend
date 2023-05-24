@@ -6,7 +6,7 @@ export const FeaturePage = () => {
             <div className=" container flex flex-col mx-auto align-middle h-full w-1/2">
                 <div className="w-4/5 flex flex-col gap-7">
                     <h2 className=" font-bold">TON NETWORK</h2>
-                    <h1 className=" font-black font-serif text-5xl">Revolutionizing the Future of Web3 and cryptocurrency through</h1>
+                    <span className=" font-black font-serif sm:text-lg lg:text-5xl">Revolutionizing the Future of Web3 and cryptocurrency through</span>
                     <div className="flex flex-col gap-2">
                         <span className="flex flex-row gap-2"><CheckIcon className="w-6 h-6 text-[#57F287]"/>Ultra-fast transactions</span>
                         <span className="flex flex-row gap-2"><CheckIcon className="w-6 h-6 text-[#57F287]"/>Vey Low Fees</span>

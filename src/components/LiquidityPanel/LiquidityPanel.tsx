@@ -18,7 +18,7 @@ export const LiquidityPanel = () => {
     }
 
     return(
-        <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-5 container pt-5">
+        <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-5 container pt-28">
             <div className=" rounded-t-2xl bg-[#130F25] border border-[#2B2649] py-6 px-8 flex flex-row justify-between">
                 <div><h2 className=" font-bold text-2xl">Your liquidity</h2><span className=" mt-2">Remove liquidity to receive tokens back</span></div>
                 <div className=" items-center flex flex-row gap-3">

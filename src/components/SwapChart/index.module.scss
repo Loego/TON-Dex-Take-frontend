@@ -3,14 +3,13 @@
 @import "../../assets/styles/constants";
 
 .container {
-  border: solid 2px $border-color;
-  border-radius: $border-radius;
+  border: solid 2px #2B2649;
+  border-radius: 10px;
   display: flex;
   flex-flow: column nowrap;
-  background-color: white;
+  background-color: #130F25;
   gap: 10px;
   min-width: 300px;
-  max-width: 900px;
   min-height: 530px;
   overflow: hidden;
 }
@@ -19,6 +18,7 @@
   padding: 3rem 1.75rem;
   display: flex;
   flex-flow: column nowrap;
+  color: white;
 }
 
 .title {
@@ -26,6 +26,7 @@
   gap: 10px;
   flex-flow: row nowrap;
   align-items: center;
+  color: white;
 
   img {
     @include round-image;
@@ -43,7 +44,7 @@
   span {
     font-size: 1rem;
     font-weight: 900;
-    color: $primary-dark-color;
+    color: white;
   }
 }
 
@@ -63,12 +64,14 @@
       font-weight: 900;
       margin: 0;
       font-size: 2.25rem;
+      color: white;
     }
 
     span {
       font-weight: 900;
       opacity: 0.5;
       font-size: 1rem;
+      color: white;
     }
   }
 
@@ -80,7 +83,7 @@
   }
 
   .decreasing {
-    color: $decreasing-color;
+    color: white;
   }
 
   .timeSpanSelector {

@@ -20,7 +20,7 @@ export default {
         background: "#27262C",
         btn_color: "#662483",
         transparent: "transparent",
-        icon_color: "#1FC7D4"
+        icon_color: "#1FC7D4",
       }
   },
   plugins: [],

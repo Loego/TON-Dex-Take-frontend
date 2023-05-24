@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { debounce } from 'lodash';
+import debounce from "lodash.debounce"
 // @ts-ignore
 import { useDebouncedCallback } from "use-lodash-debounce";
 import { useAppDispatch } from "../../redux/hooks";
@@ -18,7 +18,7 @@ interface IProps {
 export default function SelectionModal({ onSelected }:IProps) {
   const dispatch = useAppDispatch();
   const [search, setSearch] = useState("");
-  // const debounceSearch = useDebouncedCallback((text:string) => dispatch(filterTokens(text)), 500);
+  const debounceSearch = useDebouncedCallback((text:string) => dispatch(filterTokens(text)), 500);
 
   const handleSelected = (token: TokenBalanced) => {
     if(onSelected){
@@ -29,7 +29,7 @@ export default function SelectionModal({ onSelected }:IProps) {
 
   const handleSearch = (text: string) => {
     setSearch(text);
-    // debounceSearch(text);
+    debounceSearch(text);
   };
 
   const handleDismiss = () => dispatch(showModal(null));

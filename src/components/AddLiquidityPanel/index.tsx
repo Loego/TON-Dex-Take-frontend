@@ -37,6 +37,7 @@ export default function AddLiquidityPanel() {
   },[dispatch,liquidityState.token1,liquidityState.token2]);
 
   return (
+    <div className=" pt-20 p-5">
     <div className={styles.panel}>
       <Header/>
       <TokenInput
@@ -56,6 +57,7 @@ export default function AddLiquidityPanel() {
         showMax/>
       <Info />
       <Actions />
+    </div>
     </div>
   );
 }

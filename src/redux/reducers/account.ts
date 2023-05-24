@@ -11,7 +11,6 @@ const initialState :AccountState ={
   walletAddress: null,
 };
 
-
 const NOTIFICATION_TIMEOUT = 2000;
 
 export const connect = createAsyncThunk("account/connect", async (userFriendlyAddress:string|null, thunkAPI) => {

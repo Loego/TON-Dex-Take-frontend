@@ -5,15 +5,17 @@ import tokens from "./reducers/tokens";
 import notifications from "./reducers/notifications";
 import account from "./reducers/account";
 import liquidity from "./reducers/liquidity";
+import info from "./reducers/info";
 
 export const store = configureStore({
   reducer: {
     account,
+    notifications,
     swap,
     modals,
     tokens,
     liquidity,
-    notifications
+    info,
   },
 });
 

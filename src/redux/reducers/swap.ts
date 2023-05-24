@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DataInterval, historicalPrices } from "../../api/info";
 import { confirmSwap as _confirmSwap, conversionRate as getConversionRate } from "../../api/swap";
-import { Token, tokenBalance, TONCOIN, USDT } from "../../api/tokens";
+import { Token, tokenBalance, TON, Ambra, USDT } from "../../api/tokens";
 import { BN, cleanUpDecimal } from "../../utils/numberUtils";
 import { RootState } from "../store";
 import { SwapSettings, SwapState } from "../types/swap";
 import { TokenBalanced } from "../types/tokens";
+
 import { showModal } from "./modals";
 import { notification } from "./notifications";
 
@@ -13,8 +14,8 @@ export const SHOW_CHART_KEY = "show_chart";
 
 const initialState :SwapState ={
   showChart: false,
-  from: TONCOIN,
-  to: USDT,
+  from: TON,
+  to: Ambra,
   inputs:{
     from:0,
     to:0
@@ -32,7 +33,6 @@ const initialState :SwapState ={
     slippageTolerance:"_auto"
   }
 };
-
 
 const handleSwitchInputs = (state:SwapState) => {
   const tempInput = state.inputs.from;
@@ -80,11 +80,9 @@ export const conversionRate = createAsyncThunk(
   "swap/conversionRate",
   async ({ from,to }:{from:Token, to:Token }) => {
     const res = await getConversionRate(from.address, to.address);
-    const usdtRes = await getConversionRate(from.address, USDT.address);
-    return { rate: res.fwd, usdt: usdtRes.fwd };
+    //const usdtRes = await getConversionRate(from.address, USDT.address);
+    return { rate: res.fwd, usdt: 0 };
   });
-
-
 
 export const confirmSwap = createAsyncThunk(
   "swap/confirmSwap",
@@ -114,18 +112,22 @@ export const confirmSwap = createAsyncThunk(
 
 export const syncTokenBalances = createAsyncThunk(
   "swap/syncTokenBalances",
-  async ({ token1, token2, walletAddress }:{token1?:string, token2?:string ,walletAddress:string}) => {
+  async ({ token1, token2, walletAddress }:{ token1?:string, token2?:string, walletAddress:string }) => {
     let balance1 = 0 , balance2 = 0;
+    console.log("entered syncTokenBalances");
+    console.log("token1", token1);
     if(token1 !== undefined){
       balance1 = await tokenBalance(token1, walletAddress);
+      console.log("balance1:", balance1);
     }
     if(token2 !== undefined){
       balance2 = await tokenBalance(token2, walletAddress);
+      console.log("balance2:", balance2);
     }
     return { balance1, balance2 };
   });
 
-const handleChangeToken = (state:SwapState, { payload }:PayloadAction<{key: "to"|"from", value: Token}>) => {
+const handleChangeToken = (state:SwapState, { payload }:PayloadAction<{ key: "to"|"from", value: Token }>) => {
   state[payload.key] = payload.value;
 };
 
@@ -171,7 +173,7 @@ export const swapSlice = createSlice({
 
     builder.addCase(conversionRate.fulfilled, (state: SwapState, { payload }) => {
       state.conversionRate = cleanUpDecimal(payload.rate);
-      state.usdtRate = cleanUpDecimal(payload.usdt);
+      //state.usdtRate = cleanUpDecimal(payload.usdt);
 
       state.inputs.to = state.conversionRate * state.inputs.from;
     });
@@ -185,15 +187,19 @@ export const swapSlice = createSlice({
       }
     });
 
+
     builder.addCase(confirmSwap.fulfilled, (state: SwapState, { payload }) => {
       if(payload){
         state.inputs.from = 0;
         state.inputs.to = 0;
       }
     });
+
+    builder.addCase(conversionRate.rejected, (state: SwapState, { payload }) => {
+      state.conversionRate = 1
+    })
   }
 });
-
 
 export const {
   showChart,

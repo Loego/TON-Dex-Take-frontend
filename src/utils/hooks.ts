@@ -19,11 +19,12 @@ export const useInputBalanceEffect = (from: TokenBalanced|null, to: TokenBalance
 
   useEffect(() => {
     if(walletAddress !== null){
+      console.log("input balance", from?.address, to?.address, walletAddress)
       dispatch(action({
         token1: from?.address,
         token2: to?.address,
         walletAddress
       }));
     }
-  }, [walletAddress, dispatch, from, to,action]);
+  }, [walletAddress, dispatch, from, to, action]);
 };

@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { listTokens, tokenBalance } from "../../api/tokens";
+import { createAsyncThunk, createSlice, isRejectedWithValue, PayloadAction } from "@reduxjs/toolkit";
+import { listTokens, tokenBalance, usdtBalance } from "../../api/tokens";
 import { cleanUpDecimal } from "../../utils/numberUtils";
 import { RootState } from "../store";
 import { TokenBalanced, TokensState } from "../types/tokens";
@@ -9,19 +9,23 @@ const initialState :TokensState ={
   displayList:[]
 };
 
-
 export const retrieveTokens = createAsyncThunk(
   "tokens/retrieveTokens", async (walletAddress:string|null, thunkAPI)=>{
-    let newList:TokenBalanced[] = await listTokens(0);
-    newList = await Promise.all(newList.map(async (token):Promise<TokenBalanced> => {
-      let balance = 0;
-      if(walletAddress !== null){
-        balance = await tokenBalance(token.address , walletAddress);
-      }
-      balance = cleanUpDecimal(balance);
-      return { ...token, balance };
-    }));
-    return newList;
+      let newList:TokenBalanced[] = await listTokens(0);
+      
+      newList = await Promise.all(newList.map(async (token):Promise<TokenBalanced> => {
+        let balance = 0;
+        //await usdtBalance(token.address);
+        if(walletAddress !== null && walletAddress !== ""){
+          balance = await tokenBalance(token.address , walletAddress);
+          console.log("balance:", balance);
+        }
+        //balance = cleanUpDecimal(balance);
+        console.log("balance1:", balance);
+        return { ...token, balance };
+      }));
+      
+      return newList;
   });
 
 
@@ -47,7 +51,12 @@ export const tokensSlice = createSlice({
       state.tokens = payload;
       state.displayList = payload;
     });
+    builder.addCase(retrieveTokens.rejected,(state: TokensState, { payload}) => {
+      // state.tokens = tmp_tokens;
+      // state.displayList = tmp_tokens;
+    })
   }
+
 });
 
 

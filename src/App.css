@@ -1,3 +1,4 @@
+
 :root {
   --tg-theme-bg-color: #efeff3;
   --tg-theme-button-color: #63d0f9;
@@ -8,7 +9,7 @@
   height: 100vh;
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
-  /* width: 100vw; */
+  width: 100%;
 }
 
 .Container {
@@ -17,7 +18,7 @@
   flex-direction: column;
   gap: 30px;
   align-items: center;
-  /* margin: 0 auto; */
+  margin: 0 auto; 
   text-align: center;
 }
 

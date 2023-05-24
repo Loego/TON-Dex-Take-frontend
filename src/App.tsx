@@ -14,6 +14,8 @@ import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { retrieveTokens } from './redux/reducers/tokens';
 import { selectAccount } from "./redux/reducers/account";
 import Modals from "./components/Modals"
+import { SwapPanel } from './components/Exchange/SwapPanel';
+import LiquidityPage from './components/LiquidityPage';
 config()
 // const client = new TonClient({ endpoint: endpointUrl, apiKey: api_key });
 // const balance = (await provider.getBalance(WALLET_ADDRESS))/1000000000;
@@ -35,10 +37,15 @@ config()
 function App() {
 
   const { walletAddress } = useAppSelector(selectAccount);
+  console.log("wallet_address;", walletAddress)
   const dispatch = useAppDispatch();
 
-  useEffect(()=>{
-    dispatch(retrieveTokens( walletAddress ));
+  useEffect(() => {
+    const fetchTokens = async () => {
+      const tokens = await retrieveTokens(walletAddress);
+      dispatch(tokens);
+    };
+    fetchTokens();
   }, [dispatch, walletAddress]);
 
   // const [inputTON, setInputTON] = useState<number>();
@@ -53,19 +60,7 @@ function App() {
   //   setInputALEX(value);
   // }
 
-  // async function connectWallet(){
-  //   const balance = await provider.getBalance(import.meta.env.VITE_WALLET_ADDRESS) / 1000000000;
-  //   const div_balance = document.getElementById("div_balance");
-  //   const div_address = document.getElementById("div_address");
-  //   if(div_balance && div_address){
-  //     div_balance.innerHTML = balance.toString() + " TON";
-  //     div_address.innerHTML = import.meta.env.VITE_WALLET_ADDRESS;
-  //   }
-  //   console.log("TAN data: ", (await provider.getBalance(JETTON0))/1000000000);
 
-  //   console.log("TAN data: ", (await provider.getBalance(JETTON1))/1000000000);
-
-  // }
 
   // async function TokenSwap1_0() {
 
@@ -179,12 +174,18 @@ function App() {
       <TonConnectUIProvider manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json">
         <div className='App'>
           <Header />
-          <div className='bg-dashboard_dark pt-20 h-full'>
+          <div className='bg-dark pt-20 h-full w-full'>
             <Switch>
               <Route exact path="/" component={ LandingPage } />
             </Switch>
             <Switch>
-                <Route path = "/exchange" component={ Exchange } />
+              <Route path = "/exchange" component={ Exchange } />
+            </Switch>
+            <Switch>
+                <Route path = "/swap" component={ SwapPanel } />
+            </Switch>
+            <Switch>
+                <Route path = "/liquidity" component={ LiquidityPage } />
             </Switch>
             <Modals />
           <Footer />

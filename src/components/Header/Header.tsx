@@ -7,9 +7,7 @@ import {
     FingerPrintIcon,
     SquaresPlusIcon,
     XMarkIcon,
-    WalletIcon,
-    ArrowRightOnRectangleIcon,
-    ArrowLeftOnRectangleIcon
+    PaperAirplaneIcon
   } from '@heroicons/react/24/outline'
 
 import { Link } from "react-router-dom";
@@ -39,7 +37,7 @@ export const Header = () => {
     const [tonConnectUi] = useTonConnectUI();
 
     return (
-    <header className="bg-littledark fixed w-full">
+    <header className="bg-littledark fixed w-full border-b border-[#2B2649]">
       <nav className="mx-auto flex items-center justify-between p-6 lg:px-20" aria-label="Global">
         <div className="flex lg:flex-1">
           <a href="#" className="-m-1.5 p-1.5">
@@ -56,7 +54,6 @@ export const Header = () => {
             <span className="sr-only">Open main menu</span>
             <Bars3Icon className="h-6 w-6"  aria-hidden="true"/>
           </button> : <></> }
-          
         </div>
         <Popover.Group className="hidden lg:gap-x-12 lg:flex items-center">
           <Popover className="relative">
@@ -124,11 +121,12 @@ export const Header = () => {
         </Link>
       </Popover.Group>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-12">
-        <button className="inline-flex gap-2 text-sm font-semibold leading-6 text-white bg-transparent"
+        {/* <button className="inline-flex gap-2 text-sm font-semibold leading-6 text-white bg-transparent"
           onClick={() => tonConnectUi.connectWallet()}>
           <p>Connect Wallet</p>
           <WalletIcon className="h-6 w-6" aria-hidden="true" />
-        </button>
+        </button> */}
+        <Link to = "/exchange" className="flex flex-row">Go to App <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon></Link>
       </div>
     </nav>
     <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -200,12 +198,7 @@ export const Header = () => {
               </Link>
             </div>
             <div className="py-6 flex justify-center">
-              <button className="-mx-3 block w-1/2 bg-btn_color rounded-lg px-2 py-1.5 text-base font-bold leading-7 text-white hover:bg-purple-800"
-              onClick={() => tonConnectUi.connectWallet()}
-              >
-                Connect Wallet
-              </button>
-              {/* <TonConnectButton /> */}
+            <Link to = "/exchange" className="flex flex-row">Go to App <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon></Link>
             </div>
           </div>
         </div>

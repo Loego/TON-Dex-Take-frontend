@@ -1,14 +1,79 @@
+import SwapChart from "../SwapChart"
+import { CSSTransition } from "react-transition-group";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { conversionRate, retrieveChart, selectSwap, showChart, SHOW_CHART_KEY } from "../../redux/reducers/swap";
+import { useEffect } from "react";
+import { OrderBook } from '@lab49/react-order-book';
+import { poolGraphData } from "../Chart/Graph.types";
+import Chart from "../Chart";
+import { LimitOrders } from "../LimitOrders/LimitOrders";
+
+import styles from "./index.module.scss"
+
 export const MainPanel = () => {
+    const chartdata = poolGraphData();
+    console.log("chardata: ");
+    const swapState = useAppSelector(selectSwap);
+    const dispatch = useAppDispatch();
+    const book = {
+        asks: [
+          ['1.01', '2'],
+          ['1.02', '3'],
+        ],
+        bids: [
+          ['0.99', '5'],
+          ['0.98', '3'],
+        ],
+      };
+
+    useEffect(() => {
+        if(swapState.from != null && swapState.to != null){
+            dispatch(retrieveChart({
+                address1:swapState.from.address,
+                address2:swapState.to.address,
+                interval:swapState.timespan
+            }));
+            // dispatch(conversionRate(
+            //     { from: swapState.from, to:swapState.to }
+            // ));
+        }
+        const cookieValue = window.localStorage.getItem(SHOW_CHART_KEY) === "true";
+            if (cookieValue){
+            dispatch(showChart(
+                swapState.from !== null && swapState.to !== null
+            ));
+        }
+    },[swapState.from, swapState.to, dispatch, swapState.timespan]);
+
     return(
-        <div className="flex flex-row gap-2">
-            <div className="container bg-dashboard_dark border-2 border-dark w-1/5 p-3">
-                <h2>Main</h2>
-            </div>
-            <div className="container bg-dashboard_dark border-2 border-dark w-3/5 p-3">
-                <h2>Chart</h2>
-            </div>
-            <div className="container bg-dashboard_dark border-2 border-dark w-1/5 p-3">
-                <h2>Order Book</h2>
+        <div className="px-5 pt-5 pb-0">
+            <div className="flex flex-col gap-2 lg:flex-row">
+                <div className="bg-[#191a33] border-2 border-[#2B2649] py-5 px-7 lg:w-1/4 p-3 rounded-md">
+                    <LimitOrders />
+                </div>
+                <div className=" bg-[#130F25] border-2 border-[#2B2649] py-5 px-7 rounded-md lg:w-2/4">
+                    <h2>Chart</h2>
+                    <hr className=" text-[#2B2649] bg-[#2B2649] mt-2 mb-5" />
+                    <CSSTransition
+                        in={swapState.showChart && swapState.chartData !== null}
+                        timeout={500}
+                        classNames={{
+                        enter:styles.enter,
+                        enterActive:styles.enterActive,
+                        exit:styles.exit,
+                        exitActive:styles.exitActive,
+                        }}
+                        unmountOnExit>
+                        <div className=" h-32">
+                            <Chart data={chartdata} />
+                        </div>
+                    </CSSTransition>
+                </div>
+                <div className=" bg-[#130F25] border-2 border-[#2B2649] py-5 px-7 rounded-md lg:w-1/4">
+                    <h2>Order Book</h2>
+                    <hr className=" text-[#2B2649] bg-[#2B2649] mt-2 mb-5" />
+                    <OrderBook book={book} />
+                </div>
             </div>
         </div>
     )

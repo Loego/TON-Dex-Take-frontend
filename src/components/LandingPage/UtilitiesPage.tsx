@@ -6,10 +6,9 @@ export const UtilitiesPage  = () => {
         <div className=" bg-littledark pl-10 pt-16 pb-20">
             <div className="container w-4/5 mx-auto flex flex-col gap-10 justify-center">
                 <div className="py-0 text-left">
-                    <h1 className="mt-3 font-serif font-black text-[#ffffff]">Utilities</h1>
+                    <span className="mt-3 font-serif font-black sm:text-3xl lg:text-5xl text-[#ffffff]">Utilities</span>
                 </div>
                 <div className=" p-2 flex flex-row justify-between gap-6">
-                 
                     <div className=" w-1/2 flex flex-col gap-4 justify-between">
                         <div className="flex flex-col gap-3">
                             <span className="flex flex-row gap-2 font-semibold text-[#ffffff]"><Square3Stack3DIcon className="w-6 h-6 text-btn_color"></Square3Stack3DIcon>Layer-1 Blockchain</span>

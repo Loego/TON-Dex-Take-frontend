@@ -1,42 +1,22 @@
 import {TonConnectButton, TonConnectUIProvider} from "@tonconnect/ui-react";
+import { Link } from "react-router-dom";
 import { MainPanel } from "./MainPanel";
-import { SwapPanel } from "./SwapPanel";
-import LiquidityPage from "../LiquidityPage";
 import { useState } from "react";
 import { Breadcrumbs } from "../Common/BreadCrumb";
+import ExchangeHeader from "./ExchangeHeader";
 let PanelContent = <MainPanel />
 
 export const Exchange = () => {
-    const [state_flag, set_state_flag] = useState(0);
-    // const setSwap = () => {
-    //     console.log("Swap button clicked");
-    //     set_state_flag(true);
-    // }
-    
-    // console.log(state_flag);
-    // switch(state_flag) {
-    //     case 0:
-    //         PanelContent = <MainPanel />
-    //     case 1:
-    //         PanelContent = <SwapPanel />
-    //     case 2:
-    //         PanelContent = <LiquidityPanel />
-    // }
-    if(state_flag == 1)
-        PanelContent = <SwapPanel />
-    else if(state_flag == 2)
-        PanelContent = <LiquidityPage />
-    else if(state_flag == 0)
-        PanelContent = <MainPanel />
     
     return(
-        <div className = "bg-layout_dark p-3 gap-2 w-full m-0 h-screen">
+        <div className="px-5 py-2 bg-black">
             <div className="px-3 gap-4 flex py-5">
-                <button className=" bg-btn_color" onClick={ () => set_state_flag(1) }>Swap</button>
-                <button className="bg-btn_color" onClick={ () => set_state_flag(2) }>Liquidity</button>
-                {/* <Breadcrumbs /> */}
+                  <Link to = "/swap" className=" text-btn_color hover:text-white text-lg underline underline-offset-4" >Swap</Link>
+                  <hr className=" text-white bg-white text-base w-5 -rotate-45 translate-y-4"/>
+                  <Link to = "/liquidity" className="text-btn_color hover:text-white text-lg underline underline-offset-4" >Liquidity</Link>
             </div>
-            { PanelContent }
-        </div>
+            <ExchangeHeader />
+            <MainPanel />
+            </div>
     )
 }

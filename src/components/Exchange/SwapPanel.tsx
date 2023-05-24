@@ -1,52 +1,52 @@
-import TonWeb from "tonweb";
-import { useState } from 'react';
-import {ArrowsUpDownIcon} from '@heroicons/react/24/outline'
 import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress, TonConnectUI} from "@tonconnect/ui-react";
 import { useEffect } from 'react';
-import { Address } from 'tonweb/dist/types/utils/address';
 import { showModal } from '../../redux/reducers/modals';
 import { connect, selectAccount } from "../../redux/reducers/account";
 import { useInputBalanceEffect } from "../../utils/hooks";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { changeInput, selectionModal, selectSwap, switchInputs, syncTokenBalances } from '../../redux/reducers/swap';
+import { changeInput, selectionModal, selectSwap, switchInputs, syncTokenBalances, conversionRate } from '../../redux/reducers/swap';
+import { selectTokens } from "../../redux/reducers/tokens";
 import Info from "../icons/Info";
 import SwitchButton from '../SwitchButton/SwitchButton';
-// import TokenInput from '../TokenInput/TokenInput';
 import TokenInput from "../TokenInput2";
-import './TONConnectButton.scss';
 import SwapHeader from "./SwapHeader";
 
-export const SwapPanel = () => {
+import './TONConnectButton.scss';
 
+export const SwapPanel = () => {
+  const wallet = useTonWallet();
+  const [tonConnectUI] = useTonConnectUI();
   const accountState = useAppSelector(selectAccount);
   const swapState = useAppSelector(selectSwap);
+  const tokenState = useAppSelector(selectTokens);
   const dispatch = useAppDispatch();
-
-  const connected = accountState.walletAddress !== null && accountState.walletAddress !== "";
-
-  // const [WalletConnector] = useTonConnectUI();
   
-  // if(WalletConnector.connected) WalletConnector.disconnect()
+  const connected = accountState.walletAddress !== null && accountState.walletAddress !== "";
+  const userFriendlyAddress = useTonAddress();
 
-  // const userFriendlyAddress = useTonAddress()
+  useEffect(()=> {
+    if(swapState.from !== null && swapState.to !== null)
+      dispatch(conversionRate({from: swapState.from, to: swapState.to}))
+    if(userFriendlyAddress !== "" || userFriendlyAddress !== null)
+      dispatch(connect(userFriendlyAddress));
+  },[dispatch, connect, userFriendlyAddress, swapState]);
 
-  // console.log("connected:", connected)
-
+  const handleConnect = async () => {
+    await tonConnectUI.connectWallet();    
+  }
   const handleSwap = () => {
-    // if (!connected) {
-    //   // await WalletConnector.connectWallet();
-    //   // if(userFriendlyAddress != "")
-    //  //dispatch(connect(userFriendlyAddress));
-    //  console.log("done");
-    // }else{
       dispatch(showModal("swap-confirmation"));
-    // }
   };
 
   const handleSelectToken = (key:"from"|"to") => {
     dispatch(selectionModal(key));
     dispatch(showModal("swap-selection"));
   }
+  let main_content = {};
+
+    main_content = tokenState.displayList.length === 0 ? <></> : <></>
+ 
+  
 
   const handleFromChange = (value: number) => dispatch(changeInput({ key:"from", value }));
   const handleToChange = (value: number) => dispatch(changeInput({ key:"to", value }));
@@ -56,108 +56,14 @@ export const SwapPanel = () => {
   const handleSelectFromToken = () => handleSelectToken("from");
   const handleSelectToToken = () => handleSelectToken("to");
 
+  const confirmDisabled = ((swapState.from === null || swapState.to === null) ||
+   (swapState.inputs.from === 0 && swapState.inputs.to === 0));
 
-  const confirmDisabled = connected &&
-  ((swapState.from === null || swapState.to === null) ||
-   (swapState.inputs.from === 0 || swapState.inputs.to === 0));
+    useInputBalanceEffect(swapState.from, swapState.to, syncTokenBalances);
 
-  //useInputBalanceEffect(swapState.from, swapState.to, syncTokenBalances);
-
-  // const provider = new TonWeb.HttpProvider(import.meta.env.VITE_endpointUrl);
-
-  function SwapClick() {
- 
-    // res.disconnect()
-    // console.log("disconnected", userFriendlyAddress)
-    
-    
-    // const tonweb = new TonWeb();
-    // const walletAddress = "EQArx2PlFfgb5c7fUvkn-jOF1onYzYt1e9Nz41yunshgl7KH";
-    // const jettonWallet = new TonWeb.token.jetton.JettonWallet(tonweb.provider, { address: walletAddress });
-    // const data = await jettonWallet.getData();
-    // const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, { address: new TonWeb.utils.Address('')});
-    // console.log("This step1", jettonWallet); 
-    // const data = await jettonWallet.getData();
-    // const jettonMinter = new TonWeb.token.jetton.JettonMinter(tonweb.provider, {address: data.jettonMinterAddress.toString(false)});
-    // console.log("This step2"); 
-    
-    // console.log('Jetton balance:', data.balance.toString());
-    // console.log('Jetton owner address:', data.ownerAddress.toString(true, true, true));
-    console.log("clicked")
-  }
-  
-  // const [tonConnectUi] = useTonConnectUI()
-  // const wallet = useTonWallet()
-  // const userFriendlyAddress = useTonAddress()
-  // const rawAddress = useTonAddress(false)
-
-  // const checkProofInYourBackend = (proof, account) => {
-  // }
-  // useEffect(() =>
-  // tonConnectUi.onStatusChange(wallet => {
-  //       if (wallet?.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
-  //           checkProofInYourBackend(wallet.connectItems.tonProof.proof, wallet.account);
-  //       }
-  // }), []);
-
-  // console.log("userFriendlyAddress: ", userFriendlyAddress)
-  // console.log("raw address: ", rawAddress);
-  // console.log(wallet);
-
-  // console.log("===>",tonConnectUi.connectWallet);
-    
     return(
-      //   <div className='Container'>
-      //   <a
-      //     className={`Button `}
-      //     onClick={() => {
-      //       // connectWallet();
-      //     }}
-      //   >
-      //     Connect Wallet
-      //   </a>
-
-      //   <div className='Card'> 
-      //     <b>Wallet Address</b>
-      //     <div className='Hint' id="div_address"></div>
-      //   </div>
-
-      //   <div className='Card'>
-      //     <b>Wallet balance</b>
-      //     <div id = "div_balance"></div>
-      //   </div>
-      //   <div>
-      //     <p>TON token number</p>
-      //     {/* <input type="number" value={0} onChange={handleTONChange} />
-      //     <a
-      //     style={{marginTop:"30px"}}
-      //     className={`Button `}
-      //     onClick={() => {
-      //       TokenSwap0_1();
-      //     }}
-      //     >
-      //       Swap Token
-      //     </a> */}
-      //   </div>
-      //   <div>
-      //     <p>Alix token number</p>
-      //     {/* <input type='number' value={inputALEX} onChange={handleALEXChange} />
-      //     <a
-      //     style={{marginTop:"30px"}}
-      //     className={`Button `}
-      //     onClick={() => {
-      //       TokenSwap1_0();
-      //     }}
-      //     >
-      //       Swap Token
-      //     </a> */}
-      //   </div>
-      // </div>
-      <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-0 container pt-2">
-        <div className="flex flex-row items-center p-0 justify-between">
-          <span className=" font-black text-3xl font-sans text-[#FFFFFF]">Swap</span>
-          <TonConnectButton />
-        </div>
+      <div className=" bg-layout_dark">
+      <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-0 container pt-2 pb-5">
         <div className="container lg:px-20 pt-14">
           <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
             <div className="flex flex-col py-2 px-4 gap-5">
@@ -169,9 +75,6 @@ export const SwapPanel = () => {
                 token={swapState.from}
                 onSelectToken={handleSelectFromToken}
               />
-              {/* <div className='flex flex-row'>
-                <span className='p-3'><ArrowsUpDownIcon className='w-8 h-8 text-[#662483] hover:text-[#FFFFFF]'></ArrowsUpDownIcon></span>
-              </div> */}
               <SwitchButton onClick={handleSwitch} />
               <TokenInput
                 label='To'
@@ -191,9 +94,17 @@ export const SwapPanel = () => {
                   :null }
               </span>
             </div>
-            <button className=" bg-[#662483] w-full mt-8" onClick={handleSwap} >Swap</button>
+            <TonConnectButton />
+            {wallet ? (
+                <button className = "bg-[#662483] w-full mt-8" onClick={handleSwap} disabled={confirmDisabled}>
+                  Swap
+                </button>
+              ) : (
+                <button className=" bg-[#662483] w-full mt-8" onClick={handleConnect}>Connect wallet </button>
+            )}
           </div>
         </div>
+      </div>
       </div>
     )
 }
