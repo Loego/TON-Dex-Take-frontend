@@ -83,7 +83,7 @@ export default function LimitForm (){
                 <div className=" bg-transparent w-full" >
                 <input
                     type="number"
-                    id="num-input"
+                    id="balance-input"
                     placeholder="0"
                     value={balanceValue}
                     onChange={(e) => setbalanceValue(parseFloat(e.target.value.length == 0 ? "0" : e.target.value))}
@@ -109,7 +109,7 @@ export default function LimitForm (){
                 <div className=" bg-transparent w-full" >
                 <input
                     type="number"
-                    id="num-input"
+                    id="from-input"
                     placeholder="Amount USDT"
                     value={fromAmount}
                     onChange={(e) => setfromAmount(parseFloat(e.target.value.length == 0 ? "0" : e.target.value))}
@@ -139,7 +139,7 @@ export default function LimitForm (){
                 <div className=" bg-transparent w-full" >
                 <input
                     type="number"
-                    id="num-input"
+                    id="total-input"
                     placeholder="0"
                     value={totalAmount}
                     onChange={(e) => setTotalAmount(parseFloat(e.target.value.length == 0 ? "0" : e.target.value))}

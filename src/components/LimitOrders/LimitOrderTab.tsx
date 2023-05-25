@@ -53,7 +53,7 @@ export const LimitOrderTab = () => {
                     id="tabs-market"
                     role="tabpanel"
                     aria-labelledby="tabs-market-tab">
-                    <Link to = "/swap" className="pt-5 underline underline-offset-4 hover:text-btn_color">Go to swap</Link>
+                    <Link to = "/swap" type="button" className="border rounded-md p-3 text-gray-400 hover:text-white/75 bg-transparent">Go to Swap</Link>
                 </div>
             </div>
         </>

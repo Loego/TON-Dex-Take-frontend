@@ -1,4 +1,4 @@
-import {TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress, TonConnectUI} from "@tonconnect/ui-react";
+import { TonConnectButton, useTonConnectUI, useTonWallet, useTonAddress, TonConnectUI } from "@tonconnect/ui-react";
 import { useEffect } from 'react';
 import { showModal } from '../../redux/reducers/modals';
 import { connect, selectAccount } from "../../redux/reducers/account";
@@ -29,7 +29,7 @@ export const SwapPanel = () => {
       dispatch(conversionRate({from: swapState.from, to: swapState.to}))
     if(userFriendlyAddress !== "" || userFriendlyAddress !== null)
       dispatch(connect(userFriendlyAddress));
-  },[dispatch, connect, userFriendlyAddress, swapState]);
+  },[userFriendlyAddress, swapState]);
 
   const handleConnect = async () => {
     await tonConnectUI.connectWallet();    

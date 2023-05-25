@@ -9,7 +9,7 @@ let PanelContent = <MainPanel />
 export const Exchange = () => {
     
     return(
-        <div className="px-5 py-2 bg-black">
+        <div className=" py-2">
             <div className="px-3 gap-4 flex py-5">
                   <Link to = "/swap" className=" text-btn_color hover:text-white text-lg underline underline-offset-4" >Swap</Link>
                   <hr className=" text-white bg-white text-base w-5 -rotate-45 translate-y-4"/>

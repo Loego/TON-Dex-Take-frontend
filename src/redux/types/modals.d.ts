@@ -4,6 +4,7 @@ export type Modal = null|
                     "liquidity-selection"|
                     "confirm-supply"|
                     "confirm-remove"|
+                    "exchange-setting"|
                     "swap-settings";
 export interface ModalsState {
     shown: Modal;

@@ -126,7 +126,8 @@ export const Header = () => {
           <p>Connect Wallet</p>
           <WalletIcon className="h-6 w-6" aria-hidden="true" />
         </button> */}
-        <Link to = "/exchange" className="flex flex-row">Go to App <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon></Link>
+        <Link to = "/exchange" className="flex flex-row hover:text-btn_color hover:scale-110 hover:transition-all ">Go to App 
+          <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon></Link>
       </div>
     </nav>
     <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -198,7 +199,7 @@ export const Header = () => {
               </Link>
             </div>
             <div className="py-6 flex justify-center">
-            <Link to = "/exchange" className="flex flex-row">Go to App <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon></Link>
+              <Link to = "/exchange" className="flex flex-row">Go to App <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon></Link>
             </div>
           </div>
         </div>
