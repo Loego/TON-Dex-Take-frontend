@@ -11,7 +11,7 @@ export default function Info(){
 
   if(!visible) return null;
 
-  return <>
+  return <div>
     <h4 className={styles.infoTitle}>Prices and Pool Share</h4>
     <div className={styles.info}>
       <span>{conversionRate}</span>
@@ -21,5 +21,5 @@ export default function Info(){
       <label>{token2?.symbol} per {token1?.symbol}</label>
       <label>Share of Pool</label>
     </div>
-  </>;
+  </div>;
 }

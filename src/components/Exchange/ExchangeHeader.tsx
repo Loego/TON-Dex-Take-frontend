@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { showModal } from '../../redux/reducers/modals';
+import { showModal } from "../../redux/reducers/modals";
 
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import "./exchange.header.scss";
 
 export default function ExchangeHeader() {
@@ -17,8 +17,7 @@ export default function ExchangeHeader() {
   const handleSettingModal = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     dispatch(showModal("exchange-setting"));
-
-  }
+  };
 
   return (
     <div className=" grid grid-flow-col items-center justify-between w-full header-border">
@@ -63,7 +62,7 @@ export default function ExchangeHeader() {
               </button>
             </div>
             {isShow ? (
-              <>
+              <div>
                 <div className="token-pair-dropdown">
                   <div className="token-pair-dropdown-search-panel">
                     <div className="token-search-panel-container">
@@ -102,9 +101,9 @@ export default function ExchangeHeader() {
                     <div></div>
                   </div>
                 </div>
-              </>
+              </div>
             ) : (
-              <></>
+              <div></div>
             )}
           </div>
         </div>
@@ -158,7 +157,10 @@ export default function ExchangeHeader() {
           </div>
         </div>
       </div>
-      <button className="exchange-header-setting-btn md:visible" onClick = {handleSettingModal}>
+      <button
+        className="exchange-header-setting-btn md:visible"
+        onClick={handleSettingModal}
+      >
         Settings
         <svg
           xmlns="http://www.w3.org/2000/svg"
