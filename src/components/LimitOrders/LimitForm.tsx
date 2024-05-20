@@ -37,7 +37,7 @@ export default function LimitForm() {
   function handleFromDecrement() {
     if (fromAmount > 0) {
       setfromAmount((prevValue) => prevValue - 1);
-      console.log("totoal:", totalAmount, fromAmount);
+      console.log("total:", totalAmount, fromAmount);
     }
   }
 
@@ -72,7 +72,7 @@ export default function LimitForm() {
   return (
     <div
       id="myLimitOrder"
-      className=" grid grid-flow-row items-center gap-3 p-5"
+      className="grid grid-flow-row items-center gap-3 py-5"
     >
       <div className="flex justify-between items-center rounded-lg p-1 mt-2.5 w-full h-9 border border-[#00000014] bg-white/10">
         <button
@@ -136,7 +136,7 @@ export default function LimitForm() {
       </div>
       <div className="w-full grid grid-flow-col items-center justify-between px-1">
         <div className="balance_div">Available Balance</div>
-        <div className="amount_div">0 ETH</div>
+        <div className="amount_div">0 TON</div>
       </div>
       <div className="flex justify-between items-center rounded-lg p-1 mt-2.5 w-full h-9 border border-[#00000014] bg-white/10">
         <button
@@ -170,23 +170,21 @@ export default function LimitForm() {
       </div>
       <div className="w-full px-1 grid grid-flow-col items-center justify-between">
         <div className="balance_div">Available Balance</div>
-        <div className="amount_div">0 USDT</div>
+        <div className="amount_div">0 TON</div>
       </div>
       <div className="flex gap-2 flex-col sm:flex-row justify-between text-center items-center">
         <TonConnectButton />
         <button
           type="button"
           onClick={handleSubmit}
-          className=" bg-btn_color h-10 rounded-sm text-center items-center justify-center"
+          className=" bg-btn_color h-10 flex rounded-md text-center items-center justify-center"
         >
-          <span className="text-center items-center justify-center">
-            Submit
-          </span>
+          Submit
         </button>
       </div>
       <div className="w-full px-1 grid grid-flow-col items-center justify-between">
         <div className="balance_div">Network Fee</div>
-        <div className="amount_div">0 USDT</div>
+        <div className="amount_div">0 TON</div>
       </div>
     </div>
   );

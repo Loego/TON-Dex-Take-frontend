@@ -8,7 +8,7 @@ import { Footer } from "./components/Footer/Footer";
 import { config } from "dotenv";
 import { TonConnectUIProvider, THEME } from "@tonconnect/ui-react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { retrieveTokens } from "./redux/reducers/tokens";z
+import { retrieveTokens } from "./redux/reducers/tokens";
 import { selectAccount } from "./redux/reducers/account";
 import Modals from "./components/Modals";
 import { SwapPanel } from "./components/Exchange/SwapPanel";
@@ -63,7 +63,7 @@ function App() {
       >
         <div className="App">
           <Header />
-          <div className="bg-dark pt-20 h-full w-full">
+          <div className="bg-dark pt-20 min-h-screen w-full">
             <Switch>
               <Route exact path="/" component={LandingPage} />
             </Switch>

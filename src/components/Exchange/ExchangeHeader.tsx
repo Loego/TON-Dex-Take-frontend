@@ -20,10 +20,10 @@ export default function ExchangeHeader() {
   };
 
   return (
-    <div className=" grid grid-flow-col items-center justify-between w-full header-border">
+    <div className="grid grid-flow-col items-center justify-between w-full header-border">
       <div className="grid grid-flow-col items-center">
         <div className="grid grid-flow-col items-center gap-2.5 bg-[#2b2e4a] h-14">
-          <div className=" relative px-5">
+          <div className="relative px-5">
             <div className="grid grid-flow-col items-center gap-2">
               <img
                 className=" block h-6 w-6"
@@ -31,7 +31,7 @@ export default function ExchangeHeader() {
                 alt="ETH"
               ></img>
               <button className="tokenpair-button" onClick={showTokenPair}>
-                <div className="tokenpair-div">ETH/USDT</div>
+                <div className="tokenpair-div">TON / USDT</div>
                 {!isShow ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

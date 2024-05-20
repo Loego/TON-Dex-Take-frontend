@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { showModal } from "../../redux/reducers/modals";
 import { connect, selectAccount } from "../../redux/reducers/account";
 import { useInputBalanceEffect } from "../../utils/hooks";
@@ -20,8 +19,6 @@ import TokenInput from "../TokenInput2";
 import "./limit_order.scss";
 
 export const LimitOrders = () => {
-  // const wallet = useTonWallet();
-  // const [tonConnectUI] = useTonConnectUI();
   const accountState = useAppSelector(selectAccount);
   const swapState = useAppSelector(selectSwap);
   const tokenState = useAppSelector(selectTokens);

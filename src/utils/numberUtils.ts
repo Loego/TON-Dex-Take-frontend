@@ -1,18 +1,17 @@
 import BigNumber from "bignumber.js";
 
 export const BN = BigNumber.clone();
-BN.set({ DECIMAL_PLACES:3 });
+BN.set({ DECIMAL_PLACES: 3 });
 
-export const cleanUpDecimal = (num:number) => {
+export const cleanUpDecimal = (num: number) => {
   return new BN(num, 10).toNumber();
 };
 
 const SYMBOL = ["", "k", "m", "b", "t"];
-export const abbreviateNumber = (num:number) =>{
+export const abbreviateNumber = (num: number) => {
+  const tier = (Math.log10(Math.abs(num)) / 3) | 0;
 
-  const tier = Math.log10(Math.abs(num)) / 3 | 0;
-
-  if(tier === 0) return `${num.toFixed(3)}`;
+  if (tier === 0) return `${num.toFixed(3)}`;
 
   const suffix = SYMBOL[tier];
   const scale = Math.pow(10, tier * 3);
@@ -23,11 +22,11 @@ export const abbreviateNumber = (num:number) =>{
 };
 
 export const currencyFormatter = Intl.NumberFormat("en-US", {
-  style:"currency",
-  currency:"USD"
+  style: "currency",
+  currency: "USD",
 });
 
-export const timeElapsed = (timestamp:number) => {
+export const timeElapsed = (timestamp: number) => {
   const currentTimestamp = Date.now();
   // 1643648921617
 
