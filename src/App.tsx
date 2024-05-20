@@ -8,7 +8,7 @@ import { Footer } from "./components/Footer/Footer";
 import { config } from "dotenv";
 import { TonConnectUIProvider, THEME } from "@tonconnect/ui-react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
-import { retrieveTokens } from "./redux/reducers/tokens";
+import { retrieveTokens } from "./redux/reducers/tokens";z
 import { selectAccount } from "./redux/reducers/account";
 import Modals from "./components/Modals";
 import { SwapPanel } from "./components/Exchange/SwapPanel";
