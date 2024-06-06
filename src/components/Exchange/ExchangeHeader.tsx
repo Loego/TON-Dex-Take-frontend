@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { showModal } from "../../redux/reducers/modals";
 
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import "./exchange.header.scss";
+import { retrieveTopPools, selectInfo } from "../../redux/reducers/info";
+import { useTonClient } from "../../hook/useTonClient";
 
 export default function ExchangeHeader() {
   const [isShow, setIsShow] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+
+  const info = useAppSelector(selectInfo);
+  const client = useTonClient();
 
   const showTokenPair = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -18,6 +23,12 @@ export default function ExchangeHeader() {
     event.preventDefault();
     dispatch(showModal("exchange-setting"));
   };
+
+  useEffect(() => {
+    if (client) {
+      dispatch(retrieveTopPools(client));
+    }
+  }, [client]);
 
   return (
     <div className="grid grid-flow-col items-center justify-between w-full header-border">
@@ -98,7 +109,16 @@ export default function ExchangeHeader() {
                         </div>
                       </div>
                     </div>
-                    <div></div>
+                    <div>
+                      {info.topPools &&
+                        info.topPools.map((pool, index) => {
+                          return (
+                            <div key={index}>
+                              {pool.token1?.symbol} / {pool.token2?.symbol}
+                            </div>
+                          );
+                        })}
+                    </div>
                   </div>
                 </div>
               </div>

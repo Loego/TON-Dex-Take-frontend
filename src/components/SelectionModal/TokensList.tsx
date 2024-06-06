@@ -6,32 +6,36 @@ import { TokenBalanced } from "../../redux/types/tokens";
 import styles from "./index.module.scss";
 
 interface IProps {
-    onSelected: (token: Token) => void;
+  onSelected: (token: Token) => void;
 }
 
-export default function TokensList({ onSelected }:IProps) {
+export default function TokensList({ onSelected }: IProps) {
   const { displayList } = useAppSelector(selectTokens);
-  return <div className={styles.tokensList}>
-    {displayList.map(token => (
-      <TokenItem
-        key={token.address}
-        token={token}
-        onClick={()=>onSelected(token)}/>
-    ))}
-  </div>;
+  console.log(displayList);
+  return (
+    <div className={styles.tokensList}>
+      {displayList.map((token) => (
+        <TokenItem
+          key={token.address}
+          token={token}
+          onClick={() => onSelected(token)}
+        />
+      ))}
+    </div>
+  );
 }
 
 interface ITokenProps {
-    token: TokenBalanced;
-    onClick?:()=>void;
+  token: TokenBalanced;
+  onClick?: () => void;
 }
 
-function TokenItem({ token, onClick }:ITokenProps){
+function TokenItem({ token, onClick }: ITokenProps) {
   return (
-      <div className={styles.token} onClick={onClick}>
-        <img alt={token.name} src={token.logoURI}/>
-        <span className={styles.name}>{token.name}</span>
-        <span className={styles.value}>{token.balance}</span>
-      </div>
+    <div className={styles.token} onClick={onClick}>
+      <img alt={token.name} src={token.logoURI} />
+      <span className={styles.name}>{token.name}</span>
+      <span className={styles.value}>{token.balance}</span>
+    </div>
   );
 }

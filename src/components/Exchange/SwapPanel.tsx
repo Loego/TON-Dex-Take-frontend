@@ -25,6 +25,7 @@ import TokenInput from "../TokenInput2";
 import SwapHeader from "./SwapHeader";
 
 import "./TONConnectButton.scss";
+import { useTonClient } from "../../hook/useTonClient";
 
 export const SwapPanel = () => {
   const wallet = useTonWallet();
@@ -34,16 +35,23 @@ export const SwapPanel = () => {
   const tokenState = useAppSelector(selectTokens);
   const dispatch = useAppDispatch();
 
+  const client = useTonClient();
+
   const connected =
     accountState.walletAddress !== null && accountState.walletAddress !== "";
   const userFriendlyAddress = useTonAddress();
 
+  console.log("userFriendlyAddress");
+
   useEffect(() => {
-    if (swapState.from !== null && swapState.to !== null)
-      dispatch(conversionRate({ from: swapState.from, to: swapState.to }));
-    if (userFriendlyAddress !== "" || userFriendlyAddress !== null)
+    if (swapState.from !== null && swapState.to !== null && client)
+      dispatch(
+        conversionRate({ client, from: swapState.from, to: swapState.to })
+      );
+    if (userFriendlyAddress !== "" || userFriendlyAddress !== null) {
       dispatch(connect(userFriendlyAddress));
-  }, [userFriendlyAddress, swapState]);
+    }
+  }, [userFriendlyAddress, swapState, client]);
 
   const handleConnect = async () => {
     await tonConnectUI.connectWallet();

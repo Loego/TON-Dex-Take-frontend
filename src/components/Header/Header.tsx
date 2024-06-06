@@ -21,8 +21,12 @@ import {
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import { useAppDispatch } from "../../redux/hooks";
+import { useTonConnect } from "../../hook/useTonConnect";
+import { retrieveTokens } from "../../redux/reducers/tokens";
+import { connect } from "../../redux/reducers/account";
 
 const products = [
   {
@@ -68,6 +72,17 @@ function classNames(...classes: string[]) {
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [tonConnectUi] = useTonConnectUI();
+
+  const dispatch = useAppDispatch();
+
+  const { address, connected } = useTonConnect();
+
+  useEffect(() => {
+    if (connected && address) {
+      dispatch(connect(address));
+      dispatch(retrieveTokens(address));
+    }
+  }, [address, connected]);
 
   return (
     <header className="bg-littledark fixed w-full border-b border-[#2B2649]">

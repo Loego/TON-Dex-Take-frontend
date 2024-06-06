@@ -2,14 +2,14 @@ import { delay } from "./util";
 
 const TOKEN_PER_PAGE = 20;
 
-export interface Token{
-    name: string;
-    symbol: string;
-    address: string;
-    chainId: number;
-    decimals: number;
-    logoURI: string;
-};
+export interface Token {
+  name: string;
+  symbol: string;
+  address: string;
+  chainId: number;
+  decimals: number;
+  logoURI: string;
+}
 
 export const listTokens = async (page: number): Promise<Token[]> => {
   await delay(100);
@@ -18,68 +18,86 @@ export const listTokens = async (page: number): Promise<Token[]> => {
   return _tokens.slice(offset).slice(0, count);
 };
 
-export const tokenInfo = async (address: string): Promise<Token|undefined> => {
+export const tokenInfo = async (
+  address: string
+): Promise<Token | undefined> => {
   await delay(100);
-  return _tokens.find(token => token.address === address)??undefined;
+  return _tokens.find((token) => token.address === address) ?? undefined;
 };
 
 export const usdtBalance = async (tokenAddress: string): Promise<number> => {
   await delay(1000);
-  const response = await fetch(`https://tonapi.io/v2/rates?tokens=${tokenAddress}&currencies=ton%2Cusd`);
+  const response = await fetch(
+    `${
+      import.meta.env.VITE_TONAPI_URL
+    }/rates?tokens=${tokenAddress}&currencies=ton%2Cusd`
+  );
   const data = await response.json();
   console.log("response====>", data);
   return 0;
-}
+};
 
 // Here we can get specific token balance in user wallet.
-export const tokenBalance = async (tokenAddress: string, address: string): Promise<number> => {
+export const tokenBalance = async (
+  tokenAddress: string,
+  address: string
+): Promise<number> => {
   await delay(100);
   let token = await tokenInfo(tokenAddress);
-  if(!token) return 0;
-  const response = await fetch(`https://tonapi.io/v2/accounts/${address}/jettons`);
+  if (!token) return 0;
+  const response = await fetch(
+    `${import.meta.env.VITE_TONAPI_URL}/accounts/${address}/jettons`
+  );
   const data = await response.json();
-  const matchingBalances = data.balances.filter((balance: { jetton: { symbol: any; }; }) => balance.jetton.symbol === token?.symbol);
-  if ( matchingBalances.length == 0) return 0;
-  return matchingBalances[0].balance / (10**token.decimals);
+  const matchingBalances = data.balances.filter(
+    (balance: { jetton: { symbol: any } }) =>
+      balance.jetton.symbol === token?.symbol
+  );
+  if (matchingBalances.length == 0) return 0;
+  return matchingBalances[0].balance / 10 ** token.decimals;
 };
 
 export const TON = {
-  "name": "Proxy TON",
-  "symbol": "pTON",
-  "address": "EQCM3B12QK1e4yZSf8GtBRT0aLMNyEsBc_DhVfRRtOEffLez",
-  "chainId": 0,
-  "decimals": 9,
-  "logoURI": "https://static.ston.fi/logo/ton_symbol.png"
+  name: "Test 1",
+  symbol: "TEST_2",
+  address: "EQDgxEYJuTTF8Xs9zb51D-LR0h5IhZ0HPiyQ6_WM2VwyYS6a",
+  chainId: 0,
+  decimals: 9,
+  logoURI: "https://static.ston.fi/logo/ton_symbol.png",
 };
 
 export const Ambra = {
-    "name": "Ambra",
-    "symbol": "AMBR",
-    "address": "EQCcLAW537KnRg_aSPrnQJoyYjOZkzqYp6FVmRUvN1crSazV",
-    "chainId": 0,
-    "decimals": 9,
-    "logoURI": "https://cache.tonapi.io/imgproxy/OMf5ls1dS1LDBSVOnqcQs0DfhjYWlyEOk8Y7vnvP4sQ/rs:fill:200:200:1/g:no/aXBmczovL2JhZnliZWljc3Zvem50cDVpYXR3YWQzMnFndmlzanhzaG9wNjJlcndvaGFxbmFqZ3Nta2w3N2I2dWg0.webp"
+  name: "Test 2",
+  // symbol: "AMBR",
+  symbol: "TEST_3",
+  address: "EQA5i_aM4WbI9p6eDvGbtvZ91B0vSIllWwY9m7oajyu_yqT2",
+  chainId: 0,
+  decimals: 9,
+  logoURI:
+    "https://cache.tonapi.io/imgproxy/OMf5ls1dS1LDBSVOnqcQs0DfhjYWlyEOk8Y7vnvP4sQ/rs:fill:200:200:1/g:no/aXBmczovL2JhZnliZWljc3Zvem50cDVpYXR3YWQzMnFndmlzanhzaG9wNjJlcndvaGFxbmFqZ3Nta2w3N2I2dWg0.webp",
 };
 export const USDT = {
-  "name":"jUSDT",
-    "symbol":"jUSDT",
-    "address":"EQBynBO23ywHy_CgarY9NK9FTz0yDsG82PtcbSTQgGoXwiuA",
-    "chainId":0,
-    "decimals":6,
-    "logoURI": "https://cache.tonapi.io/imgproxy/cUNZUfLE-OYozhOKWNw7HHINxER0pQnXhhtUkMQYWck/rs:fill:200:200:1/g:no/aHR0cHM6Ly9icmlkZ2UudG9uLm9yZy90b2tlbi8xLzB4ZGFjMTdmOTU4ZDJlZTUyM2EyMjA2MjA2OTk0NTk3YzEzZDgzMWVjNy5wbmc.webp"
-}
+  name: "jUSDT",
+  symbol: "jUSDT",
+  address: "EQBynBO23ywHy_CgarY9NK9FTz0yDsG82PtcbSTQgGoXwiuA",
+  chainId: 0,
+  decimals: 6,
+  logoURI:
+    "https://cache.tonapi.io/imgproxy/cUNZUfLE-OYozhOKWNw7HHINxER0pQnXhhtUkMQYWck/rs:fill:200:200:1/g:no/aHR0cHM6Ly9icmlkZ2UudG9uLm9yZy90b2tlbi8xLzB4ZGFjMTdmOTU4ZDJlZTUyM2EyMjA2MjA2OTk0NTk3YzEzZDgzMWVjNy5wbmc.webp",
+};
 
 const _tokens: Token[] = [
   TON,
   Ambra,
-  {
-    "name":"GAGARIN",
-    "symbol":"GGR",
-    "address":"EQDetcmWrfHLPRPVh3LoFvwso0zsjFnpmmXTKWj7s1ycNgu2",
-    "chainId":0,
-    "decimals":18,
-    "logoURI": "https://cache.tonapi.io/imgproxy/Wx2s0WP_hKeyW2zSs6jL0lGrzBOSEVIhAskr1J7vZdg/rs:fill:200:200:1/g:no/aHR0cHM6Ly9nYWdhcmluLndvcmxkL2dnci1sb2dvLnBuZw.webp"
-  },
+  // {
+  //   name: "GAGARIN",
+  //   symbol: "GGR",
+  //   address: "EQDetcmWrfHLPRPVh3LoFvwso0zsjFnpmmXTKWj7s1ycNgu2",
+  //   chainId: 0,
+  //   decimals: 18,
+  //   logoURI:
+  //     "https://cache.tonapi.io/imgproxy/Wx2s0WP_hKeyW2zSs6jL0lGrzBOSEVIhAskr1J7vZdg/rs:fill:200:200:1/g:no/aHR0cHM6Ly9nYWdhcmluLndvcmxkL2dnci1sb2dvLnBuZw.webp",
+  // },
   // {
   //   "name": "TAN Token",
   //   "symbol": "TAN",
@@ -104,30 +122,33 @@ const _tokens: Token[] = [
   //   "decimals": 9,
   //   "logoURI": "https://raw.githubusercontent.com/777warden777/EasyCash/main/IMG-20221017-WA0111.jpg"
   // },
-  {
-    "name":"Fanzee Token",
-    "symbol":"FNZ",
-    "address":"EQDCJL0iQHofcBBvFBHdVG233Ri2V4kCNFgfRT-gqAd3Oc86",
-    "chainId":0,
-    "decimals":9,
-    "logoURI": "https://cache.tonapi.io/imgproxy/2JucCf-fnxN0vPIEYj-CzE-FhU6WsCq4nsuke0dQzUM/rs:fill:200:200:1/g:no/aHR0cHM6Ly9tZWRpYS5mYW56LmVlL2ltYWdlcy85MWVlOTM4YTkyOTM0NjU2YTAxMTMxYzU2OWIzNzdiNi5wbmc.webp"
-  },
-  {
-    "name":"jUSDT",
-    "symbol":"jUSDT",
-    "address":"EQBynBO23ywHy_CgarY9NK9FTz0yDsG82PtcbSTQgGoXwiuA",
-    "chainId":0,
-    "decimals":6,
-    "logoURI": "https://cache.tonapi.io/imgproxy/cUNZUfLE-OYozhOKWNw7HHINxER0pQnXhhtUkMQYWck/rs:fill:200:200:1/g:no/aHR0cHM6Ly9icmlkZ2UudG9uLm9yZy90b2tlbi8xLzB4ZGFjMTdmOTU4ZDJlZTUyM2EyMjA2MjA2OTk0NTk3YzEzZDgzMWVjNy5wbmc.webp"
-  },
-  {
-    "name":"Huebel Bolt",
-    "symbol":"BOLT",
-    "address":"EQD0vdSA_NedR9uvbgN9EikRX-suesDxGeFg69XQMavfLqIw",
-    "chainId":0,
-    "decimals":9,
-    "logoURI": "https://cache.tonapi.io/imgproxy/vPhDv8TBUkDFE5N74ckFuSE2FtKKjmNpL4B-Ti3gd5Q/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jbG91ZGZsYXJlLWlwZnMuY29tL2lwZnMvUW1YNDdkb2RVZzFhY1hveFlEVUxXVE5mU2hYUlc1dUhyQ21vS1NVTlI5eEtRdw.webp"
-  },
+  // {
+  //   name: "Fanzee Token",
+  //   symbol: "FNZ",
+  //   address: "EQDCJL0iQHofcBBvFBHdVG233Ri2V4kCNFgfRT-gqAd3Oc86",
+  //   chainId: 0,
+  //   decimals: 9,
+  //   logoURI:
+  //     "https://cache.tonapi.io/imgproxy/2JucCf-fnxN0vPIEYj-CzE-FhU6WsCq4nsuke0dQzUM/rs:fill:200:200:1/g:no/aHR0cHM6Ly9tZWRpYS5mYW56LmVlL2ltYWdlcy85MWVlOTM4YTkyOTM0NjU2YTAxMTMxYzU2OWIzNzdiNi5wbmc.webp",
+  // },
+  // {
+  //   name: "jUSDT",
+  //   symbol: "jUSDT",
+  //   address: "EQBynBO23ywHy_CgarY9NK9FTz0yDsG82PtcbSTQgGoXwiuA",
+  //   chainId: 0,
+  //   decimals: 6,
+  //   logoURI:
+  //     "https://cache.tonapi.io/imgproxy/cUNZUfLE-OYozhOKWNw7HHINxER0pQnXhhtUkMQYWck/rs:fill:200:200:1/g:no/aHR0cHM6Ly9icmlkZ2UudG9uLm9yZy90b2tlbi8xLzB4ZGFjMTdmOTU4ZDJlZTUyM2EyMjA2MjA2OTk0NTk3YzEzZDgzMWVjNy5wbmc.webp",
+  // },
+  // {
+  //   name: "Huebel Bolt",
+  //   symbol: "BOLT",
+  //   address: "EQD0vdSA_NedR9uvbgN9EikRX-suesDxGeFg69XQMavfLqIw",
+  //   chainId: 0,
+  //   decimals: 9,
+  //   logoURI:
+  //     "https://cache.tonapi.io/imgproxy/vPhDv8TBUkDFE5N74ckFuSE2FtKKjmNpL4B-Ti3gd5Q/rs:fill:200:200:1/g:no/aHR0cHM6Ly9jbG91ZGZsYXJlLWlwZnMuY29tL2lwZnMvUW1YNDdkb2RVZzFhY1hveFlEVUxXVE5mU2hYUlc1dUhyQ21vS1NVTlI5eEtRdw.webp",
+  // },
   // {
   //   "name":"jUSDC",
   //   "symbol":"jUSDC",
@@ -168,9 +189,6 @@ const _tokens: Token[] = [
   //   "decimals":6,
   //   "logoURI":"https://cache.tonapi.io/imgproxy/kaZxRk-VPWO4yy6CUe2bKH7bN6v7FUw6FZ7epjCff4U/rs:fill:200:200:1/g:no/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL29yYml0LWNoYWluL2JyaWRnZS10b2tlbi1pbWFnZS9tYWluL3Rvbi91c2R0LnBuZw.webp"
   // },
-
-
-  
 
   // {
   //   "name": "Cardano Token",
@@ -940,6 +958,4 @@ const _tokens: Token[] = [
   //   "decimals": 18,
   //   "logoURI": "https://assets.trustwalletapp.com/blockchains/smartchain/assets/0xFbe0b4aE6E5a200c36A341299604D5f71A5F0a48/logo.png"
   // },
-  
-
 ];
