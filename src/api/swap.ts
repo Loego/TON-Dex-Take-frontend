@@ -138,9 +138,12 @@ interface TokenInput {
   multihop?: boolean;
 }
 
-export const swapInfo = async (input: TokenInput): Promise<SwapInfo> => {
+export const swapInfo = async (
+  client: TonClient,
+  input: TokenInput
+): Promise<SwapInfo> => {
   await delay(100);
-  let rate = await conversionRate(input.token1, input.token2);
+  let rate = await conversionRate(client, input.token1, input.token2);
   // %0.1
   let priceImpact = 0.1 / 100;
   let maxSlippage = input.slippage ?? 0.5 / 100;
@@ -162,9 +165,12 @@ interface SwapOutput {
   swapValue: number;
 }
 
-export const confirmSwap = async (input: TokenInput): Promise<SwapOutput> => {
+export const confirmSwap = async (
+  client: TonClient,
+  input: TokenInput
+): Promise<SwapOutput> => {
   await delay(100);
-  let rate = await conversionRate(input.token1, input.token2);
+  let rate = await conversionRate(client, input.token1, input.token2);
   return {
     successful: true,
     swapValue: rate.fwd * input.value,

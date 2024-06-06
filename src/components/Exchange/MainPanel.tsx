@@ -15,6 +15,7 @@ import Chart from "../Chart";
 import { LimitOrders } from "../LimitOrders/LimitOrders";
 
 import styles from "./index.module.scss";
+import { useTonClient } from "../../hook/useTonClient";
 
 const MainPanel = () => {
   const chartdata = poolGraphData();
@@ -32,10 +33,13 @@ const MainPanel = () => {
     ],
   };
 
+  const client = useTonClient();
+
   useEffect(() => {
-    if (swapState.from != null && swapState.to != null) {
+    if (swapState.from != null && swapState.to != null && client) {
       dispatch(
         retrieveChart({
+          client,
           address1: swapState.from.address,
           address2: swapState.to.address,
           interval: swapState.timespan,
@@ -49,7 +53,7 @@ const MainPanel = () => {
     if (cookieValue) {
       dispatch(showChart(swapState.from !== null && swapState.to !== null));
     }
-  }, [swapState.from, swapState.to, dispatch, swapState.timespan]);
+  }, [swapState.from, swapState.to, dispatch, swapState.timespan, client]);
 
   return (
     <div className="px-5 pt-5 pb-0">

@@ -17,10 +17,13 @@ import Header from "./Header";
 import styles from "./index.module.scss";
 import Info from "./Info";
 import PlusIcon from "./PlusIcon";
+import { useTonClient } from "../../hook/useTonClient";
 
 export default function AddLiquidityPanel() {
   const liquidityState = useAppSelector(selectLiquidity);
   const dispatch = useAppDispatch();
+
+  const client = useTonClient();
 
   const handleFromChange = (value: number) =>
     dispatch(changeInput({ key: "token1", value }));
@@ -51,8 +54,8 @@ export default function AddLiquidityPanel() {
   ]);
 
   useEffect(() => {
-    dispatch(conversionRate());
-  }, [dispatch, liquidityState.token1, liquidityState.token2]);
+    if (client) dispatch(conversionRate(client));
+  }, [dispatch, liquidityState.token1, liquidityState.token2, client]);
 
   return (
     <div className=" pt-20 p-5">

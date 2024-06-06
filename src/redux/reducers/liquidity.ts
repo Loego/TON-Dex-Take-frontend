@@ -99,13 +99,13 @@ const handleSelectionModal = (
 
 export const conversionRate = createAsyncThunk<
   { rate: number },
-  undefined,
+  TonClient,
   { state: RootState }
->("liquidity/conversionRate", async (_, thunkAPI) => {
+>("liquidity/conversionRate", async (client, thunkAPI) => {
   const { token1, token2 } = thunkAPI.getState().liquidity;
   if (token1 === null || token2 === null) return { rate: 0 };
 
-  const res = await getConversionRate(token1.address, token2.address);
+  const res = await getConversionRate(client, token1.address, token2.address);
   return { rate: res.fwd };
 });
 

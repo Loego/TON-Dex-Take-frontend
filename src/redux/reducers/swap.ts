@@ -83,13 +83,19 @@ export const retrieveChart = createAsyncThunk(
   "swap/retrieveChart",
   async (
     {
+      client,
       address1,
       address2,
       interval,
-    }: { address1: string; address2: string; interval: DataInterval },
+    }: {
+      client: TonClient;
+      address1: string;
+      address2: string;
+      interval: DataInterval;
+    },
     thunkAPI
   ) => {
-    const res = await historicalPrices(address1, address2, interval);
+    const res = await historicalPrices(client, address1, address2, interval);
     if (res === null) {
       thunkAPI.dispatch(
         notification({
@@ -123,13 +129,19 @@ export const confirmSwap = createAsyncThunk(
   "swap/confirmSwap",
   async (
     {
+      client,
       from,
       to,
       value,
-    }: { from: TokenBalanced; to: TokenBalanced; value: number },
+    }: {
+      client: TonClient;
+      from: TokenBalanced;
+      to: TokenBalanced;
+      value: number;
+    },
     thunkAPI
   ) => {
-    const res = await _confirmSwap({
+    const res = await _confirmSwap(client, {
       token1: from.address,
       token2: to.address,
       value,
