@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import { Exchange } from "./components/Exchange/Exchange";
 import { LandingPage } from "./components/LandingPage/LandingPage";
 import { Header } from "./components/Header/Header";
@@ -29,59 +29,21 @@ function App() {
   }, [dispatch, walletAddress]);
 
   return (
-    <div>
-      <TonConnectUIProvider
-        manifestUrl="https://ton-connect.github.io/demo-dapp-with-wallet/tonconnect-manifest.json"
-        uiPreferences={{ theme: THEME.DARK }}
-        walletsListConfiguration={{
-          includeWallets: [
-            {
-              appName: "safepalwallet",
-              name: "SafePal",
-              imageUrl:
-                "https://s.pvcliping.com/web/public_image/SafePal_x288.png",
-              aboutUrl: "https://www.safepal.com/download",
-              jsBridgeKey: "safepalwallet",
-              platforms: ["ios", "android", "chrome", "firefox"],
-            },
-            {
-              appName: "tonwallet",
-              name: "TON Wallet",
-              imageUrl: "https://wallet.ton.org/assets/ui/qr-logo.png",
-              aboutUrl:
-                "https://chrome.google.com/webstore/detail/ton-wallet/nphplpgoakhhjchkkhmiggakijnkhfnd",
-              universalLink: "https://wallet.ton.org/ton-connect",
-              jsBridgeKey: "tonwallet",
-              bridgeUrl: "https://bridge.tonapi.io/bridge",
-              platforms: ["chrome", "android"],
-            },
-          ],
-        }}
-        actionsConfiguration={{
-          twaReturnUrl: "https://t.me/tc_twa_demo_bot/start",
-        }}
-      >
-        <div className="App">
-          <Header />
-          <div className="bg-dark pt-20 min-h-screen w-full">
-            <Switch>
-              <Route exact path="/" component={LandingPage} />
-            </Switch>
-            <Switch>
-              <Route path="/exchange" component={Exchange} />
-            </Switch>
-            <Switch>
-              <Route path="/swap" component={SwapPanel} />
-            </Switch>
-            <Switch>
-              <Route path="/liquidity" component={LiquidityPage} />
-            </Switch>
-            <Modals />
-            <Footer />
-          </div>
+    <>
+      <div className="App">
+        <Header />
+        <div className="bg-dark pt-20 min-h-screen w-full">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/exchange" element={<Exchange />} />
+            <Route path="/swap" element={<SwapPanel />} />
+            <Route path="/liquidity" element={<LiquidityPage />} />
+          </Routes>
+          <Modals />
+          <Footer />
         </div>
-      </TonConnectUIProvider>
-    </div>
+      </div>
+    </>
   );
 }
 
