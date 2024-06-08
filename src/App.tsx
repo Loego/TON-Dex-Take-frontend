@@ -6,7 +6,6 @@ import { LandingPage } from "./components/LandingPage/LandingPage";
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { config } from "dotenv";
-import { TonConnectUIProvider, THEME } from "@tonconnect/ui-react";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { retrieveTokens } from "./redux/reducers/tokens";
 import { selectAccount } from "./redux/reducers/account";
