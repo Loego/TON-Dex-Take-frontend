@@ -4,5 +4,4 @@ node_modules
 
 # Local Netlify folder
 .netlify
-yarn.lock
 package-lock.json
