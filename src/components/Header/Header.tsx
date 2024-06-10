@@ -91,7 +91,7 @@ export const Header = () => {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img
               className="h-8 w-auto"
@@ -115,7 +115,7 @@ export const Header = () => {
           )}
         </div>
         <Popover.Group className="hidden lg:gap-x-12 lg:flex items-center">
-          <Popover className="relative">
+          {/* <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white">
               Product
               <ChevronDownIcon
@@ -177,12 +177,19 @@ export const Header = () => {
               </Popover.Panel>
             </Transition>
           </Popover>
+          */}
 
           <Link
-            to="/exchange"
+            to="/swap"
             className="text-sm font-semibold leading-6 text-white"
           >
-            Features
+            Swap
+          </Link>
+          <Link
+            to="/liquidity"
+            className="text-sm font-semibold leading-6 text-white"
+          >
+            Liquidity
           </Link>
           <Link
             to="/exchange"
@@ -190,18 +197,12 @@ export const Header = () => {
           >
             Exchange
           </Link>
-          <Link
-            to="/exchange"
-            className="text-sm font-semibold leading-6 text-white"
-          >
-            MarketPlace
-          </Link>
-          <Link
+          {/*<Link
             to="/exchange"
             className="text-sm font-semibold leading-6 text-white"
           >
             Company
-          </Link>
+          </Link> */}
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-12">
           {/* <button className="inline-flex gap-2 text-sm font-semibold leading-6 text-white bg-transparent"
@@ -247,52 +248,18 @@ export const Header = () => {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-white/75">
               <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  {({ open }) => (
-                    <div>
-                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black">
-                        Product
-                        <ChevronDownIcon
-                          className={classNames(
-                            open ? "rotate-180" : "",
-                            "h-5 w-5 flex-none"
-                          )}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...products, ...callsToAction].map((item) => (
-                          <Disclosure.Button
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"
-                          >
-                            {item.name}
-                          </Disclosure.Button>
-                        ))}
-                      </Disclosure.Panel>
-                    </div>
-                  )}
-                </Disclosure>
                 <a
-                  href="#"
+                  href="/swap"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"
                 >
-                  Features
+                  Swap
                 </a>
                 <a
-                  href="#"
+                  href="/liquidity"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"
                 >
-                  Marketplace
+                  Liquidity
                 </a>
-                <Link
-                  to="/exchange"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"
-                >
-                  Company
-                </Link>
                 <Link
                   to="/exchange"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white/70 hover:bg-white hover:text-black"

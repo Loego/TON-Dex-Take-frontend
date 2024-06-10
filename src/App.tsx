@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { Exchange } from "./components/Exchange/Exchange";
 import { LandingPage } from "./components/LandingPage/LandingPage";
 import { Header } from "./components/Header/Header";
@@ -65,19 +65,15 @@ function App() {
           <Header />
           <div className="bg-dark pt-20 min-h-screen w-full">
             <Switch>
-              <Route exact path="/" component={LandingPage} />
-            </Switch>
-            <Switch>
+              {/* <Route exact path="/" component={LandingPage} /> */}
               <Route path="/exchange" component={Exchange} />
-            </Switch>
-            <Switch>
               <Route path="/swap" component={SwapPanel} />
-            </Switch>
-            <Switch>
               <Route path="/liquidity" component={LiquidityPage} />
+              <Route path="*">
+                <Redirect to={"/exchange"} />
+              </Route>
             </Switch>
             <Modals />
-            <Footer />
           </div>
         </div>
       </TonConnectUIProvider>

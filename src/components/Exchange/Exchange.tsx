@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import MainPanel from "./MainPanel";
 import ExchangeHeader from "./ExchangeHeader";
+import PoolList from "./PoolList";
 
 export const Exchange = () => {
   return (
     <div className="py-2">
-      <div className="px-3 gap-4 flex py-5 items-center">
+      {/* <div className="px-3 gap-4 flex py-5 items-center">
         <Link to="/swap" className=" text-btn_color hover:text-white text-lg">
           Swap
         </Link>
@@ -18,7 +19,8 @@ export const Exchange = () => {
         </Link>
       </div>
       <ExchangeHeader />
-      <MainPanel />
+      <MainPanel /> */}
+      <PoolList />
     </div>
   );
 };
