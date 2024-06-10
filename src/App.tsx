@@ -1,6 +1,11 @@
 import "./App.css";
 import { useEffect } from "react";
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  BrowserRouter as Router,
+  Navigate,
+} from "react-router-dom";
 import { Exchange } from "./components/Exchange/Exchange";
 import { LandingPage } from "./components/LandingPage/LandingPage";
 import { Header } from "./components/Header/Header";
@@ -33,13 +38,13 @@ function App() {
         <Header />
         <div className="bg-dark pt-20 min-h-screen w-full">
           <Routes>
-            <Route path="/" element={<LandingPage />} />
+            {/* <Route path="/" element={<LandingPage />} /> */}
             <Route path="/exchange" element={<Exchange />} />
             <Route path="/swap" element={<SwapPanel />} />
             <Route path="/liquidity" element={<LiquidityPage />} />
+            <Route path="*" element={<Navigate to="/exchange" replace />} />
           </Routes>
           <Modals />
-          <Footer />
         </div>
       </div>
     </>
