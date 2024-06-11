@@ -35,11 +35,11 @@ export const historicalPrices = async (
   await delay(100);
   let t1 = await tokenInfo(token1);
   let t2 = await tokenInfo(token1);
-  let { fwd } = await conversionRate(client, token1, token2);
+  // let { fwd } = await conversionRate(client, token1, token2);
   let ticks: ValueTick[] = [
     {
       time: new Date().getTime(),
-      value: fwd,
+      value: 0, //fwd,
     },
   ];
   let maxChange = 5;

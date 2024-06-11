@@ -95,7 +95,7 @@ export const retrieveChart = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    const res = await historicalPrices(client, address1, address2, interval);
+    const res = null; //await historicalPrices(client, address1, address2, interval);
     if (res === null) {
       thunkAPI.dispatch(
         notification({

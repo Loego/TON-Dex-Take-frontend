@@ -37,14 +37,14 @@ const MainPanel = () => {
 
   useEffect(() => {
     if (swapState.from != null && swapState.to != null && client) {
-      dispatch(
-        retrieveChart({
-          client,
-          address1: swapState.from.address,
-          address2: swapState.to.address,
-          interval: swapState.timespan,
-        })
-      );
+      // dispatch(
+      //   retrieveChart({
+      //     client,
+      //     address1: swapState.from.address,
+      //     address2: swapState.to.address,
+      //     interval: swapState.timespan,
+      //   })
+      // );
       // dispatch(conversionRate(
       //     { from: swapState.from, to:swapState.to }
       // ));
