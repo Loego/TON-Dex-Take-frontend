@@ -129,6 +129,25 @@ export class Pool implements Contract {
     return [out, protocolFeeOut, refFeeOut];
   }
 
+  async getExpectedTokens(
+    provider: ContractProvider,
+    amount0: bigint,
+    amount1: bigint
+  ) {
+    const result = await provider.get("get_expected_tokens", [
+      {
+        type: "int",
+        value: amount0,
+      },
+      {
+        type: "int",
+        value: amount1,
+      },
+    ]);
+
+    return result.stack.readBigNumber();
+  }
+
   async getLPAccountAddress(provider: ContractProvider, owner: Address) {
     const result = await provider.get("get_lp_account_address", [
       {

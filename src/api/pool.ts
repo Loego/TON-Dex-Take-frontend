@@ -188,7 +188,15 @@ export const listPositions = async (
           token0Address.toString(),
           token1Address.toString()
         );
-
+        let np: Pool = {
+          address: generateAddress(),
+          info: null,
+          providerFee: 0.0002,
+          token1: t1,
+          token2: t2,
+          reserve1: fromNano(reserve0),
+          reserve2: fromNano(reserve1),
+        };
         if (reserve0 > 0 && reserve1 > 0) {
           const lpAccountAddress = await pool.getLPAccountAddress(
             Address.parse(address)
@@ -201,25 +209,19 @@ export const listPositions = async (
           const { userAddress, poolAddress, amount0, amount1 } =
             await lpAccount.getLPAccountData();
 
+          console.log("amount0", amount0);
+
           const lpWalletAddress = await pool.getLPWalletAddress(
             Address.parse(address)
           );
+
+          console.log(lpWalletAddress.toString());
 
           const lpWallet = client.open(
             LPWallet.createFromAddress(lpWalletAddress)
           );
 
           const liquidTokenBalance = await lpWallet.getBalance();
-
-          let np: Pool = {
-            address: generateAddress(),
-            info: null,
-            providerFee: 0.0002,
-            token1: t1,
-            token2: t2,
-            reserve1: fromNano(reserve0),
-            reserve2: fromNano(reserve1),
-          };
 
           _user_positions.push({
             pool: np,
@@ -305,11 +307,30 @@ export const addLiquidity = async (
   // const token2WalletContract = client.open(
   //   JettonWallet.create(token2WalletAddress)
   // );
+  let expectedLiquidity = toNano(0.00001);
+  try {
+    const router = client.open(
+      Router.createFromAddress(Address.parse(routerAddress))
+    );
+    const poolAddress = await router.getPoolAddress(
+      routerToken1WalletAddress,
+      routerToken2WalletAddress
+    );
+
+    const pool = client.open(PoolContract.createFromAddress(poolAddress));
+
+    expectedLiquidity = await pool.getExpectedTokens(
+      toNano(value1),
+      toNano(value2)
+    );
+
+    console.log("expectedLiquidity", expectedLiquidity);
+  } catch (err) {}
 
   const forwardPayload1 = beginCell()
     .storeUint(0xfcf9e58f, 32) // provide lp
     .storeAddress(routerToken2WalletAddress) // another token wallet address of router
-    .storeCoins(toNano(0.0001))
+    .storeCoins(expectedLiquidity)
     .endCell();
   const messageBody1 = beginCell()
     .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
@@ -332,7 +353,7 @@ export const addLiquidity = async (
   const forwardPayload2 = beginCell()
     .storeUint(0xfcf9e58f, 32) // provide lp
     .storeAddress(routerToken1WalletAddress) // another token wallet address of router
-    .storeCoins(toNano(0.0001))
+    .storeCoins(expectedLiquidity)
     .endCell();
   const messageBody2 = beginCell()
     .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer

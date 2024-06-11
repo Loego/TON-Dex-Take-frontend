@@ -46,6 +46,7 @@ export const retrieveTokens = createAsyncThunk(
       });
     }
 
+    console.log(jettonsBalanced);
     return jettonsBalanced;
   }
 );
@@ -78,7 +79,7 @@ export const tokensSlice = createSlice({
       (state: TokensState, { payload }) => {
         state.tokens = payload;
         state.displayList = payload;
-        state.totalTokens = [...state.totalTokens, ...payload];
+        state.totalTokens = payload;
       }
     );
     builder.addCase(

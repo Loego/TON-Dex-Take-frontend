@@ -53,8 +53,8 @@ const handleChangeInput = (
   const other = payload.key === "token1" ? "token2" : "token1";
   if (state.conversionRate !== 0) {
     if (payload.key === "token1")
-      state.inputs[other] = state.inputs[payload.key] / state.conversionRate;
-    else state.inputs[other] = state.inputs[payload.key] * state.conversionRate;
+      state.inputs[other] = state.inputs[payload.key] * state.conversionRate;
+    else state.inputs[other] = state.inputs[payload.key] / state.conversionRate;
   }
 };
 
@@ -256,7 +256,10 @@ export const retrieveLiquidities = createAsyncThunk<
   if (walletAddress === null) {
     return null;
   }
-  return await listPositions(client, walletAddress, totalTokens);
+  const positions = await listPositions(client, walletAddress, totalTokens);
+  console.log(positions);
+
+  return positions;
 });
 
 export const syncTokenBalances = createAsyncThunk(
