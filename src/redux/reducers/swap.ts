@@ -243,13 +243,10 @@ export const swapSlice = createSlice({
       (state: SwapState, { payload }) => {
         state.chartData = payload;
 
-        const len = state.chartData?.ticks.length ?? 0;
+        const len = 0; //state.chartData?.ticks.length ?? 0;
 
-        const diff = new BN(
-          (payload?.ticks[len - 1].value ?? 0) -
-            (payload?.ticks[len - 2].value ?? 0)
-        );
-        const percent = diff.div(payload?.ticks[len - 2].value ?? 1).times(100);
+        const diff = new BN(0);
+        const percent = new BN(100);
 
         state.chartDiff = {
           increasing: diff.isPositive(),
