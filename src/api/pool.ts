@@ -202,6 +202,8 @@ export const listPositions = async (
             Address.parse(address)
           );
 
+          console.log("lpAccountAddress", lpAccountAddress.toString());
+
           const lpAccount = client.open(
             LPAccount.createFromAddress(lpAccountAddress)
           );

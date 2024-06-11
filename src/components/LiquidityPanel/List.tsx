@@ -143,7 +143,7 @@ function Item({ positionInfo }: IItemProps) {
               <img alt={pool?.token2?.name} src={pool?.token2?.logoURI} />
             </span>
             <label>Pool Tokens:</label>
-            <span>{positionInfo.liquidityTokens.toFixed(3)}</span>
+            <span>{positionInfo.liquidityTokens.toFixed(5)}</span>
             <label>Pool Share:</label>
             <span>{positionInfo.share?.toFixed(3)}%</span>
           </div>
@@ -153,11 +153,11 @@ function Item({ positionInfo }: IItemProps) {
               title="Add"
               onClick={handleAddLiquidity}
             />
-            <Button
+            {/* <Button
               buttonType="primarySmall"
               title="Remove"
               onClick={handleRemoveClick}
-            />
+            /> */}
           </div>
         </div>
       </CSSTransition>
