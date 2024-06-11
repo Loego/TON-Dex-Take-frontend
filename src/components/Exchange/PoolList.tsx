@@ -31,8 +31,9 @@ export default function PoolList() {
   }, [client]);
 
   return (
-    <div className="flex items-center justify-center w-full px-20">
-      <div className="token-pair-dropdown">
+    <div className="flex items-center justify-center w-full p-20">
+      <h1>In Progress</h1>
+      {/* <div className="token-pair-dropdown">
         <div className="token-pair-dropdown-search-panel">
           <div className="token-search-panel-container">
             <div className="token-search-panel-main-container">
@@ -77,7 +78,7 @@ export default function PoolList() {
               })}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

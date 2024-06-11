@@ -90,7 +90,7 @@ export const Header = () => {
         className="mx-auto flex items-center justify-between p-6 lg:px-20"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1">
+        <div className="flex lg:flex-1 items-center gap-2">
           <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img
@@ -99,6 +99,7 @@ export const Header = () => {
               alt=""
             />
           </a>
+          <p>TON DEX</p>
         </div>
         <div className="flex lg:hidden">
           {mobileMenuOpen == false ? (
@@ -210,13 +211,14 @@ export const Header = () => {
           <p>Connect Wallet</p>
           <WalletIcon className="h-6 w-6" aria-hidden="true" />
         </button> */}
-          <Link
+          {/* <Link
             to="/exchange"
             className="flex flex-row hover:text-btn_color hover:scale-110 hover:transition-all "
           >
             Go to App
             <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon>
-          </Link>
+          </Link> */}
+          <TonConnectButton />
         </div>
       </nav>
       <Dialog
@@ -268,10 +270,10 @@ export const Header = () => {
                 </Link>
               </div>
               <div className="py-6 flex justify-center">
-                <Link to="/exchange" className="flex flex-row">
+                {/* <Link to="/exchange" className="flex flex-row">
                   Go to App{" "}
                   <PaperAirplaneIcon className="ml-2 w-6 h-6"></PaperAirplaneIcon>
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>

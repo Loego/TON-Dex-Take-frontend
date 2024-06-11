@@ -21,6 +21,7 @@ export const Exchange = () => {
       <ExchangeHeader />
       <MainPanel /> */}
       <PoolList />
+      {/* <h2>In Progress</h2> */}
     </div>
   );
 };
