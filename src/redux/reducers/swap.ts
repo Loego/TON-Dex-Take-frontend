@@ -119,7 +119,7 @@ export const conversionRate = createAsyncThunk(
     from: Token;
     to: Token;
   }) => {
-    const res = await getConversionRate(client, from.address, to.address);
+    const res = await getConversionRate(client, from, to);
     //const usdtRes = await getConversionRate(from.address, USDT.address);
 
     console.log("swap state rate", res.fwd);
@@ -144,8 +144,8 @@ export const confirmSwap = createAsyncThunk(
     thunkAPI
   ) => {
     const res = await _confirmSwap(client, {
-      token1: from.address,
-      token2: to.address,
+      token1: from,
+      token2: to,
       value,
     });
 
@@ -180,19 +180,19 @@ export const syncTokenBalances = createAsyncThunk(
     token2,
     walletAddress,
   }: {
-    token1?: string;
-    token2?: string;
+    token1?: TokenBalanced | null;
+    token2?: TokenBalanced | null;
     walletAddress: string;
   }) => {
     let balance1 = 0,
       balance2 = 0;
     console.log("entered syncTokenBalances");
     console.log("token1", token1);
-    if (token1 !== undefined) {
+    if (token1) {
       balance1 = await tokenBalance(token1, walletAddress);
       console.log("balance1:", balance1);
     }
-    if (token2 !== undefined) {
+    if (token2) {
       balance2 = await tokenBalance(token2, walletAddress);
       console.log("balance2:", balance2);
     }

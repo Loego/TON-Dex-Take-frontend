@@ -18,6 +18,7 @@ import type { LiquidityState } from "../types/liquidity";
 import { showModal } from "./modals";
 import { notification } from "./notifications";
 import { TonClient } from "@ton/ton";
+import { TokenBalanced } from "../types/tokens";
 
 const initialState: LiquidityState = {
   panel: "main",
@@ -41,6 +42,7 @@ const initialState: LiquidityState = {
     lpRate: null,
   },
   liquidity: null,
+  isListingLiquidities: false,
 };
 
 const handleChangeInput = (
@@ -60,6 +62,7 @@ const handleChangeToken = (
   state: LiquidityState,
   { payload }: PayloadAction<{ key: "token1" | "token2"; value: Token }>
 ) => {
+  console.log("Token", payload.value);
   state[payload.key] = payload.value;
   state.add[payload.key] = false;
 };
@@ -107,7 +110,9 @@ export const conversionRate = createAsyncThunk<
   const { token1, token2 } = thunkAPI.getState().liquidity;
   if (token1 === null || token2 === null) return { rate: 0 };
 
-  const res = await getConversionRate(client, token1.address, token2.address);
+  console.log(token1, token2);
+
+  const res = await getConversionRate(client, token1, token2);
   return { rate: res.fwd };
 });
 
@@ -244,10 +249,14 @@ export const retrieveLiquidities = createAsyncThunk<
   { state: RootState }
 >("liquidity/retrieveLiquidities", async (client, thunkAPI) => {
   const { walletAddress } = thunkAPI.getState().account;
+  const { totalTokens } = thunkAPI.getState().tokens;
+
+  console.log(totalTokens, walletAddress);
+
   if (walletAddress === null) {
     return null;
   }
-  return await listPositions(client, walletAddress);
+  return await listPositions(client, walletAddress, totalTokens);
 });
 
 export const syncTokenBalances = createAsyncThunk(
@@ -257,16 +266,16 @@ export const syncTokenBalances = createAsyncThunk(
     token2,
     walletAddress,
   }: {
-    token1?: string;
-    token2?: string;
+    token1?: TokenBalanced | null;
+    token2?: TokenBalanced | null;
     walletAddress: string;
   }) => {
     let balance1 = 0,
       balance2 = 0;
-    if (token1 !== undefined) {
+    if (token1) {
       balance1 = await tokenBalance(token1, walletAddress);
     }
-    if (token2 !== undefined) {
+    if (token2) {
       balance2 = await tokenBalance(token2, walletAddress);
     }
     return { balance1, balance2 };
@@ -365,6 +374,21 @@ export const liquiditySlice = createSlice({
       retrieveLiquidities.fulfilled,
       (state: LiquidityState, { payload }) => {
         state.liquidity = payload;
+        state.isListingLiquidities = false;
+      }
+    );
+
+    builder.addCase(
+      retrieveLiquidities.pending,
+      (state: LiquidityState, {}) => {
+        state.isListingLiquidities = true;
+      }
+    );
+
+    builder.addCase(
+      retrieveLiquidities.rejected,
+      (state: LiquidityState, {}) => {
+        state.isListingLiquidities = false;
       }
     );
 

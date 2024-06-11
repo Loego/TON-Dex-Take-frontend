@@ -5,6 +5,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import {
+  _tokens,
   jettonList,
   listTokens,
   tokenBalance,
@@ -19,6 +20,7 @@ import { toUserFriendlyAddress } from "@tonconnect/sdk";
 const initialState: TokensState = {
   tokens: [],
   displayList: [],
+  totalTokens: _tokens,
 };
 
 export const retrieveTokens = createAsyncThunk(
@@ -76,6 +78,7 @@ export const tokensSlice = createSlice({
       (state: TokensState, { payload }) => {
         state.tokens = payload;
         state.displayList = payload;
+        state.totalTokens = [...state.totalTokens, ...payload];
       }
     );
     builder.addCase(

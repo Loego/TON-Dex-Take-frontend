@@ -12,7 +12,7 @@ export default function Actions() {
   const handleApproveToken1 = () => dispatch(approveToken("token1"));
   const handleApproveToken2 = () => dispatch(approveToken("token2"));
 
-  console.log(add, inputs);
+  console.log(add, token1);
   // const supplyDisabled =
   //   !add.token1 || !add.token2 || inputs.token1 === 0 || inputs.token2 === 0;
   const supplyDisabled = inputs.token1 === 0 || inputs.token2 === 0;

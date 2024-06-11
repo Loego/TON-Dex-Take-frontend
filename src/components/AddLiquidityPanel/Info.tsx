@@ -16,8 +16,8 @@ export default function Info() {
     <div>
       <h4 className={styles.infoTitle}>Prices and Pool Share</h4>
       <div className={styles.info}>
-        <span>{(1 / conversionRate).toFixed(5)}</span>
         <span>{conversionRate.toFixed(5)}</span>
+        <span>{(1 / conversionRate).toFixed(5)}</span>
         <span>{cleanUpDecimal(add.position?.share ?? 0)}%</span>
         <label>
           {token1?.symbol} per {token2?.symbol}

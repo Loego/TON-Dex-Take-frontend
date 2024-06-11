@@ -17,10 +17,12 @@ import styles from "./index.module.scss";
 import { useTonClient } from "../../hook/useTonClient";
 import { useTonConnect } from "../../hook/useTonConnect";
 import { showModal } from "../../redux/reducers/modals";
+import { selectTokens } from "../../redux/reducers/tokens";
 
 export default function List() {
   const { walletAddress } = useAppSelector(selectAccount);
-  const { liquidity } = useAppSelector(selectLiquidity);
+  const { liquidity, isListingLiquidities } = useAppSelector(selectLiquidity);
+  const { totalTokens } = useAppSelector(selectTokens);
   const dispatch = useAppDispatch();
 
   const client = useTonClient();
@@ -28,17 +30,25 @@ export default function List() {
   const { connected } = useTonConnect();
 
   useEffect(() => {
-    if (client) {
+    if (
+      client &&
+      walletAddress &&
+      dispatch &&
+      totalTokens &&
+      totalTokens.length
+    ) {
       dispatch(retrieveLiquidities(client));
     }
-  }, [walletAddress, dispatch, client]);
+  }, [walletAddress, dispatch, client, totalTokens]);
 
   return (
     <div className={styles.list}>
       <h3>Your Liquidity</h3>
-      {!connected || liquidity === null ? (
+      {!connected ? (
         <NotConnected />
-      ) : liquidity.length === 0 ? (
+      ) : isListingLiquidities ? (
+        <p>Fetching liquidity data</p>
+      ) : liquidity === null || liquidity.length === 0 ? (
         <EmptyList />
       ) : (
         liquidity.map((position, index) => (

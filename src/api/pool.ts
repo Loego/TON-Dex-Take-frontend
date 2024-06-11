@@ -15,6 +15,7 @@ import { Router } from "../contracts/Router";
 import { Pool as PoolContract } from "../contracts/Pool";
 import { LPAccount } from "../contracts/LPAccount";
 import { LPWallet } from "../contracts/LPWallet";
+import { TokenBalanced } from "../redux/types/tokens";
 
 export interface Pool {
   address: string;
@@ -135,94 +136,100 @@ export interface PoolPositionInfo {
   share?: number;
 }
 
-let _user_positions: PoolPositionInfo[] = [];
-
 export const listPositions = async (
   client: TonClient,
-  address: string
+  address: string,
+  totalTokens: TokenBalanced[]
 ): Promise<PoolPositionInfo[]> => {
+  let _user_positions: PoolPositionInfo[] = [];
+
   const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
 
   const router = client.open(
     Router.createFromAddress(Address.parse(routerAddress))
   );
 
-  for (let i = 0; i < _tokens.length; i++) {
-    let t1 = _tokens[i];
-    for (let j = i + 1; j < _tokens.length; j++) {
-      let t2 = _tokens[j];
+  for (let i = 0; i < totalTokens.length; i++) {
+    let t1 = totalTokens[i];
+    for (let j = i + 1; j < totalTokens.length; j++) {
+      let t2 = totalTokens[j];
 
-      const token1Contract = client.open(
-        JettonMaster.create(Address.parse(t1.address))
-      );
-      const token2Contract = client.open(
-        JettonMaster.create(Address.parse(t2.address))
-      );
-
-      const routerToken1WalletAddress = await token1Contract.getWalletAddress(
-        Address.parse(routerAddress)
-      );
-      const routerToken2WalletAddress = await token2Contract.getWalletAddress(
-        Address.parse(routerAddress)
-      );
-
-      const poolAddress = await router.getPoolAddress(
-        routerToken1WalletAddress,
-        routerToken2WalletAddress
-      );
-
-      console.log(poolAddress.toString());
-
-      const pool = client.open(PoolContract.createFromAddress(poolAddress));
-
-      const { reserve0, reserve1, token0Address, token1Address } =
-        await pool.getPoolData();
-
-      console.log(
-        reserve0,
-        reserve1,
-        token0Address.toString(),
-        token1Address.toString()
-      );
-
-      if (reserve0 > 0 && reserve1 > 0) {
-        const lpAccountAddress = await pool.getLPAccountAddress(
-          Address.parse(address)
+      console.log(i, j);
+      try {
+        const token1Contract = client.open(
+          JettonMaster.create(Address.parse(t1.address))
+        );
+        const token2Contract = client.open(
+          JettonMaster.create(Address.parse(t2.address))
         );
 
-        const lpAccount = client.open(
-          LPAccount.createFromAddress(lpAccountAddress)
+        const routerToken1WalletAddress = await token1Contract.getWalletAddress(
+          Address.parse(routerAddress)
+        );
+        const routerToken2WalletAddress = await token2Contract.getWalletAddress(
+          Address.parse(routerAddress)
         );
 
-        const { userAddress, poolAddress, amount0, amount1 } =
-          await lpAccount.getLPAccountData();
-
-        const lpWalletAddress = await pool.getLPWalletAddress(
-          Address.parse(address)
+        const poolAddress = await router.getPoolAddress(
+          routerToken1WalletAddress,
+          routerToken2WalletAddress
         );
 
-        const lpWallet = client.open(
-          LPWallet.createFromAddress(lpWalletAddress)
+        console.log(poolAddress.toString());
+
+        const pool = client.open(PoolContract.createFromAddress(poolAddress));
+
+        const { reserve0, reserve1, token0Address, token1Address } =
+          await pool.getPoolData();
+
+        console.log(
+          reserve0,
+          reserve1,
+          token0Address.toString(),
+          token1Address.toString()
         );
 
-        const liquidTokenBalance = await lpWallet.getBalance();
+        if (reserve0 > 0 && reserve1 > 0) {
+          const lpAccountAddress = await pool.getLPAccountAddress(
+            Address.parse(address)
+          );
 
-        let np: Pool = {
-          address: generateAddress(),
-          info: null,
-          providerFee: 0.0002,
-          token1: t1,
-          token2: t2,
-          reserve1: fromNano(reserve0),
-          reserve2: fromNano(reserve1),
-        };
+          const lpAccount = client.open(
+            LPAccount.createFromAddress(lpAccountAddress)
+          );
 
-        _user_positions.push({
-          pool: np,
-          token1V: Number(fromNano(amount0)),
-          token2V: Number(fromNano(amount1)),
-          liquidityTokens: Number(fromNano(liquidTokenBalance)),
-        });
+          const { userAddress, poolAddress, amount0, amount1 } =
+            await lpAccount.getLPAccountData();
+
+          const lpWalletAddress = await pool.getLPWalletAddress(
+            Address.parse(address)
+          );
+
+          const lpWallet = client.open(
+            LPWallet.createFromAddress(lpWalletAddress)
+          );
+
+          const liquidTokenBalance = await lpWallet.getBalance();
+
+          let np: Pool = {
+            address: generateAddress(),
+            info: null,
+            providerFee: 0.0002,
+            token1: t1,
+            token2: t2,
+            reserve1: fromNano(reserve0),
+            reserve2: fromNano(reserve1),
+          };
+
+          _user_positions.push({
+            pool: np,
+            token1V: Number(fromNano(amount0)),
+            token2V: Number(fromNano(amount1)),
+            liquidityTokens: Number(fromNano(liquidTokenBalance)),
+          });
+        }
+      } catch (err) {
+        console.log(err);
       }
     }
   }

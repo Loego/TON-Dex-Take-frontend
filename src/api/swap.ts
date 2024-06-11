@@ -5,6 +5,7 @@ import { tokenInfo } from "./tokens";
 import { Address, JettonMaster, TonClient } from "@ton/ton";
 import { Router as RouterContract } from "../contracts/Router";
 import { Pool as PoolContract } from "../contracts/Pool";
+import { TokenBalanced } from "../redux/types/tokens";
 interface ConversionInfo {
   fwd: number;
   bwd: number;
@@ -20,8 +21,8 @@ const router = new Router(provider, {
 
 export const conversionRate = async (
   client: TonClient,
-  token1: string,
-  token2: string
+  token1: TokenBalanced,
+  token2: TokenBalanced
 ): Promise<ConversionInfo> => {
   const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
 
@@ -30,10 +31,10 @@ export const conversionRate = async (
   );
 
   const token1Contract = client.open(
-    JettonMaster.create(Address.parse(token1))
+    JettonMaster.create(Address.parse(token1.address))
   );
   const token2Contract = client.open(
-    JettonMaster.create(Address.parse(token2))
+    JettonMaster.create(Address.parse(token2.address))
   );
 
   const routerToken1WalletAddress = await token1Contract.getWalletAddress(
@@ -52,8 +53,6 @@ export const conversionRate = async (
 
   const pool = client.open(PoolContract.createFromAddress(poolAddress));
 
-  const token1_info = await tokenInfo(token1);
-  const token2_info = await tokenInfo(token2);
   // console.log("token1_real:", token1_info?.decimals, token2_info?.decimals);
   // console.log("conversionrate entered:")
 
@@ -72,19 +71,13 @@ export const conversionRate = async (
 
     console.log(token0Address.toString(), token1Address.toString());
 
-    if (token0Address && token1_info && token2_info) {
+    if (token0Address) {
       let convert_rate;
 
-      console.log(
-        "token information:",
-        token1_info.decimals,
-        token2_info.decimals
-      );
+      console.log("token information:", token1.decimals, token2.decimals);
 
       const accept_decimal =
-        token1_info.decimals >= token2_info.decimals
-          ? token1_info.decimals
-          : token2_info.decimals;
+        token1.decimals >= token2.decimals ? token1.decimals : token2.decimals;
 
       console.log("accept_decimals", accept_decimal);
 
@@ -101,9 +94,9 @@ export const conversionRate = async (
         Number(jettonToReceive) /
         10 **
           (accept_decimal -
-            token1_info.decimals +
+            token1.decimals +
             accept_decimal -
-            token2_info.decimals +
+            token2.decimals +
             accept_decimal);
 
       console.log("convert rate", convert_rate);
@@ -140,8 +133,8 @@ interface SwapInfo {
 }
 
 interface TokenInput {
-  token1: string;
-  token2: string;
+  token1: TokenBalanced;
+  token2: TokenBalanced;
   value: number;
   slippage?: number;
   deadline?: number;
@@ -157,7 +150,11 @@ export const swapInfo = async (
   // %0.1
   let priceImpact = 0.1 / 100;
   let maxSlippage = input.slippage ?? 0.5 / 100;
-  let fee = await estimateSwapFee(input.value, input.token1, input.token2);
+  let fee = await estimateSwapFee(
+    input.value,
+    input.token1.address,
+    input.token2.address
+  );
   let allowedMovement = rate.fwd * maxSlippage;
   let min = (rate.fwd - allowedMovement) * input.value;
   let est = (1 - priceImpact) * rate.fwd * input.value;
