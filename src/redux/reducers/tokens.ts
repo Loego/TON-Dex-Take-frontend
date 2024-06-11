@@ -4,10 +4,17 @@ import {
   isRejectedWithValue,
   PayloadAction,
 } from "@reduxjs/toolkit";
-import { listTokens, tokenBalance, usdtBalance } from "../../api/tokens";
+import {
+  jettonList,
+  listTokens,
+  tokenBalance,
+  usdtBalance,
+} from "../../api/tokens";
 import { cleanUpDecimal } from "../../utils/numberUtils";
 import { RootState } from "../store";
 import { TokenBalanced, TokensState } from "../types/tokens";
+import { fromNano } from "@ton/core";
+import { toUserFriendlyAddress } from "@tonconnect/sdk";
 
 const initialState: TokensState = {
   tokens: [],
@@ -17,27 +24,27 @@ const initialState: TokensState = {
 export const retrieveTokens = createAsyncThunk(
   "tokens/retrieveTokens",
   async (walletAddress: string | null, thunkAPI) => {
-    let newList: TokenBalanced[] = await listTokens(0);
+    let jettonsBalanced: TokenBalanced[] = [];
+    if (walletAddress) {
+      const jettons = await jettonList(walletAddress);
 
-    newList = await Promise.all(
-      newList.map(async (token): Promise<TokenBalanced> => {
-        let balance = 0;
-        //await usdtBalance(token.address);
-        if (walletAddress !== null && walletAddress !== "") {
-          try {
-            balance = await tokenBalance(token.address, walletAddress);
-            console.log("balance:", balance);
-          } catch (err) {}
-        }
-        //balance = cleanUpDecimal(balance);
-        console.log("balance1:", balance);
-        return { ...token, balance };
-      })
-    );
+      jettons.map((token: any) => {
+        const { jetton } = token;
+        const jettonBalanced: TokenBalanced = {
+          balance: Number(Number(fromNano(token.balance)).toFixed(3)),
+          name: jetton.name,
+          symbol: jetton.symbol,
+          address: toUserFriendlyAddress(jetton.address),
+          decimals: jetton.decimals,
+          chainId: 0,
+          logoURI: jetton.image,
+        };
 
-    console.log("newlist", newList);
+        jettonsBalanced.push(jettonBalanced);
+      });
+    }
 
-    return newList;
+    return jettonsBalanced;
   }
 );
 

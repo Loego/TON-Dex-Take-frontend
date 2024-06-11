@@ -57,6 +57,20 @@ export const tokenBalance = async (
   return matchingBalances[0].balance / 10 ** token.decimals;
 };
 
+export const jettonList = async (address: string) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_TONAPI_URL}/accounts/${address}/jettons`
+    );
+    const data = await response.json();
+    if (data.balances && data.balances.length) return data.balances;
+    else return [];
+  } catch (err) {
+    console.log("gettting jetton list from tonapi: ", err);
+    return [];
+  }
+};
+
 export const Test_1 = {
   name: "Test 1",
   symbol: "TEST_1",
