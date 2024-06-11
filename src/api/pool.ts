@@ -4,14 +4,17 @@ import {
   JettonWallet,
   TonClient,
   beginCell,
+  fromNano,
   internal,
   toNano,
 } from "@ton/ton";
 import { conversionRate } from "./swap";
-import { listTokens, Token, tokenInfo } from "./tokens";
+import { _tokens, listTokens, Token, tokenInfo } from "./tokens";
 import { delay, generateAddress, generateHash } from "./util";
 import { Router } from "../contracts/Router";
 import { Pool as PoolContract } from "../contracts/Pool";
+import { LPAccount } from "../contracts/LPAccount";
+import { LPWallet } from "../contracts/LPWallet";
 
 export interface Pool {
   address: string;
@@ -19,14 +22,16 @@ export interface Pool {
   token2?: Token;
   providerFee: number;
   info: PoolInfo | null;
+  reserve1?: string;
+  reserve2?: string;
 }
 
 interface PoolInfo {
   liquidity?: number;
   volume24H?: number;
   volume7D?: number;
-  fwdRate: number;
-  bwdRate: number;
+  fwdRate?: number;
+  bwdRate?: number;
   token1Locked?: number;
   token2Locked?: number;
   poolFees?: number;
@@ -87,29 +92,28 @@ export const listPools = async (
         const { reserve0, reserve1, token0Address, token1Address } =
           await pool.getPoolData();
 
-        console.log(reserve0, reserve1, token0Address, token1Address);
+        console.log(
+          reserve0,
+          reserve1,
+          token0Address.toString(),
+          token1Address.toString()
+        );
+
+        const totalLPSupply = await pool.getTotalLPSupply();
 
         if (reserve0 > 0 && reserve1 > 0) {
           let np: Pool = {
             address: generateAddress(),
-            // info: loadInfo
-            //   ? {
-            //       fwdRate: rates.fwd,
-            //       bwdRate: rates.bwd,
-            //       liquidity: Math.random() * 1e8,
-            //       volume24H: d24V,
-            //       volume7D: Math.random() * 1e8 * 2,
-            //       token1Locked: t1V,
-            //       poolFees: 0.08 * 0.01 * d24V,
-            //       token2Locked: t1V * rates.fwd,
-            //       liquidityChange: lChange,
-            //       volumeChange: vChange,
-            //     }
-            //   : null,
-            info: null,
+            info: loadInfo
+              ? {
+                  liquidity: Number(fromNano(totalLPSupply)),
+                }
+              : null,
             providerFee: 0.0002,
             token1: t1,
             token2: t2,
+            reserve1: fromNano(reserve0),
+            reserve2: fromNano(reserve1),
           };
           _pools.set(np.address, np);
           _tokens_to_pool_addr.set(id1, np.address);
@@ -128,15 +132,100 @@ export interface PoolPositionInfo {
   token1V?: number;
   token2V?: number;
   liquidityTokens: number;
-  share: number;
+  share?: number;
 }
 
 let _user_positions: PoolPositionInfo[] = [];
 
 export const listPositions = async (
+  client: TonClient,
   address: string
 ): Promise<PoolPositionInfo[]> => {
-  await delay(100);
+  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+
+  const router = client.open(
+    Router.createFromAddress(Address.parse(routerAddress))
+  );
+
+  for (let i = 0; i < _tokens.length; i++) {
+    let t1 = _tokens[i];
+    for (let j = i + 1; j < _tokens.length; j++) {
+      let t2 = _tokens[j];
+
+      const token1Contract = client.open(
+        JettonMaster.create(Address.parse(t1.address))
+      );
+      const token2Contract = client.open(
+        JettonMaster.create(Address.parse(t2.address))
+      );
+
+      const routerToken1WalletAddress = await token1Contract.getWalletAddress(
+        Address.parse(routerAddress)
+      );
+      const routerToken2WalletAddress = await token2Contract.getWalletAddress(
+        Address.parse(routerAddress)
+      );
+
+      const poolAddress = await router.getPoolAddress(
+        routerToken1WalletAddress,
+        routerToken2WalletAddress
+      );
+
+      console.log(poolAddress.toString());
+
+      const pool = client.open(PoolContract.createFromAddress(poolAddress));
+
+      const { reserve0, reserve1, token0Address, token1Address } =
+        await pool.getPoolData();
+
+      console.log(
+        reserve0,
+        reserve1,
+        token0Address.toString(),
+        token1Address.toString()
+      );
+
+      if (reserve0 > 0 && reserve1 > 0) {
+        const lpAccountAddress = await pool.getLPAccountAddress(
+          Address.parse(address)
+        );
+
+        const lpAccount = client.open(
+          LPAccount.createFromAddress(lpAccountAddress)
+        );
+
+        const { userAddress, poolAddress, amount0, amount1 } =
+          await lpAccount.getLPAccountData();
+
+        const lpWalletAddress = await pool.getLPWalletAddress(
+          Address.parse(address)
+        );
+
+        const lpWallet = client.open(
+          LPWallet.createFromAddress(lpWalletAddress)
+        );
+
+        const liquidTokenBalance = await lpWallet.getBalance();
+
+        let np: Pool = {
+          address: generateAddress(),
+          info: null,
+          providerFee: 0.0002,
+          token1: t1,
+          token2: t2,
+          reserve1: fromNano(reserve0),
+          reserve2: fromNano(reserve1),
+        };
+
+        _user_positions.push({
+          pool: np,
+          token1V: Number(fromNano(amount0)),
+          token2V: Number(fromNano(amount1)),
+          liquidityTokens: Number(fromNano(liquidTokenBalance)),
+        });
+      }
+    }
+  }
   return _user_positions;
 };
 
@@ -213,7 +302,7 @@ export const addLiquidity = async (
   const forwardPayload1 = beginCell()
     .storeUint(0xfcf9e58f, 32) // provide lp
     .storeAddress(routerToken2WalletAddress) // another token wallet address of router
-    .storeCoins(toNano(0.1))
+    .storeCoins(toNano(0.0001))
     .endCell();
   const messageBody1 = beginCell()
     .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
@@ -236,7 +325,7 @@ export const addLiquidity = async (
   const forwardPayload2 = beginCell()
     .storeUint(0xfcf9e58f, 32) // provide lp
     .storeAddress(routerToken1WalletAddress) // another token wallet address of router
-    .storeCoins(toNano(0.1))
+    .storeCoins(toNano(0.0001))
     .endCell();
   const messageBody2 = beginCell()
     .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
@@ -342,42 +431,82 @@ export const addLiquidity = async (
 };
 
 export const removeLiquidity = async (
+  client: TonClient,
+  sender: any,
   token1: string,
   token2: string,
-  lpValue: number
+  address: string
 ): Promise<boolean> => {
-  let id1 = token1 + "_" + token2;
-  let pid = _tokens_to_pool_addr.get(id1);
-  if (pid) {
-    let p = _pools.get(pid);
-    if (p) {
-      let ps = _user_positions.findIndex((p) => p.pool?.address === pid);
-      if (ps === -1) return false;
+  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
 
-      let psElement = _user_positions[ps];
-      console.log({ lt: psElement.liquidityTokens, lpValue });
+  const router = client.open(
+    Router.createFromAddress(Address.parse(routerAddress))
+  );
 
-      psElement = {
-        ...psElement,
-        liquidityTokens: psElement.liquidityTokens - lpValue,
-      };
+  const token1Contract = client.open(
+    JettonMaster.create(Address.parse(token1))
+  );
+  const token2Contract = client.open(
+    JettonMaster.create(Address.parse(token2))
+  );
 
-      console.log({ lt: psElement.liquidityTokens, lpValue });
-      if (psElement.liquidityTokens <= 0) {
-        _user_positions = [
-          ..._user_positions.slice(0, ps),
-          ..._user_positions.slice(ps + 1),
-        ];
-      } else {
-        _user_positions = [
-          ..._user_positions.slice(0, ps),
-          psElement,
-          ..._user_positions.slice(ps + 1),
-        ];
-      }
-    }
-  }
-  await delay(100);
+  const routerToken1WalletAddress = await token1Contract.getWalletAddress(
+    Address.parse(routerAddress)
+  );
+  const routerToken2WalletAddress = await token2Contract.getWalletAddress(
+    Address.parse(routerAddress)
+  );
+
+  const poolAddress = await router.getPoolAddress(
+    routerToken1WalletAddress,
+    routerToken2WalletAddress
+  );
+
+  console.log(poolAddress.toString());
+
+  const pool = client.open(PoolContract.createFromAddress(poolAddress));
+
+  const lpAccountAddress = await pool.getLPAccountAddress(
+    Address.parse(address)
+  );
+
+  const lpAccount = client.open(LPAccount.createFromAddress(lpAccountAddress));
+
+  lpAccount.sendRefundMe(sender);
+
+  // let id1 = token1 + "_" + token2;
+  // let pid = _tokens_to_pool_addr.get(id1);
+  // if (pid) {
+  //   let p = _pools.get(pid);
+  //   if (p) {
+  //     let ps = _user_positions.findIndex((p) => p.pool?.address === pid);
+  //     if (ps === -1) return false;
+
+  //     let psElement = _user_positions[ps];
+  //     console.log({ lt: psElement.liquidityTokens, lpValue });
+
+  //     psElement = {
+  //       ...psElement,
+  //       liquidityTokens: psElement.liquidityTokens - lpValue,
+  //     };
+
+  //     console.log({ lt: psElement.liquidityTokens, lpValue });
+  //     if (psElement.liquidityTokens <= 0) {
+  //       _user_positions = [
+  //         ..._user_positions.slice(0, ps),
+  //         ..._user_positions.slice(ps + 1),
+  //       ];
+  //     } else {
+  //       _user_positions = [
+  //         ..._user_positions.slice(0, ps),
+  //         psElement,
+  //         ..._user_positions.slice(ps + 1),
+  //       ];
+  //     }
+  //   }
+  // }
+  // await delay(100);
+
   return true;
 };
 
@@ -454,4 +583,49 @@ export const poolTransactions = async (
     });
   }
   return transactions;
+};
+
+export const getPoolExist = async (
+  client: TonClient,
+  token0: string,
+  token1: string
+) => {
+  try {
+    const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+
+    const router = client.open(
+      Router.createFromAddress(Address.parse(routerAddress))
+    );
+
+    const token1Contract = client.open(
+      JettonMaster.create(Address.parse(token0))
+    );
+    const token2Contract = client.open(
+      JettonMaster.create(Address.parse(token1))
+    );
+
+    const routerToken1WalletAddress = await token1Contract.getWalletAddress(
+      Address.parse(routerAddress)
+    );
+    const routerToken2WalletAddress = await token2Contract.getWalletAddress(
+      Address.parse(routerAddress)
+    );
+
+    const poolAddress = await router.getPoolAddress(
+      routerToken1WalletAddress,
+      routerToken2WalletAddress
+    );
+
+    console.log(poolAddress.toString());
+
+    const pool = client.open(PoolContract.createFromAddress(poolAddress));
+
+    const { reserve0, reserve1, token0Address, token1Address } =
+      await pool.getPoolData();
+
+    if (reserve0 > 0 && reserve1 > 0) return true;
+    else return false;
+  } catch (err) {
+    return false;
+  }
 };

@@ -64,8 +64,14 @@ export default function PoolList() {
             {info.topPools &&
               info.topPools.map((pool, index) => {
                 return (
-                  <div key={index}>
-                    {pool.token1?.symbol} / {pool.token2?.symbol}
+                  <div key={index} className="flex justify-between">
+                    <div>
+                      {pool.token1?.symbol} / {pool.token2?.symbol}
+                    </div>
+                    <div>
+                      {pool.reserve1 ?? 0} / {pool.reserve2 ?? 0}
+                    </div>
+                    <div>{pool.info?.liquidity ?? 0}</div>
                   </div>
                 );
               })}

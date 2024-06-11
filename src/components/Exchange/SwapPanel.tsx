@@ -5,7 +5,7 @@ import {
   useTonAddress,
   TonConnectUI,
 } from "@tonconnect/ui-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { showModal } from "../../redux/reducers/modals";
 import { connect, selectAccount } from "../../redux/reducers/account";
 import { useInputBalanceEffect } from "../../utils/hooks";
@@ -26,8 +26,10 @@ import SwapHeader from "./SwapHeader";
 
 import "./TONConnectButton.scss";
 import { useTonClient } from "../../hook/useTonClient";
+import { getPoolExist } from "../../api/pool";
 
 export const SwapPanel = () => {
+  const [isPoolExist, setIsPoolExist] = useState(false);
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
   const accountState = useAppSelector(selectAccount);
@@ -41,8 +43,6 @@ export const SwapPanel = () => {
     accountState.walletAddress !== null && accountState.walletAddress !== "";
   const userFriendlyAddress = useTonAddress();
 
-  console.log("userFriendlyAddress");
-
   useEffect(() => {
     if (swapState.from !== null && swapState.to !== null && client)
       dispatch(
@@ -52,6 +52,24 @@ export const SwapPanel = () => {
       dispatch(connect(userFriendlyAddress));
     }
   }, [userFriendlyAddress, swapState, client]);
+
+  useEffect(() => {
+    (async () => {
+      if (swapState.from !== null && swapState.to !== null && client) {
+        try {
+          const poolExist = await getPoolExist(
+            client,
+            swapState.from?.address,
+            swapState.to?.address
+          );
+
+          setIsPoolExist(poolExist);
+        } catch (e) {
+          setIsPoolExist(false);
+        }
+      }
+    })();
+  }, [swapState.from, swapState.to, client]);
 
   const handleConnect = async () => {
     await tonConnectUI.connectWallet();
@@ -92,6 +110,9 @@ export const SwapPanel = () => {
           <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
             <div className="flex flex-col py-2 px-4 gap-5">
               <SwapHeader />
+              {!isPoolExist && (
+                <p className=" bg-red-300">Pool doesn't exist</p>
+              )}
               <TokenInput
                 label="From"
                 value={swapState.inputs.from}
@@ -115,7 +136,8 @@ export const SwapPanel = () => {
                     <Info />
                     <span>
                       1 {swapState.from?.symbol} = {swapState.conversionRate}{" "}
-                      {swapState.to?.symbol} (${swapState.usdtRate})
+                      {swapState.to?.symbol} ($
+                      {swapState.usdtRate})
                     </span>
                   </div>
                 ) : null}
@@ -126,7 +148,7 @@ export const SwapPanel = () => {
               <button
                 className="bg-[#662483] w-full mt-8"
                 onClick={handleSwap}
-                disabled={confirmDisabled}
+                disabled={confirmDisabled || !isPoolExist}
               >
                 Swap
               </button>

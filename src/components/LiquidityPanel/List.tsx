@@ -14,19 +14,24 @@ import {
 import Button from "../Button";
 import Chevron from "../icons/Chevron";
 import styles from "./index.module.scss";
+import { useTonClient } from "../../hook/useTonClient";
+import { useTonConnect } from "../../hook/useTonConnect";
+import { showModal } from "../../redux/reducers/modals";
 
 export default function List() {
-  //const { walletAddress } = useAppSelector(selectAccount);
+  const { walletAddress } = useAppSelector(selectAccount);
   const { liquidity } = useAppSelector(selectLiquidity);
   const dispatch = useAppDispatch();
 
-  const walletAddress = "EWDS";
+  const client = useTonClient();
 
-  const connected = walletAddress !== null;
+  const { connected } = useTonConnect();
 
   useEffect(() => {
-    dispatch(retrieveLiquidities());
-  }, [walletAddress, dispatch]);
+    if (client) {
+      dispatch(retrieveLiquidities(client));
+    }
+  }, [walletAddress, dispatch, client]);
 
   return (
     <div className={styles.list}>
@@ -78,7 +83,7 @@ function Item({ positionInfo }: IItemProps) {
 
   const handleRemoveClick = () => {
     dispatch(changeRemovePosition(positionInfo));
-    dispatch(panel("remove"));
+    dispatch(showModal("confirm-remove"));
   };
 
   const handleAddLiquidity = () => {
@@ -130,7 +135,7 @@ function Item({ positionInfo }: IItemProps) {
             <label>Pool Tokens:</label>
             <span>{positionInfo.liquidityTokens.toFixed(3)}</span>
             <label>Pool Share:</label>
-            <span>{positionInfo.share.toFixed(3)}%</span>
+            <span>{positionInfo.share?.toFixed(3)}%</span>
           </div>
           <div className={styles.actions}>
             <Button

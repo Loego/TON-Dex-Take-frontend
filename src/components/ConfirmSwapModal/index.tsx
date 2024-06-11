@@ -13,7 +13,6 @@ import Close from "../icons/Close";
 import styles from "./index.module.scss";
 import account from "../../redux/reducers/account";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import swap from "../../contracts/Swap";
 import { MessageData } from "@ston-fi/sdk/dist/types";
 import { useTonClient } from "../../hook/useTonClient";
 import { Address, beginCell, toNano } from "@ton/core";

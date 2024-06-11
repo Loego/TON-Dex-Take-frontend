@@ -128,4 +128,29 @@ export class Pool implements Contract {
 
     return [out, protocolFeeOut, refFeeOut];
   }
+
+  async getLPAccountAddress(provider: ContractProvider, owner: Address) {
+    const result = await provider.get("get_lp_account_address", [
+      {
+        type: "slice",
+        cell: beginCell().storeAddress(owner).endCell(),
+      },
+    ]);
+    return result.stack.readAddress();
+  }
+
+  async getLPWalletAddress(provider: ContractProvider, owner: Address) {
+    const result = await provider.get("get_wallet_address", [
+      {
+        type: "slice",
+        cell: beginCell().storeAddress(owner).endCell(),
+      },
+    ]);
+    return result.stack.readAddress();
+  }
+
+  async getTotalLPSupply(provider: ContractProvider) {
+    const result = await provider.get("get_jetton_data", []);
+    return result.stack.readBigNumber();
+  }
 }

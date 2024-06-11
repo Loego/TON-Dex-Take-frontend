@@ -50,7 +50,9 @@ const handleChangeInput = (
   state.inputs[payload.key] = payload.value;
   const other = payload.key === "token1" ? "token2" : "token1";
   if (state.conversionRate !== 0) {
-    state.inputs[other] = state.inputs[payload.key] * state.conversionRate;
+    if (payload.key === "token1")
+      state.inputs[other] = state.inputs[payload.key] / state.conversionRate;
+    else state.inputs[other] = state.inputs[payload.key] * state.conversionRate;
   }
 };
 
@@ -169,48 +171,55 @@ export const confirmAddLiquidity = createAsyncThunk<
       type: "success",
     })
   );
-  thunkAPI.dispatch(retrieveLiquidities());
+  thunkAPI.dispatch(retrieveLiquidities(client));
 
   return res;
 });
 export const confirmRemoveLiquidity = createAsyncThunk<
   boolean,
-  undefined,
+  { client: TonClient; sender: any; address: string },
   { state: RootState }
->("liquidity/confirmRemoveLiquidity", async (_, thunkAPI) => {
-  const { remove } = thunkAPI.getState().liquidity;
+>(
+  "liquidity/confirmRemoveLiquidity",
+  async ({ client, sender, address }, thunkAPI) => {
+    const { remove } = thunkAPI.getState().liquidity;
 
-  if (
-    !remove.position?.pool?.token1 ||
-    !remove.position?.pool?.token2 ||
-    remove.lpRate === null
-  ) {
+    if (
+      !remove.position?.pool?.token1 ||
+      !remove.position?.pool?.token2
+      // remove.lpRate === null
+    ) {
+      thunkAPI.dispatch(
+        notification({
+          message: "There was an issue adding liquidity!",
+          type: "failure",
+        })
+      );
+      return false;
+    }
+
+    const { token1, token2 } = remove.position.pool;
+
+    const res = await removeLiquidity(
+      client,
+      sender,
+      token1.address,
+      token2.address,
+      address
+    );
+
+    thunkAPI.dispatch(showModal(null));
     thunkAPI.dispatch(
       notification({
-        message: "There was an issue adding liquidity!",
-        type: "failure",
+        message: "Liquidity removed from the pool, tokens and fees collected!",
+        type: "success",
       })
     );
-    return false;
+    thunkAPI.dispatch(retrieveLiquidities(client));
+
+    return res;
   }
-
-  const { token1, token2 } = remove.position.pool;
-  const percent = parseFloat(remove.percent.slice(0, -1));
-  const lpValue = (remove.position.liquidityTokens * percent) / 100;
-
-  const res = await removeLiquidity(token1.address, token2.address, lpValue);
-
-  thunkAPI.dispatch(showModal(null));
-  thunkAPI.dispatch(
-    notification({
-      message: "Liquidity removed from the pool, tokens and fees collected!",
-      type: "success",
-    })
-  );
-  thunkAPI.dispatch(retrieveLiquidities());
-
-  return res;
-});
+);
 
 export const calculateShare = createAsyncThunk<
   PoolPositionInfo | null,
@@ -231,14 +240,14 @@ export const calculateShare = createAsyncThunk<
 
 export const retrieveLiquidities = createAsyncThunk<
   PoolPositionInfo[] | null,
-  undefined,
+  TonClient,
   { state: RootState }
->("liquidity/retrieveLiquidities", async (_, thunkAPI) => {
+>("liquidity/retrieveLiquidities", async (client, thunkAPI) => {
   const { walletAddress } = thunkAPI.getState().account;
   if (walletAddress === null) {
     return null;
   }
-  return await listPositions(walletAddress);
+  return await listPositions(client, walletAddress);
 });
 
 export const syncTokenBalances = createAsyncThunk(

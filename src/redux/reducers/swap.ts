@@ -18,8 +18,8 @@ export const SHOW_CHART_KEY = "show_chart";
 
 const initialState: SwapState = {
   showChart: false,
-  from: TON,
-  to: Ambra,
+  from: null,
+  to: null,
   inputs: {
     from: 0,
     to: 0,
@@ -121,6 +121,8 @@ export const conversionRate = createAsyncThunk(
   }) => {
     const res = await getConversionRate(client, from.address, to.address);
     //const usdtRes = await getConversionRate(from.address, USDT.address);
+
+    console.log("swap state rate", res.fwd);
     return { rate: res.fwd, usdt: 0 };
   }
 );

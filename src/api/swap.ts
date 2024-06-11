@@ -57,7 +57,12 @@ export const conversionRate = async (
   // console.log("token1_real:", token1_info?.decimals, token2_info?.decimals);
   // console.log("conversionrate entered:")
 
-  console.log(token1, token2);
+  const token1RouterAddress = (
+    await token1Contract.getWalletAddress(Address.parse(routerAddress))
+  ).toString();
+  const token2RouterAddress = (
+    await token2Contract.getWalletAddress(Address.parse(routerAddress))
+  ).toString();
 
   // const pool = await router.getPool({ jettonAddresses: [token1, token2] });
 
@@ -101,7 +106,12 @@ export const conversionRate = async (
             token2_info.decimals +
             accept_decimal);
 
-      rate_number = convert_rate < 1 ? convert_rate : 1 / convert_rate;
+      console.log("convert rate", convert_rate);
+
+      rate_number =
+        token1RouterAddress === token0Address.toString()
+          ? convert_rate
+          : 1 / convert_rate;
       console.log("rate_number", rate_number);
       console.log("other_rate:", 1 / rate_number);
     }
