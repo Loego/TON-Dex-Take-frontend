@@ -1,7 +1,7 @@
 {
   "url": "https://forfriends.me/",
   "name": "TON DEX",
-  "iconUrl": "http://localhost:5173/assets/img/ton_symbol.png",
+  "iconUrl": "https://forfriends.me/assets/img/ton_symbol.png",
   "termsOfUseUrl": "https://ton-connect.github.io/demo-dapp-with-wallet/terms-of-use.txt",
   "privacyPolicyUrl": "https://ton-connect.github.io/demo-dapp-with-wallet/privacy-policy.txt"
 }
