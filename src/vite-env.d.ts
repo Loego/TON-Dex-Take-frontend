@@ -9,6 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_WALLET_ADDRESS: string;
   readonly VITE_endpointUrl: string;
   readonly VITE_api_key: string;
+  readonly VITE_BACKEND_URL: string;
   // more env variables...
 }
 

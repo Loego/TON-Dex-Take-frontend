@@ -3,11 +3,11 @@
 @import "../../assets/styles/constants";
 
 .panel {
-  border: solid 2px #2B2649;
+  border: solid 2px #2b2649;
   border-radius: 20px;
   padding: 2rem 3rem;
   display: flex;
-  background-color: #130F25;
+  background-color: #130f25;
   flex-flow: column nowrap;
   max-width: 400px;
   min-width: 250px;
@@ -66,7 +66,7 @@
 
 .info {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   font-size: 1rem;
   font-weight: 500;
   justify-content: center;

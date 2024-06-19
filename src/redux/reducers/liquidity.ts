@@ -4,6 +4,7 @@ import {
   approveTokenAccess,
   calculateShare as getShareInfo,
   listPositions,
+  listPositionsByPools,
   LPTokenRate,
   lpTokenRate,
   PoolPositionInfo,
@@ -228,9 +229,9 @@ export const confirmRemoveLiquidity = createAsyncThunk<
 
 export const calculateShare = createAsyncThunk<
   PoolPositionInfo | null,
-  undefined,
+  { client: TonClient },
   { state: RootState }
->("liquidity/calculateShare", async (_, thunkAPI) => {
+>("liquidity/calculateShare", async ({ client }, thunkAPI) => {
   const { token1, token2, inputs } = thunkAPI.getState().liquidity;
   if (
     token1 === null ||
@@ -240,7 +241,13 @@ export const calculateShare = createAsyncThunk<
   ) {
     return null;
   }
-  return await getShareInfo(token1.address, token2.address, inputs.token1);
+  return await getShareInfo(
+    client,
+    token1.address,
+    token2.address,
+    inputs.token1,
+    inputs.token2
+  );
 });
 
 export const retrieveLiquidities = createAsyncThunk<
@@ -256,7 +263,8 @@ export const retrieveLiquidities = createAsyncThunk<
   if (walletAddress === null) {
     return null;
   }
-  const positions = await listPositions(client, walletAddress, totalTokens);
+  // const positions = await listPositions(client, walletAddress, totalTokens);
+  const positions = await listPositionsByPools(client, walletAddress);
   console.log(positions);
 
   return positions;

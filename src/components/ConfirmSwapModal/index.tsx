@@ -75,7 +75,7 @@ export default function ConfirmSwapModal() {
       );
 
       const forwardPayload = beginCell()
-        .storeUint(0x25938561, 32) // provide lp
+        .storeUint(0x14dde806, 32) // swap
         .storeAddress(routerToken2WalletAddress) // another token wallet address of router
         .storeCoins(toNano(0.1))
         .storeAddress(Address.parse(accountState.walletAddress))
@@ -95,7 +95,7 @@ export default function ConfirmSwapModal() {
 
       const internalMessage = {
         to: token1WalletAddress,
-        value: toNano(0.5),
+        value: toNano(0.2),
         body: messageBody,
       };
 

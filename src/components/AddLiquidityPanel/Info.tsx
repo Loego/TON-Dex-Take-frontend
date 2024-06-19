@@ -18,14 +18,14 @@ export default function Info() {
       <div className={styles.info}>
         <span>{(1 / conversionRate).toFixed(5)}</span>
         <span>{conversionRate.toFixed(5)}</span>
-        <span>{cleanUpDecimal(add.position?.share ?? 0)}%</span>
+        {/* <span>{cleanUpDecimal(add.position?.share ?? 0)}%</span> */}
         <label>
           {token1?.symbol} per {token2?.symbol}
         </label>
         <label>
           {token2?.symbol} per {token1?.symbol}
         </label>
-        <label>Share of Pool</label>
+        {/* <label>Share of Pool</label> */}
       </div>
     </div>
   );

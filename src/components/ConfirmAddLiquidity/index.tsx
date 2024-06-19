@@ -91,8 +91,8 @@ function TransactionInfo() {
       <span>
         {conversionRate} {token1?.symbol}/{token2?.symbol}
       </span>
-      <label>Share of Pool</label>
-      <span>{add.position?.share?.toFixed(5)}%</span>
+      {/* <label>Share of Pool</label>
+      <span>{add.position?.share?.toFixed(5)}%</span> */}
     </div>
   );
 }

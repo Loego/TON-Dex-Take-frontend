@@ -30,15 +30,22 @@ export default function List() {
   const { connected } = useTonConnect();
 
   useEffect(() => {
-    if (
-      client &&
-      walletAddress &&
-      dispatch &&
-      totalTokens &&
-      totalTokens.length
-    ) {
-      dispatch(retrieveLiquidities(client));
-    }
+    const handleInterval = () => {
+      if (
+        client &&
+        walletAddress &&
+        dispatch &&
+        totalTokens &&
+        totalTokens.length
+      ) {
+        dispatch(retrieveLiquidities(client));
+      }
+    };
+    const tId = setInterval(handleInterval, 10000);
+
+    return () => {
+      clearInterval(tId);
+    };
   }, [walletAddress, dispatch, client, totalTokens]);
 
   return (
@@ -46,10 +53,12 @@ export default function List() {
       <h3>Your Liquidity</h3>
       {!connected ? (
         <NotConnected />
-      ) : isListingLiquidities ? (
-        <p>Fetching liquidity data</p>
       ) : liquidity === null || liquidity.length === 0 ? (
-        <EmptyList />
+        isListingLiquidities ? (
+          <p>Fetching liquidity data</p>
+        ) : (
+          <EmptyList />
+        )
       ) : (
         liquidity.map((position, index) => (
           <Item
@@ -144,8 +153,8 @@ function Item({ positionInfo }: IItemProps) {
             </span>
             <label>Pool Tokens:</label>
             <span>{positionInfo.liquidityTokens.toFixed(5)}</span>
-            <label>Pool Share:</label>
-            <span>{positionInfo.share?.toFixed(3)}%</span>
+            {/* <label>Pool Share:</label>
+            <span>{positionInfo.share?.toFixed(3)}%</span> */}
           </div>
           <div className={styles.actions}>
             <Button

@@ -27,9 +27,10 @@ import SwapHeader from "./SwapHeader";
 import "./TONConnectButton.scss";
 import { useTonClient } from "../../hook/useTonClient";
 import { getPoolExist } from "../../api/pool";
+import { Link } from "react-router-dom";
 
 export const SwapPanel = () => {
-  const [isPoolExist, setIsPoolExist] = useState(false);
+  const [isPoolExist, setIsPoolExist] = useState(true);
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
   const accountState = useAppSelector(selectAccount);
@@ -46,7 +47,15 @@ export const SwapPanel = () => {
   useEffect(() => {
     if (swapState.from !== null && swapState.to !== null && client)
       dispatch(
-        conversionRate({ client, from: swapState.from, to: swapState.to })
+        conversionRate({
+          client,
+          from: swapState.from,
+          to: swapState.to,
+          isFrom: swapState.inputs.isFrom,
+          amount: swapState.inputs.isFrom
+            ? swapState.inputs.from
+            : swapState.inputs.to,
+        })
       );
     if (userFriendlyAddress !== "" || userFriendlyAddress !== null) {
       dispatch(connect(userFriendlyAddress));
@@ -145,13 +154,19 @@ export const SwapPanel = () => {
             </div>
             <TonConnectButton />
             {wallet ? (
-              <button
-                className="bg-[#662483] w-full mt-8"
-                onClick={handleSwap}
-                disabled={confirmDisabled || !isPoolExist}
-              >
-                Swap
-              </button>
+              isPoolExist ? (
+                <button
+                  className="bg-[#662483] w-full mt-8"
+                  onClick={handleSwap}
+                  disabled={confirmDisabled}
+                >
+                  Swap
+                </button>
+              ) : (
+                <button className="bg-[#662483] w-full mt-8">
+                  <Link to={"/liquidity"}>Add liquidity</Link>
+                </button>
+              )
             ) : (
               <button
                 className=" bg-[#662483] w-full mt-8"

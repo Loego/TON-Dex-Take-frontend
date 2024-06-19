@@ -44,13 +44,16 @@ export default function AddLiquidityPanel() {
   );
 
   useEffect(() => {
-    dispatch(calculateShare());
+    if (client) {
+      dispatch(calculateShare({ client }));
+    }
   }, [
     dispatch,
     liquidityState.token1,
     liquidityState.token2,
     liquidityState.inputs.token1,
     liquidityState.inputs.token2,
+    client,
   ]);
 
   useEffect(() => {

@@ -23,6 +23,7 @@ const initialState: SwapState = {
   inputs: {
     from: 0,
     to: 0,
+    isFrom: true,
   },
   selectionModal: "from",
   chartData: null,
@@ -53,10 +54,17 @@ const handleChangeInput = (
   state: SwapState,
   { payload }: PayloadAction<{ key: "to" | "from"; value: number }>
 ) => {
+  console.log(payload);
   state.inputs[payload.key] = payload.value;
   const otherKey = payload.key === "from" ? "to" : "from";
   if (state[otherKey] !== null) {
     state.inputs[otherKey] = state.conversionRate * payload.value;
+  }
+
+  if (payload.key === "from") {
+    state.inputs.isFrom = true;
+  } else {
+    state.inputs.isFrom = false;
   }
 };
 
@@ -114,12 +122,18 @@ export const conversionRate = createAsyncThunk(
     client,
     from,
     to,
+    isFrom = true,
+    amount = 10,
   }: {
     client: TonClient;
     from: Token;
     to: Token;
+    isFrom?: boolean;
+    amount?: number;
   }) => {
-    const res = await getConversionRate(client, from, to);
+    console.log(from, to, amount, isFrom);
+    if (!amount) amount = 10;
+    const res = await getConversionRate(client, from, to, amount, isFrom);
     //const usdtRes = await getConversionRate(from.address, USDT.address);
 
     console.log("swap state rate", res.fwd);
@@ -263,8 +277,11 @@ export const swapSlice = createSlice({
       (state: SwapState, { payload }) => {
         state.conversionRate = cleanUpDecimal(payload.rate);
         //state.usdtRate = cleanUpDecimal(payload.usdt);
-
-        state.inputs.to = state.conversionRate * state.inputs.from;
+        if (state.inputs.isFrom) {
+          state.inputs.to = state.conversionRate * state.inputs.from;
+        } else {
+          state.inputs.from = state.inputs.to / state.conversionRate;
+        }
       }
     );
 

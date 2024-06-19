@@ -22,7 +22,9 @@ const router = new Router(provider, {
 export const conversionRate = async (
   client: TonClient,
   token1: TokenBalanced,
-  token2: TokenBalanced
+  token2: TokenBalanced,
+  amount: number = 10,
+  isToken1: boolean = true
 ): Promise<ConversionInfo> => {
   const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
 
@@ -49,65 +51,47 @@ export const conversionRate = async (
     routerToken2WalletAddress
   );
 
-  console.log(poolAddress.toString());
-
   const pool = client.open(PoolContract.createFromAddress(poolAddress));
 
-  // console.log("token1_real:", token1_info?.decimals, token2_info?.decimals);
-  // console.log("conversionrate entered:")
-
-  const token1RouterAddress = (
-    await token1Contract.getWalletAddress(Address.parse(routerAddress))
-  ).toString();
-  const token2RouterAddress = (
-    await token2Contract.getWalletAddress(Address.parse(routerAddress))
-  ).toString();
-
-  // const pool = await router.getPool({ jettonAddresses: [token1, token2] });
-
   if (pool) {
+    console.log("hi", pool);
     const poolData = await pool.getPoolData();
-    const { token0Address, token1Address } = poolData;
 
-    console.log(token0Address.toString(), token1Address.toString());
+    console.log(poolData);
 
-    if (token0Address) {
-      let convert_rate;
+    let convert_rate;
 
-      console.log("token information:", token1.decimals, token2.decimals);
+    const accept_decimal =
+      token1.decimals >= token2.decimals ? token1.decimals : token2.decimals;
 
-      const accept_decimal =
-        token1.decimals >= token2.decimals ? token1.decimals : token2.decimals;
+    const expectedOutputsData = await pool.getExpectedOutputs(
+      new TonWeb.utils.BN(amount * 10 ** accept_decimal),
+      isToken1 ? routerToken1WalletAddress : routerToken2WalletAddress
+    );
 
-      console.log("accept_decimals", accept_decimal);
+    const [jettonToReceive, protocolFeePaid, refFeePaid] = expectedOutputsData;
 
-      const expectedOutputsData = await pool.getExpectedOutputs(
-        new TonWeb.utils.BN(10 ** accept_decimal),
-        token0Address
-      );
+    console.log("jettonToreceive: ", jettonToReceive.toString());
+    console.log("protocolFee: ", protocolFeePaid);
+    console.log("refFeePaid: ", refFeePaid);
+    console.log("amount: ", amount);
 
-      const [jettonToReceive, protocolFeePaid, refFeePaid] =
-        expectedOutputsData;
-      console.log("jettonToreceive:", jettonToReceive.toString());
-      //console.log("token2_info", token2_info.decimals);
-      convert_rate =
-        Number(jettonToReceive) /
-        10 **
-          (accept_decimal -
-            token1.decimals +
-            accept_decimal -
-            token2.decimals +
-            accept_decimal);
+    //console.log("token2_info", token2_info.decimals);
+    convert_rate =
+      Number(jettonToReceive) /
+      amount /
+      10 **
+        (accept_decimal -
+          token1.decimals +
+          accept_decimal -
+          token2.decimals +
+          accept_decimal);
 
-      console.log("convert rate", convert_rate);
+    console.log("convert rate", convert_rate);
 
-      rate_number =
-        token1RouterAddress === token0Address.toString()
-          ? convert_rate
-          : 1 / convert_rate;
-      console.log("rate_number", rate_number);
-      console.log("other_rate:", 1 / rate_number);
-    }
+    rate_number = isToken1 ? convert_rate : 1 / convert_rate;
+    console.log("rate_number", rate_number);
+    console.log("other_rate:", 1 / rate_number);
   }
   return {
     fwd: rate_number,
