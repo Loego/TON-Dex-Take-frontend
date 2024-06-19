@@ -10,7 +10,7 @@ import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <TonConnectUIProvider
-      manifestUrl="http://localhost:5173/tonconnect-manifest.json"
+      manifestUrl="https://forfriends.me/tonconnect-manifest.json"
       uiPreferences={{ theme: THEME.DARK }}
       walletsListConfiguration={{
         includeWallets: [
