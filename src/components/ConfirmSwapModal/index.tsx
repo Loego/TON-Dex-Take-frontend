@@ -1,78 +1,91 @@
-import React, { useEffect, useState } from "react";
-import TonWeb from "tonweb";
-import { Token } from "../../api/tokens";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { showModal } from "../../redux/reducers/modals";
-import { confirmSwap, selectSwap } from "../../redux/reducers/swap";
-import { connect, selectAccount } from "../../redux/reducers/account";
-import { Router, ROUTER_REVISION, ROUTER_REVISION_ADDRESS } from "@ston-fi/sdk";
+'use client'
 
-import Button from "../Button";
-import Arrow from "../icons/Arrow";
-import Close from "../icons/Close";
-import styles from "./index.module.scss";
-import account from "../../redux/reducers/account";
-import { useTonConnectUI } from "@tonconnect/ui-react";
-import { MessageData } from "@ston-fi/sdk/dist/types";
-import { useTonClient } from "../../hook/useTonClient";
-import { Address, beginCell, toNano } from "@ton/core";
-import { Router as RouterContract } from "../../contracts/Router";
-import { JettonMaster } from "@ton/ton";
-import { useTonConnect } from "../../hook/useTonConnect";
+import React, { useEffect, useState } from 'react'
+import TonWeb from 'tonweb'
+import { Token } from '../../api/tokens'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { showModal } from '../../redux/reducers/modals'
+import { confirmSwap, selectSwap } from '../../redux/reducers/swap'
+import { connect, selectAccount } from '../../redux/reducers/account'
+import { Router, ROUTER_REVISION, ROUTER_REVISION_ADDRESS } from '@ston-fi/sdk'
+import { Buffer } from 'buffer'
+
+import Button from '../Button'
+import Arrow from '../icons/Arrow'
+import Close from '../icons/Close'
+import styles from './index.module.scss'
+import account from '../../redux/reducers/account'
+import { useTonConnectUI } from '@tonconnect/ui-react'
+import { MessageData } from '@ston-fi/sdk/dist/types'
+import { useTonClient } from '../../hook/useTonClient'
+import { Address, beginCell, toNano } from '@ton/core'
+import { Router as RouterContract } from '../../contracts/Router'
+import { JettonMaster } from '@ton/ton'
+import { useTonConnect } from '../../hook/useTonConnect'
+import {
+  checkTransactionStatus,
+  getTransaction,
+  getTransactions,
+} from '../../api/swap'
+
+var intervalId: string | number | NodeJS.Timeout | undefined
 
 export default function ConfirmSwapModal() {
-  const swapState = useAppSelector(selectSwap);
-  const accountState = useAppSelector(selectAccount);
-  const dispatch = useAppDispatch();
-  const [tonconnect] = useTonConnectUI();
+  const swapState = useAppSelector(selectSwap)
+  const accountState = useAppSelector(selectAccount)
+  const dispatch = useAppDispatch()
+  const [tonconnect] = useTonConnectUI()
 
-  const client = useTonClient();
-  const { sender } = useTonConnect();
+  const [txHash, setTxHash] = useState<null | string>(null)
+  const [isSent, setIsSent] = useState(false)
 
-  const handleDismiss = () => dispatch(showModal(null));
+  const client = useTonClient()
+  const { sender } = useTonConnect()
+
+  const handleDismiss = () => dispatch(showModal(null))
   const preventClickThroughs = (e: React.MouseEvent<HTMLElement>) =>
-    e.stopPropagation();
+    e.stopPropagation()
 
   if (swapState.from === null || swapState.to === null) {
-    return null;
+    return null
   }
 
   const confirmDisabled =
-    swapState.inputs.from !== 0 && swapState.inputs.to !== 0;
+    swapState.inputs.from !== 0 && swapState.inputs.to !== 0
 
   const handleConfirmClick = async () => {
-    console.log("Swap button clicked");
+    console.log('Swap button clicked')
     if (
       swapState.from !== null &&
       swapState.to !== null &&
       accountState.walletAddress !== null &&
       client
     ) {
-      const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+      const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
       const router = client.open(
         RouterContract.createFromAddress(Address.parse(routerAddress))
-      );
+      )
 
       const token1Contract = client.open(
         JettonMaster.create(Address.parse(swapState.from.address))
-      );
+      )
       const token2Contract = client.open(
         JettonMaster.create(Address.parse(swapState.to.address))
-      );
+      )
 
       const token1WalletAddress = await token1Contract.getWalletAddress(
         Address.parse(accountState.walletAddress)
-      );
+      )
       const token2WalletAddress = await token2Contract.getWalletAddress(
         Address.parse(accountState.walletAddress)
-      );
+      )
 
       const routerToken1WalletAddress = await token1Contract.getWalletAddress(
         Address.parse(routerAddress)
-      );
+      )
       const routerToken2WalletAddress = await token2Contract.getWalletAddress(
         Address.parse(routerAddress)
-      );
+      )
 
       const forwardPayload = beginCell()
         .storeUint(0x14dde806, 32) // swap
@@ -80,7 +93,8 @@ export default function ConfirmSwapModal() {
         .storeCoins(toNano(0.1))
         .storeAddress(Address.parse(accountState.walletAddress))
         .storeInt(0n, 1)
-        .endCell();
+        .storeRef(beginCell().endCell())
+        .endCell()
       const messageBody = beginCell()
         .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
         .storeUint(0, 64) // query id
@@ -91,15 +105,34 @@ export default function ConfirmSwapModal() {
         .storeCoins(toNano(0.1)) // forward amount - if >0, will send notification message
         .storeBit(1)
         .storeRef(forwardPayload)
-        .endCell();
+        .endCell()
 
       const internalMessage = {
         to: token1WalletAddress,
         value: toNano(0.2),
         body: messageBody,
-      };
+      }
 
-      await sender.send([internalMessage]);
+      const response = await sender.send([internalMessage])
+
+      setIsSent(true)
+
+      const bocCell = TonWeb.boc.Cell.oneFromBoc(
+        TonWeb.utils.base64ToBytes(response.boc)
+      )
+
+      console.log('hash: ', Buffer.from(await bocCell.hash()).toString('hex'))
+
+      const txHash = Buffer.from(await bocCell.hash()).toString('hex')
+
+      intervalId = setInterval(async () => {
+        const isConfirmed = await checkTransactionStatus(txHash)
+
+        if (isConfirmed) {
+          clearInterval(intervalId)
+          setTxHash(txHash)
+        }
+      }, 1000)
     }
     //   const provider = new TonWeb.HttpProvider(import.meta.env.VITE_endpointUrl);
 
@@ -166,9 +199,9 @@ export default function ConfirmSwapModal() {
     //   value: swapState.inputs.from
     // }));
     // alert("ok");}
-  };
+  }
 
-  return (
+  return !isSent ? (
     <div className={styles.container} onClick={preventClickThroughs}>
       <div className={styles.title}>
         <h2>Confirm Swap</h2>
@@ -180,7 +213,7 @@ export default function ConfirmSwapModal() {
         <TokenItem token={swapState.to} amount={swapState.inputs.to} />
       </div>
       <p className={styles.estimation}>
-        Estimated Output, You will receive at least{" "}
+        Estimated Output, You will receive at least{' '}
         <strong>{swapState.inputs.to}</strong> {swapState.to.symbol} or
         transaction will revert.
       </p>
@@ -190,21 +223,49 @@ export default function ConfirmSwapModal() {
         value={swapState.inputs.to}
       />
       <Button
-        className=" bg-btn_color"
-        buttonType="primaryLarge"
-        title="Confirm Swap"
+        className=' bg-btn_color'
+        buttonType='primaryLarge'
+        title='Confirm Swap'
         onClick={handleConfirmClick}
         disabled={!confirmDisabled}
       />
     </div>
-  );
+  ) : txHash ? (
+    <div className={styles.container}>
+      <div className={styles.title}>
+        <h2>Transaction confirmed!</h2>
+        <Close onClick={handleDismiss} />
+      </div>
+      <div className={styles.transactionSummary}>
+        <h3>
+          Check transaction details{' '}
+          <a
+            href={`${import.meta.env.VITE_TONVIEWER_URL}/transaction/${txHash}`}
+            className='text-gray-500'
+          >
+            here
+          </a>
+        </h3>
+      </div>
+    </div>
+  ) : (
+    <div className={styles.container}>
+      <div className={styles.title}>
+        <h2>Transaction sent for confirmation.</h2>
+        <Close onClick={handleDismiss} />
+      </div>
+      <div className={styles.transactionSummary}>
+        <h3>Transaction will be processed in a few seconds...</h3>
+      </div>
+    </div>
+  )
 }
 
 type TransactionInfoProps = {
-  from: string;
-  to: string;
-  value: number;
-};
+  from: string
+  to: string
+  value: number
+}
 
 function TransactionInfo(props: TransactionInfoProps) {
   return (
@@ -220,12 +281,12 @@ function TransactionInfo(props: TransactionInfoProps) {
       <label>Liquidity Provider Fee</label>
       <span>0.002 TON</span>
     </div>
-  );
+  )
 }
 
 interface ITokenItemProps {
-  token: Token;
-  amount: number;
+  token: Token
+  amount: number
 }
 
 function TokenItem({ token, amount }: ITokenItemProps) {
@@ -235,8 +296,8 @@ function TokenItem({ token, amount }: ITokenItemProps) {
       <span className={styles.amount}>{amount}</span>
       <span className={styles.name}>{token.symbol}</span>
     </div>
-  );
+  )
 }
 function setState() {
-  throw new Error("Function not implemented.");
+  throw new Error('Function not implemented.')
 }

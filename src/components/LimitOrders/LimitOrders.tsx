@@ -42,7 +42,7 @@ export const LimitOrders = () => {
   const handleSelectToToken = () => handleSelectToken("to");
 
   return (
-    <div>
+    <div className="p-20">
       <div className="py-2 flex flex-col">
         <div className="px-5">
           <ul className="flex flex-row items-center border-solid rounded-xl bg-[#07071c] w-full p-1">

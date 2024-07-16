@@ -9,101 +9,101 @@ import {
   fromNano,
   internal,
   toNano,
-} from "@ton/ton";
-import { conversionRate } from "./swap";
-import { _tokens, listTokens, Token, tokenInfo } from "./tokens";
-import { delay, generateAddress, generateHash } from "./util";
-import { Router } from "../contracts/Router";
-import { Pool as PoolContract } from "../contracts/Pool";
-import { LPAccount } from "../contracts/LPAccount";
-import { LPWallet } from "../contracts/LPWallet";
-import { TokenBalanced } from "../redux/types/tokens";
-import axios from "axios";
+} from '@ton/ton'
+import { conversionRate } from './swap'
+import { _tokens, listTokens, Token, tokenInfo } from './tokens'
+import { delay, generateAddress, generateHash } from './util'
+import { Router } from '../contracts/Router'
+import { Pool as PoolContract } from '../contracts/Pool'
+import { LPAccount } from '../contracts/LPAccount'
+import { LPWallet } from '../contracts/LPWallet'
+import { TokenBalanced } from '../redux/types/tokens'
+import axios from 'axios'
 
 export interface Pool {
-  address: string;
-  token1?: Token;
-  token2?: Token;
-  providerFee: number;
-  info: PoolInfo | null;
-  reserve1?: string;
-  reserve2?: string;
+  address: string
+  token1?: Token
+  token2?: Token
+  providerFee: number
+  info: PoolInfo | null
+  reserve1?: string
+  reserve2?: string
 }
 
 interface PoolInfo {
-  liquidity?: number;
-  volume24H?: number;
-  volume7D?: number;
-  fwdRate?: number;
-  bwdRate?: number;
-  token1Locked?: number;
-  token2Locked?: number;
-  poolFees?: number;
-  liquidityChange?: number;
-  volumeChange?: number;
+  liquidity?: number
+  volume24H?: number
+  volume7D?: number
+  fwdRate?: number
+  bwdRate?: number
+  token1Locked?: number
+  token2Locked?: number
+  poolFees?: number
+  liquidityChange?: number
+  volumeChange?: number
 }
 
-const _pools: Map<string, Pool> = new Map();
-const _tokens_to_pool_addr: Map<string, string> = new Map();
-const POOL_PER_PAGE = 10;
+const _pools: Map<string, Pool> = new Map()
+const _tokens_to_pool_addr: Map<string, string> = new Map()
+const POOL_PER_PAGE = 10
 
 export const listPools = async (
   client: TonClient,
   page: number,
   loadInfo: boolean = true
 ): Promise<Pool[]> => {
-  await delay(100);
-  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+  await delay(100)
+  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
   if (_pools.size === 0) {
-    let tokens = await listTokens(0);
-    let o = tokens.length > 5 ? 5 : tokens.length;
-    tokens = tokens.slice(0, o);
+    let tokens = await listTokens(0)
+    let o = tokens.length > 5 ? 5 : tokens.length
+    tokens = tokens.slice(0, o)
 
     const router = client.open(
       Router.createFromAddress(Address.parse(routerAddress))
-    );
+    )
 
     for (let i = 0; i < tokens.length; i++) {
-      let t1 = tokens[i];
+      let t1 = tokens[i]
       for (let j = i + 1; j < tokens.length; j++) {
-        let t2 = tokens[j];
-        let id1 = t1.address + "_" + t2.address;
-        let id2 = t2.address + "_" + t1.address;
+        let t2 = tokens[j]
+        let id1 = t1.address + '_' + t2.address
+        let id2 = t2.address + '_' + t1.address
 
         const token1Contract = client.open(
           JettonMaster.create(Address.parse(t1.address))
-        );
+        )
         const token2Contract = client.open(
           JettonMaster.create(Address.parse(t2.address))
-        );
+        )
 
         const routerToken1WalletAddress = await token1Contract.getWalletAddress(
           Address.parse(routerAddress)
-        );
+        )
         const routerToken2WalletAddress = await token2Contract.getWalletAddress(
           Address.parse(routerAddress)
-        );
+        )
 
         const poolAddress = await router.getPoolAddress(
           routerToken1WalletAddress,
           routerToken2WalletAddress
-        );
+        )
 
-        console.log(poolAddress.toString());
+        console.log(poolAddress.toString())
 
-        const pool = client.open(PoolContract.createFromAddress(poolAddress));
+        const pool = client.open(PoolContract.createFromAddress(poolAddress))
 
         const { reserve0, reserve1, token0Address, token1Address } =
-          await pool.getPoolData();
+          await pool.getPoolData()
 
         console.log(
           reserve0,
           reserve1,
           token0Address.toString(),
           token1Address.toString()
-        );
+        )
 
-        const totalLPSupply = await pool.getTotalLPSupply();
+        const totalLPSupply = await pool.getTotalLPSupply()
 
         if (reserve0 > 0 && reserve1 > 0) {
           let np: Pool = {
@@ -118,45 +118,45 @@ export const listPools = async (
             token2: t2,
             reserve1: fromNano(reserve0),
             reserve2: fromNano(reserve1),
-          };
-          _pools.set(np.address, np);
-          _tokens_to_pool_addr.set(id1, np.address);
-          _tokens_to_pool_addr.set(id2, np.address);
+          }
+          _pools.set(np.address, np)
+          _tokens_to_pool_addr.set(id1, np.address)
+          _tokens_to_pool_addr.set(id2, np.address)
         }
       }
     }
   }
-  let offset = page === -1 ? 0 : page * POOL_PER_PAGE;
-  let count = page === -1 ? _pools.size : POOL_PER_PAGE;
-  return Array.from(_pools.values()).slice(offset).slice(0, count);
-};
+  let offset = page === -1 ? 0 : page * POOL_PER_PAGE
+  let count = page === -1 ? _pools.size : POOL_PER_PAGE
+  return Array.from(_pools.values()).slice(offset).slice(0, count)
+}
 
 export interface PoolPositionInfo {
-  pool?: Pool;
-  token1V?: number;
-  token2V?: number;
-  liquidityTokens: number;
-  share?: number;
+  pool?: Pool
+  token1V?: number
+  token2V?: number
+  liquidityTokens: number
+  share?: number
 }
 export const listPositionsByPools = async (
   client: TonClient,
   address: string
 ) => {
   try {
-    let _user_positions: PoolPositionInfo[] = [];
+    let _user_positions: PoolPositionInfo[] = []
 
-    const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+    const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
 
     const router = client.open(
       Router.createFromAddress(Address.parse(routerAddress))
-    );
+    )
 
     const { success, data } = await axios(
       `${import.meta.env.VITE_BACKEND_URL}/pools`
-    ).then((response) => response.data);
+    ).then((response) => response.data)
 
     if (success) {
-      const { pools } = data;
+      const { pools } = data
 
       for (let i = 0; i < pools.length; i++) {
         try {
@@ -164,8 +164,8 @@ export const listPositionsByPools = async (
             `${import.meta.env.VITE_TONAPI_URL}/jettons/${
               pools[i].token0Address
             }`
-          );
-          const data1 = await response1.json();
+          )
+          const data1 = await response1.json()
 
           const token1: TokenBalanced = {
             address: data1.metadata.address,
@@ -174,14 +174,14 @@ export const listPositionsByPools = async (
             decimals: data1.metadata.decimals,
             logoURI: data1.metadata.image,
             chainId: 0,
-          };
+          }
 
           const response2 = await fetch(
             `${import.meta.env.VITE_TONAPI_URL}/jettons/${
               pools[i].token1Address
             }`
-          );
-          const data2 = await response2.json();
+          )
+          const data2 = await response2.json()
 
           const token2: TokenBalanced = {
             address: data2.metadata.address,
@@ -190,23 +190,23 @@ export const listPositionsByPools = async (
             decimals: data2.metadata.decimals,
             logoURI: data2.metadata.image,
             chainId: 0,
-          };
+          }
 
-          console.log(data);
+          console.log(data)
 
           const pool = client.open(
             PoolContract.createFromAddress(Address.parse(pools[i].address))
-          );
+          )
 
           const { reserve0, reserve1, token0Address, token1Address } =
-            await pool.getPoolData();
+            await pool.getPoolData()
 
           console.log(
             reserve0,
             reserve1,
             token0Address.toString(),
             token1Address.toString()
-          );
+          )
           let np: Pool = {
             address: generateAddress(),
             info: null,
@@ -215,38 +215,38 @@ export const listPositionsByPools = async (
             token2: token2,
             reserve1: fromNano(reserve0),
             reserve2: fromNano(reserve1),
-          };
+          }
           if (reserve0 > 0 && reserve1 > 0) {
             const lpAccountAddress = await pool.getLPAccountAddress(
               Address.parse(address)
-            );
+            )
 
-            console.log("lpAccountAddress", lpAccountAddress.toString());
+            console.log('lpAccountAddress', lpAccountAddress.toString())
 
             const lpAccount = client.open(
               LPAccount.createFromAddress(lpAccountAddress)
-            );
+            )
 
             const { userAddress, poolAddress, amount0, amount1 } =
-              await lpAccount.getLPAccountData();
+              await lpAccount.getLPAccountData()
 
-            console.log("amount0", amount0);
+            console.log('amount0', amount0)
 
             const lpWalletAddress = await pool.getLPWalletAddress(
               Address.parse(address)
-            );
+            )
 
-            console.log(lpWalletAddress.toString());
+            console.log(lpWalletAddress.toString())
 
             const lpWallet = client.open(
               LPWallet.createFromAddress(lpWalletAddress)
-            );
+            )
 
-            let liquidTokenBalance: bigint = BigInt(0);
+            let liquidTokenBalance: bigint = BigInt(0)
             try {
-              liquidTokenBalance = await lpWallet.getBalance();
+              liquidTokenBalance = await lpWallet.getBalance()
             } catch (err) {
-              console.log(err);
+              console.log(err)
             }
 
             _user_positions.push({
@@ -254,69 +254,69 @@ export const listPositionsByPools = async (
               token1V: Number(fromNano(amount0)),
               token2V: Number(fromNano(amount1)),
               liquidityTokens: Number(fromNano(liquidTokenBalance)),
-            });
+            })
           }
         } catch (err) {}
       }
-      return _user_positions;
+      return _user_positions
     }
   } catch (err) {
-    console.log(err);
+    console.log(err)
   }
-  return [];
-};
+  return []
+}
 export const listPositions = async (
   client: TonClient,
   address: string,
   totalTokens: TokenBalanced[]
 ): Promise<PoolPositionInfo[]> => {
-  let _user_positions: PoolPositionInfo[] = [];
+  let _user_positions: PoolPositionInfo[] = []
 
-  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
 
   const router = client.open(
     Router.createFromAddress(Address.parse(routerAddress))
-  );
+  )
 
   for (let i = 0; i < totalTokens.length; i++) {
-    let t1 = totalTokens[i];
+    let t1 = totalTokens[i]
     for (let j = i + 1; j < totalTokens.length; j++) {
-      let t2 = totalTokens[j];
+      let t2 = totalTokens[j]
 
-      console.log(i, j);
+      console.log(i, j)
       try {
         const token1Contract = client.open(
           JettonMaster.create(Address.parse(t1.address))
-        );
+        )
         const token2Contract = client.open(
           JettonMaster.create(Address.parse(t2.address))
-        );
+        )
 
         const routerToken1WalletAddress = await token1Contract.getWalletAddress(
           Address.parse(routerAddress)
-        );
+        )
         const routerToken2WalletAddress = await token2Contract.getWalletAddress(
           Address.parse(routerAddress)
-        );
+        )
 
         const poolAddress = await router.getPoolAddress(
           routerToken1WalletAddress,
           routerToken2WalletAddress
-        );
+        )
 
-        console.log(poolAddress.toString());
+        console.log(poolAddress.toString())
 
-        const pool = client.open(PoolContract.createFromAddress(poolAddress));
+        const pool = client.open(PoolContract.createFromAddress(poolAddress))
 
         const { reserve0, reserve1, token0Address, token1Address } =
-          await pool.getPoolData();
+          await pool.getPoolData()
 
         console.log(
           reserve0,
           reserve1,
           token0Address.toString(),
           token1Address.toString()
-        );
+        )
         let np: Pool = {
           address: generateAddress(),
           info: null,
@@ -325,38 +325,38 @@ export const listPositions = async (
           token2: t2,
           reserve1: fromNano(reserve0),
           reserve2: fromNano(reserve1),
-        };
+        }
         if (reserve0 > 0 && reserve1 > 0) {
           const lpAccountAddress = await pool.getLPAccountAddress(
             Address.parse(address)
-          );
+          )
 
-          console.log("lpAccountAddress", lpAccountAddress.toString());
+          console.log('lpAccountAddress', lpAccountAddress.toString())
 
           const lpAccount = client.open(
             LPAccount.createFromAddress(lpAccountAddress)
-          );
+          )
 
           const { userAddress, poolAddress, amount0, amount1 } =
-            await lpAccount.getLPAccountData();
+            await lpAccount.getLPAccountData()
 
-          console.log("amount0", amount0);
+          console.log('amount0', amount0)
 
           const lpWalletAddress = await pool.getLPWalletAddress(
             Address.parse(address)
-          );
+          )
 
-          console.log(lpWalletAddress.toString());
+          console.log(lpWalletAddress.toString())
 
           const lpWallet = client.open(
             LPWallet.createFromAddress(lpWalletAddress)
-          );
+          )
 
-          let liquidTokenBalance: bigint = BigInt(0);
+          let liquidTokenBalance: bigint = BigInt(0)
           try {
-            liquidTokenBalance = await lpWallet.getBalance();
+            liquidTokenBalance = await lpWallet.getBalance()
           } catch (err) {
-            console.log(err);
+            console.log(err)
           }
 
           _user_positions.push({
@@ -364,15 +364,15 @@ export const listPositions = async (
             token1V: Number(fromNano(amount0)),
             token2V: Number(fromNano(amount1)),
             liquidityTokens: Number(fromNano(liquidTokenBalance)),
-          });
+          })
         }
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
   }
-  return _user_positions;
-};
+  return _user_positions
+}
 
 export const calculateShare = async (
   client: TonClient,
@@ -381,46 +381,42 @@ export const calculateShare = async (
   amount1: number,
   amount2: number
 ): Promise<PoolPositionInfo> => {
-  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
 
-  const token1Contract = client.open(
-    JettonMaster.create(Address.parse(token1))
-  );
-  const token2Contract = client.open(
-    JettonMaster.create(Address.parse(token2))
-  );
+  const token1Contract = client.open(JettonMaster.create(Address.parse(token1)))
+  const token2Contract = client.open(JettonMaster.create(Address.parse(token2)))
 
   const routerToken1WalletAddress = await token1Contract.getWalletAddress(
     Address.parse(routerAddress)
-  );
+  )
   const routerToken2WalletAddress = await token2Contract.getWalletAddress(
     Address.parse(routerAddress)
-  );
+  )
 
   const router = client.open(
     Router.createFromAddress(Address.parse(routerAddress))
-  );
+  )
   const poolAddress = await router.getPoolAddress(
     routerToken1WalletAddress,
     routerToken2WalletAddress
-  );
+  )
 
-  const pool = client.open(PoolContract.createFromAddress(poolAddress));
+  const pool = client.open(PoolContract.createFromAddress(poolAddress))
 
   const expectedLiquidity = await pool.getExpectedTokens(
     toNano(amount1),
     toNano(amount2)
-  );
+  )
 
   return {
     liquidityTokens: Number(fromNano(expectedLiquidity)),
     share: Math.random() / 10,
-  };
-};
+  }
+}
 
 export interface LPTokenRate {
-  token1: number;
-  token2: number;
+  token1: number
+  token2: number
 }
 
 export const lpTokenRate = async (
@@ -428,12 +424,12 @@ export const lpTokenRate = async (
   token2: string,
   value: number
 ): Promise<LPTokenRate> => {
-  await delay(100);
+  await delay(100)
   return {
     token1: Math.random() * 10,
     token2: Math.random() * 10,
-  };
-};
+  }
+}
 
 export const addPool = async (
   address: string,
@@ -447,9 +443,9 @@ export const addPool = async (
       token1,
       token2,
       routerAddress,
-    });
+    })
   } catch (err) {}
-};
+}
 
 export const addLiquidity = async (
   client: TonClient,
@@ -459,31 +455,27 @@ export const addLiquidity = async (
   token2: string,
   value1: number,
   value2: number
-): Promise<boolean> => {
-  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+): Promise<string> => {
+  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
 
-  const token1Contract = client.open(
-    JettonMaster.create(Address.parse(token1))
-  );
-  const token2Contract = client.open(
-    JettonMaster.create(Address.parse(token2))
-  );
+  const token1Contract = client.open(JettonMaster.create(Address.parse(token1)))
+  const token2Contract = client.open(JettonMaster.create(Address.parse(token2)))
 
   const token1WalletAddress = await token1Contract.getWalletAddress(
     Address.parse(fromAddress)
-  );
+  )
   const token2WalletAddress = await token2Contract.getWalletAddress(
     Address.parse(fromAddress)
-  );
+  )
 
-  console.log(token1WalletAddress.toString(), token2WalletAddress.toString());
+  console.log(token1WalletAddress.toString(), token2WalletAddress.toString())
 
   const routerToken1WalletAddress = await token1Contract.getWalletAddress(
     Address.parse(routerAddress)
-  );
+  )
   const routerToken2WalletAddress = await token2Contract.getWalletAddress(
     Address.parse(routerAddress)
-  );
+  )
 
   // const token1WalletContract = client.open(
   //   JettonWallet.create(token1WalletAddress)
@@ -491,32 +483,32 @@ export const addLiquidity = async (
   // const token2WalletContract = client.open(
   //   JettonWallet.create(token2WalletAddress)
   // );
-  let expectedLiquidity = toNano(0.00001);
-  let poolAddress;
+  let expectedLiquidity = toNano(0.00000001)
+  let poolAddress
   try {
     const router = client.open(
       Router.createFromAddress(Address.parse(routerAddress))
-    );
+    )
     poolAddress = await router.getPoolAddress(
       routerToken1WalletAddress,
       routerToken2WalletAddress
-    );
+    )
 
-    const pool = client.open(PoolContract.createFromAddress(poolAddress));
+    const pool = client.open(PoolContract.createFromAddress(poolAddress))
 
     expectedLiquidity = await pool.getExpectedTokens(
       toNano(value1),
       toNano(value2)
-    );
+    )
 
-    console.log("expectedLiquidity", expectedLiquidity);
+    console.log('expectedLiquidity', expectedLiquidity)
   } catch (err) {}
 
   const forwardPayload1 = beginCell()
     .storeUint(0x9bcccd13, 32) // provide lp
     .storeAddress(routerToken2WalletAddress) // another token wallet address of router
     .storeCoins(expectedLiquidity)
-    .endCell();
+    .endCell()
   const messageBody1 = beginCell()
     .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
     .storeUint(0, 64) // query id
@@ -527,19 +519,19 @@ export const addLiquidity = async (
     .storeCoins(toNano(0.1)) // forward amount - if >0, will send notification message
     .storeBit(1)
     .storeRef(forwardPayload1)
-    .endCell();
+    .endCell()
 
   const internalMessage1 = {
     to: token1WalletAddress,
     value: toNano(0.3),
     body: messageBody1,
-  };
+  }
 
   const forwardPayload2 = beginCell()
     .storeUint(0x9bcccd13, 32) // provide lp
     .storeAddress(routerToken1WalletAddress) // another token wallet address of router
     .storeCoins(expectedLiquidity)
-    .endCell();
+    .endCell()
   const messageBody2 = beginCell()
     .storeUint(0x0f8a7ea5, 32) // opcode for jetton transfer
     .storeUint(0, 64) // query id
@@ -550,21 +542,21 @@ export const addLiquidity = async (
     .storeCoins(toNano(0.1)) // forward amount - if >0, will send notification message
     .storeBit(1)
     .storeRef(forwardPayload2)
-    .endCell();
+    .endCell()
 
   const internalMessage2 = {
     to: token2WalletAddress,
     value: toNano(0.3),
     body: messageBody2,
-  };
+  }
 
-  await sender.send([internalMessage1, internalMessage2]);
+  const txHash = await sender.send([internalMessage1, internalMessage2])
 
   if (poolAddress)
-    await addPool(poolAddress.toString(), token1, token2, routerAddress);
+    await addPool(poolAddress.toString(), token1, token2, routerAddress)
 
-  return true;
-};
+  return txHash
+}
 
 export const removeLiquidity = async (
   client: TonClient,
@@ -573,42 +565,38 @@ export const removeLiquidity = async (
   token2: string,
   address: string
 ): Promise<boolean> => {
-  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+  const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
 
   const router = client.open(
     Router.createFromAddress(Address.parse(routerAddress))
-  );
+  )
 
-  const token1Contract = client.open(
-    JettonMaster.create(Address.parse(token1))
-  );
-  const token2Contract = client.open(
-    JettonMaster.create(Address.parse(token2))
-  );
+  const token1Contract = client.open(JettonMaster.create(Address.parse(token1)))
+  const token2Contract = client.open(JettonMaster.create(Address.parse(token2)))
 
   const routerToken1WalletAddress = await token1Contract.getWalletAddress(
     Address.parse(routerAddress)
-  );
+  )
   const routerToken2WalletAddress = await token2Contract.getWalletAddress(
     Address.parse(routerAddress)
-  );
+  )
 
   const poolAddress = await router.getPoolAddress(
     routerToken1WalletAddress,
     routerToken2WalletAddress
-  );
+  )
 
-  console.log(poolAddress.toString());
+  console.log(poolAddress.toString())
 
-  const pool = client.open(PoolContract.createFromAddress(poolAddress));
+  const pool = client.open(PoolContract.createFromAddress(poolAddress))
 
   const lpAccountAddress = await pool.getLPAccountAddress(
     Address.parse(address)
-  );
+  )
 
-  const lpAccount = client.open(LPAccount.createFromAddress(lpAccountAddress));
+  const lpAccount = client.open(LPAccount.createFromAddress(lpAccountAddress))
 
-  lpAccount.sendRefundMe(sender);
+  lpAccount.sendRefundMe(sender)
 
   // let id1 = token1 + "_" + token2;
   // let pid = _tokens_to_pool_addr.get(id1);
@@ -643,69 +631,69 @@ export const removeLiquidity = async (
   // }
   // await delay(100);
 
-  return true;
-};
+  return true
+}
 
 export const approveTokenAccess = async (
   address: string,
   token: string
 ): Promise<boolean> => {
-  await delay(100);
-  return true;
-};
+  await delay(100)
+  return true
+}
 export const removeApproval = async (
   address: string,
   token1: string,
   token2: string
 ): Promise<boolean> => {
-  await delay(100);
-  return true;
-};
+  await delay(100)
+  return true
+}
 
 export const getPool = async (id: string): Promise<Pool | null> => {
-  await delay(100);
-  return _pools.get(id) ?? null;
-};
+  await delay(100)
+  return _pools.get(id) ?? null
+}
 
 export enum TransactionType {
-  SWAP = "Swap",
-  ADD = "Add",
-  REMOVE = "Remove",
+  SWAP = 'Swap',
+  ADD = 'Add',
+  REMOVE = 'Remove',
 }
 
 export interface PoolTransaction {
-  id: string;
-  type: TransactionType;
-  totalValue: number;
-  token1Amount: number;
-  token2Amount: number;
-  token1: Token;
-  token2: Token;
-  account: string;
-  time: number;
+  id: string
+  type: TransactionType
+  totalValue: number
+  token1Amount: number
+  token2Amount: number
+  token1: Token
+  token2: Token
+  account: string
+  time: number
 }
 
 export const poolTransactions = async (
   id: string,
   page: number
 ): Promise<PoolTransaction[]> => {
-  await delay(100);
-  const pool = _pools.get(id);
+  await delay(100)
+  const pool = _pools.get(id)
   if (!pool || !pool.token1 || !pool.token2) {
-    return [];
+    return []
   }
 
-  let transactions: PoolTransaction[] = [];
+  let transactions: PoolTransaction[] = []
   let allTypes: TransactionType[] = [
     TransactionType.ADD,
     TransactionType.REMOVE,
     TransactionType.SWAP,
-  ];
+  ]
   let getRandomType = () =>
-    allTypes[Math.floor(Math.random() * allTypes.length)];
+    allTypes[Math.floor(Math.random() * allTypes.length)]
 
   for (let i = 0; i < 10; i++) {
-    const time = new Date().getTime() - Math.random() * 10 * 60 * 30 * 1000;
+    const time = new Date().getTime() - Math.random() * 10 * 60 * 30 * 1000
     transactions.push({
       account: generateAddress(),
       id: generateHash(),
@@ -716,10 +704,10 @@ export const poolTransactions = async (
       token2: pool.token2,
       totalValue: Math.random() * 1000,
       type: getRandomType(),
-    });
+    })
   }
-  return transactions;
-};
+  return transactions
+}
 
 export const getPoolExist = async (
   client: TonClient,
@@ -727,41 +715,41 @@ export const getPoolExist = async (
   token1: string
 ) => {
   try {
-    const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS;
+    const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
 
     const router = client.open(
       Router.createFromAddress(Address.parse(routerAddress))
-    );
+    )
 
     const token1Contract = client.open(
       JettonMaster.create(Address.parse(token0))
-    );
+    )
     const token2Contract = client.open(
       JettonMaster.create(Address.parse(token1))
-    );
+    )
 
     const routerToken1WalletAddress = await token1Contract.getWalletAddress(
       Address.parse(routerAddress)
-    );
+    )
     const routerToken2WalletAddress = await token2Contract.getWalletAddress(
       Address.parse(routerAddress)
-    );
+    )
 
     const poolAddress = await router.getPoolAddress(
       routerToken1WalletAddress,
       routerToken2WalletAddress
-    );
+    )
 
-    console.log(poolAddress.toString());
+    console.log(poolAddress.toString())
 
-    const pool = client.open(PoolContract.createFromAddress(poolAddress));
+    const pool = client.open(PoolContract.createFromAddress(poolAddress))
 
     const { reserve0, reserve1, token0Address, token1Address } =
-      await pool.getPoolData();
+      await pool.getPoolData()
 
-    if (reserve0 > 0 && reserve1 > 0) return true;
-    else return false;
+    if (reserve0 > 0 && reserve1 > 0) return true
+    else return false
   } catch (err) {
-    return false;
+    return false
   }
-};
+}

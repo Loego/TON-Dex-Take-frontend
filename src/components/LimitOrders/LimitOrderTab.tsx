@@ -7,7 +7,7 @@ export const LimitOrderTab = () => {
   initTE({ Tab });
   return (
     <div>
-      <ul
+      {/* <ul
         className="flex list-none flex-row flex-wrap border-b pl-0 border-gray-500"
         role="tablist"
         data-te-nav-ref
@@ -39,7 +39,7 @@ export const LimitOrderTab = () => {
             Market
           </a>
         </li>
-      </ul>
+      </ul> */}
       <div className="pt-3">
         <div
           className="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"

@@ -1,45 +1,48 @@
-import { Address, Cell } from "@ton/core";
+import { Address, Cell } from '@ton/core'
 import {
   toUserFriendlyAddress,
   useTonConnectUI,
   useTonWallet,
-} from "@tonconnect/ui-react";
-import { useCallback, useEffect, useState } from "react";
+} from '@tonconnect/ui-react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface Message {
-  to: Address;
-  value: bigint;
-  body: Cell;
+  to: Address
+  value: bigint
+  body: Cell
 }
 
 export function useTonConnect() {
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState('')
 
-  const wallet = useTonWallet();
-  const [tonConnectUI] = useTonConnectUI();
+  const wallet = useTonWallet()
+  const [tonConnectUI] = useTonConnectUI()
 
   const getAddress = useCallback(() => {
-    const addr = wallet?.account?.address;
+    const addr = wallet?.account?.address
     if (addr) {
-      setAddress(toUserFriendlyAddress(addr, true));
+      setAddress(toUserFriendlyAddress(addr, true))
     }
-  }, [wallet?.account?.address]);
+  }, [wallet?.account?.address])
 
   useEffect(() => {
-    getAddress();
-  }, [wallet?.account?.address, getAddress]);
+    getAddress()
+  }, [wallet?.account?.address, getAddress])
 
   return {
     sender: {
       send: async (messages: Message[]) => {
-        tonConnectUI.sendTransaction({
-          messages: messages.map((msg) => ({
-            address: msg.to.toString(),
-            amount: msg.value.toString(),
-            payload: msg.body?.toBoc().toString("base64"),
-          })),
-          validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
-        });
+        return tonConnectUI.sendTransaction(
+          {
+            messages: messages.map((msg) => ({
+              address: msg.to.toString(),
+              amount: msg.value.toString(),
+              payload: msg.body?.toBoc().toString('base64'),
+            })),
+            validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
+          },
+          { modals: ['before', 'error'] }
+        )
       },
     },
     singleSender: {
@@ -49,14 +52,14 @@ export function useTonConnect() {
             {
               address: args.to.toString(),
               amount: args.value.toString(),
-              payload: args.body?.toBoc().toString("base64"),
+              payload: args.body?.toBoc().toString('base64'),
             },
           ],
           validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
-        });
+        })
       },
     },
     address,
     connected: tonConnectUI.connected,
-  };
+  }
 }
