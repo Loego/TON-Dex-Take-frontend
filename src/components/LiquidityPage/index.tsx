@@ -1,13 +1,13 @@
-import { CSSTransition, SwitchTransition } from "react-transition-group";
-import AddLiquidityPanel from "../../components/AddLiquidityPanel";
-import { LiquidityPanel } from "../LiquidityPanel/LiquidityPanel";
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import AddLiquidityPanel from '../../components/AddLiquidityPanel'
+import { LiquidityPanel } from '../LiquidityPanel/LiquidityPanel'
 // import RemoveLiquidityPanel from "../../components/RemoveLiquidityPanel";
-import { useAppSelector } from "../../redux/hooks";
-import { selectLiquidity } from "../../redux/reducers/liquidity";
-import styles from "./index.module.scss";
+import { useAppSelector } from '../../redux/hooks'
+import { selectLiquidity } from '../../redux/reducers/liquidity'
+import styles from './index.module.scss'
 
 export default function LiquidityPage() {
-  const { panel } = useAppSelector(selectLiquidity);
+  const { panel } = useAppSelector(selectLiquidity)
 
   return (
     <div className={styles.container}>
@@ -16,16 +16,16 @@ export default function LiquidityPage() {
           key={panel}
           timeout={300}
           classNames={{
-            enter: panel === "main" ? styles.enterMain : styles.enter,
+            enter: panel === 'main' ? styles.enterMain : styles.enter,
             enterActive: styles.enterActive,
             exit: styles.exit,
             exitActive:
-              panel === "main" ? styles.exitMainActive : styles.exitActive,
+              panel === 'main' ? styles.exitMainActive : styles.exitActive,
           }}
         >
-          {panel === "main" ? (
+          {panel === 'main' ? (
             <LiquidityPanel />
-          ) : panel === "add" ? (
+          ) : panel === 'add' ? (
             <AddLiquidityPanel />
           ) : // : panel === "remove" ?
           //   <RemoveLiquidityPanel/>
@@ -33,5 +33,5 @@ export default function LiquidityPage() {
         </CSSTransition>
       </SwitchTransition>
     </div>
-  );
+  )
 }
