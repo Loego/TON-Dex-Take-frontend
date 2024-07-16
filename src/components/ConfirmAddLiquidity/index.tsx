@@ -11,16 +11,12 @@ import { useTonClient } from '../../hook/useTonClient'
 import { useTonConnect } from '../../hook/useTonConnect'
 import { checkTransactionStatus } from '../../api/swap'
 
-var intervalId: string | number | NodeJS.Timeout | undefined
 export default function ConfirmAddLiquidity() {
   const liquidityState = useAppSelector(selectLiquidity)
   const dispatch = useAppDispatch()
 
   const client = useTonClient()
   const { sender } = useTonConnect()
-
-  const [isSent, setIsSent] = useState(false)
-  const [txUrl, setTxUrl] = useState<string | null>(null)
 
   const preventClickThroughs = (e: React.MouseEvent<HTMLElement>) =>
     e.stopPropagation()
@@ -33,29 +29,7 @@ export default function ConfirmAddLiquidity() {
     if (client && sender) dispatch(confirmAddLiquidity({ client, sender }))
   }
 
-  useEffect(() => {
-    if (liquidityState.txHash) {
-      setIsSent(true)
-      if (intervalId) clearInterval(intervalId)
-      intervalId = setTimeout(async () => {
-        if (liquidityState.txHash) {
-          const isConfirmed = await checkTransactionStatus(
-            liquidityState.txHash
-          )
-
-          if (isConfirmed) {
-            setTxUrl(
-              `${import.meta.env.VITE_TONVIEWER_URL}/transaction/${
-                liquidityState.txHash
-              }`
-            )
-          }
-        }
-      }, 1000)
-    }
-  }, [liquidityState.txHash])
-
-  return !isSent ? (
+  return (
     <div className={styles.container} onClick={preventClickThroughs}>
       <Header />
       <TransactionSummary />
@@ -66,29 +40,6 @@ export default function ConfirmAddLiquidity() {
         title='Confirm Supply'
         onClick={handleConfirmClick}
       />
-    </div>
-  ) : txUrl ? (
-    <div className={styles.container}>
-      <div className={styles.title}>
-        <h2>Transaction confirmed!</h2>
-      </div>
-      <div className={styles.transactionSummary}>
-        <h3>
-          Check transaction details{' '}
-          <a href={txUrl} className='text-gray-500'>
-            here
-          </a>
-        </h3>
-      </div>
-    </div>
-  ) : (
-    <div className={styles.container}>
-      <div className={styles.title}>
-        <h2>Transaction sent for confirmation.</h2>
-      </div>
-      <div className={styles.transactionSummary}>
-        <h3>Transaction will be processed in a few seconds...</h3>
-      </div>
     </div>
   )
 }
