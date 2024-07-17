@@ -73,5 +73,6 @@ button:focus-visible {
   flex-direction: row !important;
   align-items: center !important;
   gap: 12px !important;
-  padding-left: 12px !important;
+  padding-left: 12px !important
+  ;
 }
