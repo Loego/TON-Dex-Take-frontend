@@ -3,6 +3,7 @@ import logo from "../../assets/logo.svg";
 import dark from "../../assets/dark.svg";
 import light from "../../assets/light.svg";
 import wallet from "../../assets/wallet.svg";
+import { TonConnectButton } from "@tonconnect/ui-react";
 
 interface NavbarProps {
   toggleMode: () => void;
@@ -48,10 +49,11 @@ const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
             className="w-5 h-5"
           />
         </div>
-        <button className="flex items-center justify-center gap-3 bg-gradient-to-tr from-[#025DE7] to-[#0366FC] h-[56px] w-[200px] rounded-[12px] text-white">
+        {/* <button className="flex items-center justify-center gap-3 bg-gradient-to-tr from-[#025DE7] to-[#0366FC] h-[56px] w-[200px] rounded-[12px] text-white">
           <img src={wallet} alt="Wallet" />
           Connect Wallet
-        </button>
+        </button> */}
+        <TonConnectButton />
       </div>
     </nav>
   );

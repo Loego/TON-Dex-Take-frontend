@@ -60,3 +60,18 @@ button:focus-visible {
 .bg-layout_dark {
   background-color: "#0F0C1D !important";
 }
+
+.go3974562317 {
+  background: linear-gradient(to top right, #025de7, #0366fc) !important;
+  height: 56px !important;
+  width: 200px !important;
+}
+#ton-connect-button button {
+  border-radius: 12px !important;
+  display: flex !important;
+  justify-items: center !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding-left: 12px !important;
+}
