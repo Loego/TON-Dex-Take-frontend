@@ -50,7 +50,7 @@ export default function List() {
 
   return (
     <div className={styles.list}>
-      <h3>Your Liquidity</h3>
+      <h3>Your Pools</h3>
       {!connected ? (
         <NotConnected />
       ) : liquidity === null || liquidity.length === 0 ? (

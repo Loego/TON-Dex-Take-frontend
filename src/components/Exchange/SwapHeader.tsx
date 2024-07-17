@@ -25,8 +25,8 @@ export default function SwapHeader() {
   return (
     <div className={styles.header}>
       <div className={styles.text}>
-        <h2>Swap</h2>
-        <span>Trade Tokens Easily In An Instant</span>
+        <h2 className="text-[18px]">Swap</h2>
+        {/* <span>Trade Tokens Easily In An Instant</span> */}
       </div>
       {/* <div className="flex flex-row flex-nowrap gap-2">
         <button className="p-2 outline-0 border-0 bg-transparent hover:bg-white/80" onClick={handleSettingsClick}>

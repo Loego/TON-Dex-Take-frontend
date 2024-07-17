@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: "Work Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -52,7 +52,11 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+} */
+
+.bg-layout_dark {
+  background-color: "#0F0C1D !important";
 }

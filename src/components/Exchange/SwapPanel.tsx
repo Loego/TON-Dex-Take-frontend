@@ -116,20 +116,24 @@ export const SwapPanel = () => {
     <div className=" bg-layout_dark">
       <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-0 container pt-2 pb-5">
         <div className="container lg:px-20 pt-14">
-          <div className="rounded-lg bg-[#130F25] border border-[#2B2649] p-4">
-            <div className="flex flex-col py-2 px-4 gap-5">
+          <div className="rounded-lg bg-[#1E2939]/90 border border-[#2B2649] p-4">
+            <div className="flex flex-col py-2 px-4 gap-7">
               <SwapHeader />
               {!isPoolExist && (
                 <p className=" bg-red-300">Pool doesn't exist</p>
               )}
-              <TokenInput
-                label="From"
-                value={swapState.inputs.from}
-                onChange={handleFromChange}
-                token={swapState.from}
-                onSelectToken={handleSelectFromToken}
-              />
-              <SwitchButton onClick={handleSwitch} />
+              <div className="relative">
+                <TokenInput
+                  label="From"
+                  value={swapState.inputs.from}
+                  onChange={handleFromChange}
+                  token={swapState.from}
+                  onSelectToken={handleSelectFromToken}
+                />
+                <div className="absolute bottom-[-41px] left-[calc(50%-28px)]">
+                  <SwitchButton onClick={handleSwitch} />
+                </div>
+              </div>
               <TokenInput
                 label="To"
                 value={swapState.inputs.to}
@@ -152,7 +156,6 @@ export const SwapPanel = () => {
                 ) : null}
               </span>
             </div>
-            <TonConnectButton />
             {wallet ? (
               isPoolExist ? (
                 <button
@@ -172,7 +175,7 @@ export const SwapPanel = () => {
                 className=" bg-[#662483] w-full mt-8"
                 onClick={handleConnect}
               >
-                Connect wallet{" "}
+                Connect wallet
               </button>
             )}
           </div>
