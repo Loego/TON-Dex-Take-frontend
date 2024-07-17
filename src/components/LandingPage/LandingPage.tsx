@@ -41,17 +41,6 @@ export const LandingPage = () => {
           </div>
         </Link>
       </div>
-      <footer
-        className={` items-center md:gap-10 flex justify-center absolute right-0 md:bottom-6 bottom-14 left-0 w-full md:w-auto  transition-transform transform md:transform-none duration-300`}
-      >
-        <ul className="flex items-center gap-10 ">
-          <li className="text-lg font-semibold text-[#06A5FF]">Twitter</li>
-          <li className="text-lg font-semibold text-[#06A5FF]">Telegram</li>
-          <li className="text-lg font-semibold text-[#06A5FF]">Listing</li>
-          <li className="text-lg font-semibold text-[#06A5FF]">Github</li>
-          <li className="text-lg font-semibold text-[#06A5FF]">Docs</li>
-        </ul>
-      </footer>
     </div>
   );
 };
