@@ -16,21 +16,21 @@ config();
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  // const { walletAddress } = useAppSelector(selectAccount);
-  // const dispatch = useAppDispatch();
+  const { walletAddress } = useAppSelector(selectAccount);
+  const dispatch = useAppDispatch();
 
   const toggleMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
-  // console.log("wallet_address;", isDarkMode);
+  console.log("wallet_address;", isDarkMode);
 
-  // useEffect(() => {
-  //   const fetchTokens = async () => {
-  //     const tokens = await retrieveTokens(walletAddress);
-  //     dispatch(tokens);
-  //   };
-  //   fetchTokens();
-  // }, [dispatch, walletAddress]);
+  useEffect(() => {
+    const fetchTokens = async () => {
+      const tokens = await retrieveTokens(walletAddress);
+      dispatch(tokens);
+    };
+    fetchTokens();
+  }, [dispatch, walletAddress]);
 
   return (
     <>
