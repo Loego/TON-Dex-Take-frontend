@@ -12,6 +12,7 @@ import Modals from "./components/Modals";
 import { SwapPanel } from "./components/Exchange/SwapPanel";
 import LiquidityPage from "./components/LiquidityPage";
 import Staking from "./components/Stake";
+import Footer from "./components/Footer/Footer";
 config();
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
 
   return (
     <>
-      <div className={`${isDarkMode ? "dark" : ""} h-screen w-full`}>
+      <div className={`${isDarkMode ? "dark" : ""} h-screen w-full relative`}>
         <Header toggleMode={toggleMode} isDarkMode={isDarkMode} />
         <div className="main min-h-full pt-20 w-full bg-light-mode dark:bg-dark-mode bg-no-repeat bg-center bg-cover">
           <div className="pb-10">
@@ -66,6 +67,7 @@ function App() {
             </ul>
           </ul>
         </div>
+        <Footer />
       </div>
     </>
   );

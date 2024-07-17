@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   confirmAddLiquidity,
   selectLiquidity,
-} from '../../redux/reducers/liquidity'
-import Button from '../Button'
-import Header from './Header'
-import styles from './index.module.scss'
-import { useTonClient } from '../../hook/useTonClient'
-import { useTonConnect } from '../../hook/useTonConnect'
-import { checkTransactionStatus } from '../../api/swap'
+} from "../../redux/reducers/liquidity";
+import Button from "../Button";
+import Header from "./Header";
+import styles from "./index.module.scss";
+import { useTonClient } from "../../hook/useTonClient";
+import { useTonConnect } from "../../hook/useTonConnect";
 
 export default function ConfirmAddLiquidity() {
-  const liquidityState = useAppSelector(selectLiquidity)
-  const dispatch = useAppDispatch()
+  const liquidityState = useAppSelector(selectLiquidity);
+  const dispatch = useAppDispatch();
 
-  const client = useTonClient()
-  const { sender } = useTonConnect()
+  const client = useTonClient();
+  const { sender } = useTonConnect();
 
   const preventClickThroughs = (e: React.MouseEvent<HTMLElement>) =>
-    e.stopPropagation()
+    e.stopPropagation();
 
   if (liquidityState.token1 === null || liquidityState.token2 === null) {
-    return null
+    return null;
   }
 
   const handleConfirmClick = () => {
-    if (client && sender) dispatch(confirmAddLiquidity({ client, sender }))
-  }
+    if (client && sender) dispatch(confirmAddLiquidity({ client, sender }));
+  };
 
   return (
     <div className={styles.container} onClick={preventClickThroughs}>
@@ -36,12 +35,12 @@ export default function ConfirmAddLiquidity() {
       <Estimation />
       <TransactionInfo />
       <Button
-        buttonType='primaryLarge'
-        title='Confirm Supply'
+        buttonType="primaryLarge"
+        title="Confirm Supply"
         onClick={handleConfirmClick}
       />
     </div>
-  )
+  );
 }
 
 function TransactionSummary() {
@@ -49,7 +48,7 @@ function TransactionSummary() {
     token1,
     token2,
     add: { position },
-  } = useAppSelector(selectLiquidity)
+  } = useAppSelector(selectLiquidity);
 
   return (
     <div className={styles.transactionSummary}>
@@ -60,21 +59,21 @@ function TransactionSummary() {
         {token1?.symbol}/{token2?.symbol} Pool Tokens
       </span>
     </div>
-  )
+  );
 }
 
 function Estimation() {
   return (
     <p className={styles.estimation}>
-      Estimated Output, Transaction will revert in case of more than{' '}
+      Estimated Output, Transaction will revert in case of more than{" "}
       <strong>0.8%</strong> price change.
     </p>
-  )
+  );
 }
 
 function TransactionInfo() {
   const { token1, token2, inputs, conversionRate, add } =
-    useAppSelector(selectLiquidity)
+    useAppSelector(selectLiquidity);
 
   return (
     <div className={styles.transactionInfo}>
@@ -95,5 +94,5 @@ function TransactionInfo() {
       {/* <label>Share of Pool</label>
       <span>{add.position?.share?.toFixed(5)}%</span> */}
     </div>
-  )
+  );
 }
