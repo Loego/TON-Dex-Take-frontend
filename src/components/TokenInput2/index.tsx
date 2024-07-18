@@ -1,10 +1,7 @@
 import React from "react";
 import { TokenBalanced } from "../../redux/types/tokens";
-import styles from "./index.module.scss";
-import { useTonConnect } from "../../hook/useTonConnect";
 
 interface IProps {
-  label: string;
   value: number;
   token: TokenBalanced | null;
   onChange?: (value: number) => void;
@@ -13,15 +10,12 @@ interface IProps {
 }
 
 export default function TokenInput({
-  label,
   onChange,
   value,
   token,
   onSelectToken,
   showMax,
 }: IProps) {
-  const { address } = useTonConnect();
-
   // we can get changed values when the users input number
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -39,15 +33,13 @@ export default function TokenInput({
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.verticalLine} />
-      <div className={styles.input}>
+    <div className="bg-[#f3f8ff] dark:bg-[#242424] border border-[#BFD9FF] dark:border-[#353535] rounded-[12px] min-h-[99px] flex flex-col flex-nowrap pt-[17px] pr-[15px] pb-[16.3px] pl-[18px] gap-[13px]">
+      {/* <div className={styles.input}>
         <label>{label}</label>
         <input value={`${value}`} onChange={handleChange} type="number" />
       </div>
-
       <div className={styles.selector} onClick={onSelectToken}>
-        <div className={styles.coin}>
+        <div className={`${styles.coin}`}>
           {token !== null ? (
             <img src={token?.logoURI} alt={token.name} />
           ) : null}
@@ -63,6 +55,53 @@ export default function TokenInput({
           )}
           Balance: <b>{token?.balance ?? 0}</b>
         </span>
+      </div> */}
+      <div className="flex flex-row justify-between items-center pr-[3px] pb-[3px]">
+        <div
+          className="cursor-pointer py-[6.84px] pl-[10.3px] pr-[13.7px] flex flex-row items-center gap-[10.267px] rounded-[8px] border border-[#BFD9FF] dark:border-[#353535] bg-[#fff] dark:bg-[#353535] bg-blend-overlay backdrop-blur-[25px]"
+          onClick={onSelectToken}
+        >
+          {token !== null ? (
+            <img
+              src={token?.logoURI}
+              alt={token.name}
+              className="w-[21px]"
+            ></img>
+          ) : null}
+          <div className="flex flex-row gap-[10px]">
+            <div className=" text-[#0C192B] dark:text-[#ECECEC] text-[12px] font-semibold leading-[1rem]">
+              {token !== null ? token.symbol : "Select Token"}
+            </div>
+            <div className=""></div>
+          </div>
+        </div>
+        <input
+          className="dark:text-[#ECECEC] text-right text-[#212121] justify-end"
+          placeholder="0.00"
+          value={`${value}`}
+          onChange={handleChange}
+          type="number"
+        ></input>
+      </div>
+      <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row items-center">
+          <div className="text-[#565656] dark:text-[#ECECEC] font-normal text-[12px]">
+            Balance:
+          </div>
+          <div className="text-[#565656] dark:text-[#ECECEC] font-semibold text-[12px] pl-[17px]">
+            {token?.balance ?? 0}&nbsp;{token !== null ? token.symbol : ""}
+          </div>
+          {showMax && token?.balance ? (
+            <div
+              onClick={handleMaxClick}
+              className="pl-2 text-[#565656] dark:text-[#ECECEC] font-normal text-[12px]"
+            >
+              MAX
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </div>
   );

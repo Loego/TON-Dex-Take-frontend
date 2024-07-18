@@ -1,9 +1,7 @@
 import {
-  TonConnectButton,
   useTonConnectUI,
   useTonWallet,
   useTonAddress,
-  TonConnectUI,
 } from "@tonconnect/ui-react";
 import { useEffect, useState } from "react";
 import { showModal } from "../../redux/reducers/modals";
@@ -19,7 +17,6 @@ import {
   conversionRate,
 } from "../../redux/reducers/swap";
 import { selectTokens } from "../../redux/reducers/tokens";
-import Info from "../icons/Info";
 import SwitchButton from "../SwitchButton/SwitchButton";
 import TokenInput from "../TokenInput2";
 import SwapHeader from "./SwapHeader";
@@ -27,9 +24,10 @@ import SwapHeader from "./SwapHeader";
 import "./TONConnectButton.scss";
 import { useTonClient } from "../../hook/useTonClient";
 import { getPoolExist } from "../../api/pool";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const SwapPanel = () => {
+  const navigate = useNavigate();
   const [isPoolExist, setIsPoolExist] = useState(true);
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
@@ -116,38 +114,39 @@ export const SwapPanel = () => {
     <div className=" bg-layout_dark">
       <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-0 container pt-2 pb-5">
         <div className="container lg:px-20 pt-14">
-          <div className="rounded-lg bg-[#1E2939]/90 border border-[#2B2649] p-4">
-            <div className="flex flex-col py-2 px-4 gap-7">
+          <div className="rounded-lg bg-[#FFFFFFCC] dark:bg-[#111111CC] border border-[#BFD9FF] dark:border-[#353535] pt-[35px] pb-[42px] px-[22px] shadow-light dark:shadow-dark !max-w-[500px] mx-auto">
+            <div className="flex flex-col">
               <SwapHeader />
               {!isPoolExist && (
-                <p className=" bg-red-300">Pool doesn't exist</p>
+                <p className="text-[#565656] dark:text-[#ECECEC] text-normal text-[14px] mt-1">
+                  Pool doesn't exist
+                </p>
               )}
-              <div className="relative">
+              <div className="relative shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-[29px]">
                 <TokenInput
-                  label="From"
                   value={swapState.inputs.from}
                   onChange={handleFromChange}
                   token={swapState.from}
                   onSelectToken={handleSelectFromToken}
                 />
-                <div className="absolute bottom-[-41px] left-[calc(50%-28px)]">
+                <div className="absolute bottom-[-37px] left-[calc(50%-28px)]">
                   <SwitchButton onClick={handleSwitch} />
                 </div>
               </div>
-              <TokenInput
-                label="To"
-                value={swapState.inputs.to}
-                onChange={handleToChange}
-                token={swapState.to}
-                onSelectToken={handleSelectToToken}
-              />
-              <span className="flex flex-row items-center gap-2">
+              <div className="shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-5">
+                <TokenInput
+                  value={swapState.inputs.to}
+                  onChange={handleToChange}
+                  token={swapState.to}
+                  onSelectToken={handleSelectToToken}
+                />
+              </div>
+              <span className="flex flex-row items-center gap-2 justify-end mb-2">
                 {swapState.conversionRate !== 0 &&
                 swapState.from !== null &&
                 swapState.to !== null ? (
                   <div>
-                    <Info />
-                    <span>
+                    <span className="text-[12px] font-semibold dark:text-[#ECECEC] text-[#565656]">
                       1 {swapState.from?.symbol} = {swapState.conversionRate}{" "}
                       {swapState.to?.symbol} ($
                       {swapState.usdtRate})
@@ -159,23 +158,28 @@ export const SwapPanel = () => {
             {wallet ? (
               isPoolExist ? (
                 <button
-                  className="bg-[#662483] w-full mt-8"
+                  className="swap-button py-[18px] text-center text-[16px] font-semibold leading-normal w-full"
                   onClick={handleSwap}
                   disabled={confirmDisabled}
                 >
                   Swap
                 </button>
               ) : (
-                <button className="bg-[#662483] w-full mt-8">
-                  <Link to={"/liquidity"}>Add liquidity</Link>
+                <button
+                  onClick={() => navigate("/liquidity")}
+                  className="swap-button py-[18px] text-center text-[16px] font-semibold leading-normal w-full"
+                >
+                  Add liquidity
                 </button>
               )
             ) : (
               <button
-                className=" bg-[#662483] w-full mt-8"
-                onClick={handleConnect}
+                className={`swap-button py-[18px] text-center text-[16px] font-semibold leading-normal w-full ${
+                  wallet ? "cursor-pointer" : "cursor-not-allowed"
+                }`}
+                disabled={true}
               >
-                Connect wallet
+                Swap
               </button>
             )}
           </div>

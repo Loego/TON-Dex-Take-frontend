@@ -25,7 +25,9 @@ export default function SwapHeader() {
   return (
     <div className={styles.header}>
       <div className={styles.text}>
-        <h2 className="text-[18px]">Swap</h2>
+        <span className="text-[18px] font-semibold text-[#565656] dark:text-[#ECECEC]">
+          Swap
+        </span>
         {/* <span>Trade Tokens Easily In An Instant</span> */}
       </div>
       {/* <div className="flex flex-row flex-nowrap gap-2">
