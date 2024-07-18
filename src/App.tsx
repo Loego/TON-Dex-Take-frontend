@@ -13,6 +13,7 @@ import { SwapPanel } from "./components/Exchange/SwapPanel";
 import LiquidityPage from "./components/LiquidityPage";
 import Staking from "./components/Stake";
 import Footer from "./components/Footer/Footer";
+import AppFooter from "./components/Footer/AppFooter";
 config();
 
 function App() {
@@ -37,8 +38,8 @@ function App() {
     <>
       <div className={`${isDarkMode ? "dark" : ""} h-screen w-full relative`}>
         <Header toggleMode={toggleMode} isDarkMode={isDarkMode} />
-        <div className="main min-h-full pt-20 w-full bg-light-mode dark:bg-dark-mode bg-no-repeat bg-center bg-cover">
-          <div className="pb-10">
+        <div className="main min-h-screen pt-[67px] w-full bg-light-mode dark:bg-dark-mode bg-no-repeat bg-center bg-cover">
+          <div className="pb-[50px]">
             <Routes>
               {/* <Route path="/" element={<LandingPage />} /> */}
               <Route path="/exchange" element={<Exchange />} />
@@ -48,26 +49,10 @@ function App() {
               <Route path="/" element={<LandingPage />} />
             </Routes>
           </div>
+          <Footer />
           <Modals />
         </div>
-        <div>
-          <ul>
-            <ul
-              className={`md:hidden items-center md:gap-10 flex justify-center absolute right-0 bottom-0 left-0 w-full md:w-auto bg-white dark:bg-gray-800 md:bg-opacity-0 dark:md:bg-opacity-0 transition-transform transform md:transform-none duration-300`}
-            >
-              <li className="text-lg font-semibold text-[#06A5FF] py-2 md:py-0 px-6 md:px-0">
-                Swap
-              </li>
-              <li className="text-lg font-semibold text-[#06A5FF] py-2 md:py-0 px-6 md:px-0">
-                Pools
-              </li>
-              <li className="text-lg font-semibold text-[#06A5FF] py-2 md:py-0 px-6 md:px-0">
-                Stake
-              </li>
-            </ul>
-          </ul>
-        </div>
-        <Footer />
+        <AppFooter />
       </div>
     </>
   );

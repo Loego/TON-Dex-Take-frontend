@@ -34,28 +34,6 @@ export default function TokenInput({
 
   return (
     <div className="bg-[#f3f8ff] dark:bg-[#242424] border border-[#BFD9FF] dark:border-[#353535] rounded-[12px] min-h-[99px] flex flex-col flex-nowrap pt-[17px] pr-[15px] pb-[16.3px] pl-[18px] gap-[13px]">
-      {/* <div className={styles.input}>
-        <label>{label}</label>
-        <input value={`${value}`} onChange={handleChange} type="number" />
-      </div>
-      <div className={styles.selector} onClick={onSelectToken}>
-        <div className={`${styles.coin}`}>
-          {token !== null ? (
-            <img src={token?.logoURI} alt={token.name} />
-          ) : null}
-          <span>{token !== null ? token.symbol : "Select Token"}</span>
-        </div>
-        <span className={styles.balance}>
-          {showMax && token?.balance ? (
-            <small className={styles.max} onClick={handleMaxClick}>
-              MAX
-            </small>
-          ) : (
-            ""
-          )}
-          Balance: <b>{token?.balance ?? 0}</b>
-        </span>
-      </div> */}
       <div className="flex flex-row justify-between items-center pr-[3px] pb-[3px]">
         <div
           className="cursor-pointer py-[6.84px] pl-[10.3px] pr-[13.7px] flex flex-row items-center gap-[10.267px] rounded-[8px] border border-[#BFD9FF] dark:border-[#353535] bg-[#fff] dark:bg-[#353535] bg-blend-overlay backdrop-blur-[25px]"

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   calculateShare,
@@ -64,7 +64,6 @@ export default function AddLiquidityPanel() {
       <div className={styles.panel}>
         <Header />
         <TokenInput
-          label="Input"
           value={liquidityState.inputs.token1}
           onChange={handleFromChange}
           token={liquidityState.token1}
@@ -73,7 +72,6 @@ export default function AddLiquidityPanel() {
         />
         <PlusIcon />
         <TokenInput
-          label="Input"
           value={liquidityState.inputs.token2}
           onChange={handleToChange}
           token={liquidityState.token2}

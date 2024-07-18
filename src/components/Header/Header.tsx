@@ -15,7 +15,6 @@ const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
   const navigatorButton = (path: string) => {
     navigate(`/${path}`);
   };
-  console.log("Dark Mode", isDarkMode);
   return (
     <nav className="absolute top-0 w-full z-[1000] py-4 px-6 md:px-40 flex justify-between bg-[#ffffffcc] dark:bg-[#111111CC]">
       <div className="flex justify-between items-center w-full md:w-auto">
