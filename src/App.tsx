@@ -39,7 +39,7 @@ function App() {
       <div className={`${isDarkMode ? "dark" : ""} h-screen w-full relative`}>
         <Header toggleMode={toggleMode} isDarkMode={isDarkMode} />
         <div className="main min-h-screen pt-[67px] w-full bg-light-mode dark:bg-dark-mode bg-no-repeat bg-center bg-cover">
-          <div className="pb-[50px]">
+          <div className="min-h-[calc(100vh-145px)] pb-12">
             <Routes>
               {/* <Route path="/" element={<LandingPage />} /> */}
               <Route path="/exchange" element={<Exchange />} />

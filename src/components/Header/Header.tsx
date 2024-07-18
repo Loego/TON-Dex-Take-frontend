@@ -16,7 +16,7 @@ const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
     navigate(`/${path}`);
   };
   return (
-    <nav className="absolute top-0 w-full z-[1000] py-4 px-6 md:px-40 flex justify-between bg-[#ffffffcc] dark:bg-[#111111CC]">
+    <nav className="absolute top-0 w-full z-[1000] py-4 px-6 md:px-20 flex justify-between bg-[#ffffffcc] dark:bg-[#111111CC]">
       <div className="flex justify-between items-center w-full md:w-auto">
         <div onClick={() => navigatorButton("/")}>
           <img src={logo} alt="Logo" className="w-7 md:w-[38px]" />

@@ -6,8 +6,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        "light-mode": "url('./src/assets/bg.jpeg')",
-        "dark-mode": "url('./src/assets/bg.jpeg')",
+        "light-mode": "url('/assets/img/bg.jpg')",
+        "dark-mode": "url('/assets/img/bg.jpg')",
         "standard-gradient":
           "linear-gradient(180deg, rgba(150, 255, 206, 0.2) 0%, rgba(241, 246, 247, 0.2) 100%)",
         "dark-gradient":
