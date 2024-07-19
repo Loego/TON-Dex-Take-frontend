@@ -22,22 +22,12 @@ const Pools = () => {
   };
 
   const data = [
-    {
-      id: 1,
-      pool: "Pool 1",
-      tvl: "$1,000",
-      volume24H: "$200",
-      fees24H: "$20",
-      apr: "5%",
-    },
-    {
-      id: 2,
-      pool: "Pool 2",
-      tvl: "$2,000",
-      volume24H: "$400",
-      fees24H: "$40",
-      apr: "6%",
-    },
+    { id: null },
+    { pool: null },
+    { tvl: null },
+    { volume24H: null },
+    { fees24H: null },
+    { apr: null },
     // Add more data as needed
   ];
 
@@ -118,24 +108,24 @@ const Pools = () => {
             </thead>
             <tbody>
               {data.map((item) => (
-                <tr key={item.id}>
+                <tr key={item?.id}>
                   <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                    {item.id}
+                    {item?.id}
                   </td>
                   <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                    {item.pool}
+                    {item?.pool}
                   </td>
                   <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                    {item.tvl}
+                    {item?.tvl}
                   </td>
                   <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                    {item.volume24H}
+                    {item?.volume24H}
                   </td>
                   <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                    {item.fees24H}
+                    {item?.fees24H}
                   </td>
                   <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                    {item.apr}
+                    {item?.apr}
                   </td>
                 </tr>
               ))}
@@ -144,7 +134,7 @@ const Pools = () => {
           <div className="w-full py-[19.5px] justify-center items-center gap-[15px] text-center">
             <div className=""></div>
             <div className="text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal">
-              Page 1 of 6
+              Page 1 of 1
             </div>
             <div className=""></div>
           </div>

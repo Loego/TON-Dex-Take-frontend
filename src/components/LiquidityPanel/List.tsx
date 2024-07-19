@@ -50,12 +50,14 @@ export default function List() {
 
   return (
     <div className={styles.list}>
-      <h3>Your Pools</h3>
+      <h3 className="text-[#565656] dark:text-[#ECECEC]">Your Pools</h3>
       {!connected ? (
         <NotConnected />
       ) : liquidity === null || liquidity.length === 0 ? (
         isListingLiquidities ? (
-          <p>Fetching liquidity data</p>
+          <p className="text-[#565656] dark:text-[#ECECEC]">
+            Fetching liquidity data
+          </p>
         ) : (
           <EmptyList />
         )
@@ -81,7 +83,9 @@ function NotConnected() {
 function EmptyList() {
   return (
     <div className={styles.emptyList}>
-      <h5>No liquidity found.</h5>
+      <h5 className="text-[#565656] dark:text-[#ECECEC]">
+        No liquidity found.
+      </h5>
     </div>
   );
 }
