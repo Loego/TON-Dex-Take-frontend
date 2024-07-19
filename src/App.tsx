@@ -42,7 +42,6 @@ function App() {
         <div className="main min-h-screen pt-[67px] w-full bg-light-mode dark:bg-dark-mode bg-no-repeat bg-center bg-cover">
           <div className="min-h-[calc(100vh-145px)] pb-12">
             <Routes>
-              {/* <Route path="/" element={<LandingPage />} /> */}
               <Route path="/exchange" element={<Exchange />} />
               <Route path="/swap" element={<SwapPanel />} />
               <Route path="/liquidity" element={<Pools />} />

@@ -1,10 +1,14 @@
 import { useState } from "react";
 import List from "../LiquidityPanel/List";
 import { panel } from "../../redux/reducers/liquidity";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { connect, selectAccount } from "../../redux/reducers/account";
 
 const Pools = () => {
   const dispatch = useAppDispatch();
+  const accountState = useAppSelector(selectAccount);
+  const connected =
+    accountState.walletAddress != null && accountState.walletAddress != "";
   const [filterDate, setFilterDate] = useState<"1D" | "1W" | "1M" | "All">(
     "1D"
   );
@@ -16,6 +20,26 @@ const Pools = () => {
   const handleAddLiquidity = () => {
     dispatch(panel("add"));
   };
+
+  const data = [
+    {
+      id: 1,
+      pool: "Pool 1",
+      tvl: "$1,000",
+      volume24H: "$200",
+      fees24H: "$20",
+      apr: "5%",
+    },
+    {
+      id: 2,
+      pool: "Pool 2",
+      tvl: "$2,000",
+      volume24H: "$400",
+      fees24H: "$40",
+      apr: "6%",
+    },
+    // Add more data as needed
+  ];
 
   return (
     <div className="px-10">
@@ -71,46 +95,50 @@ const Pools = () => {
         <div className="px-[25px] pt-4 mt-[17px] pb-4 rounded-[16px] w-full border border-[#BFD9FF] dark:border-[#646464] shadow-light dark:shadow-dark bg-[#fff]/80 dark:bg-[#111111]/80 backdrop:blur-[25px]">
           <table className="w-full">
             <thead className="w-full">
-              <th className="!w-[30px] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
-                #
-              </th>
-              <th className="ml-[13.5px] w-[30%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
-                Pool
-              </th>
-              <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
-                TVL
-              </th>
-              <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
-                Volume 24H
-              </th>
-              <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
-                Fees 24H
-              </th>
-              <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
-                APR
-              </th>
+              <tr>
+                <th className="!w-[30px] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  #
+                </th>
+                <th className="ml-[13.5px] w-[30%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  Pool
+                </th>
+                <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  TVL
+                </th>
+                <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  Volume 24H
+                </th>
+                <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  Fees 24H
+                </th>
+                <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  APR
+                </th>
+              </tr>
             </thead>
             <tbody>
-              <tr>
-                {/* <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                  1
-                </td>
-                <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                  $413.40m
-                </td>
-                <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                  $413.40m
-                </td>
-                <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                  $413.40m
-                </td>
-                <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                  $413.40m
-                </td>
-                <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
-                  74.21%
-                </td> */}
-              </tr>
+              {data.map((item) => (
+                <tr key={item.id}>
+                  <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    {item.id}
+                  </td>
+                  <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    {item.pool}
+                  </td>
+                  <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    {item.tvl}
+                  </td>
+                  <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    {item.volume24H}
+                  </td>
+                  <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    {item.fees24H}
+                  </td>
+                  <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    {item.apr}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <div className="w-full py-[19.5px] justify-center items-center gap-[15px] text-center">
