@@ -1,4 +1,5 @@
 import { useState } from "react";
+import List from "../LiquidityPanel/List";
 
 const Pools = () => {
   const [filterDate, setFilterDate] = useState<"1D" | "1W" | "1M" | "All">(
@@ -57,7 +58,7 @@ const Pools = () => {
             </div>
           </div>
         </div>
-        <div className="px-[25px] pt-4 mt-[17px] rounded-[16px] w-full border border-[#BFD9FF] dark:border-[#646464] shadow-light dark:shadow-dark bg-[#fff]/80 dark:bg-[#111111]/80 backdrop:blur-[25px]">
+        <div className="px-[25px] pt-4 mt-[17px] pb-4 rounded-[16px] w-full border border-[#BFD9FF] dark:border-[#646464] shadow-light dark:shadow-dark bg-[#fff]/80 dark:bg-[#111111]/80 backdrop:blur-[25px]">
           <table className="w-full">
             <thead className="w-full">
               <th className="!w-[30px] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
@@ -81,7 +82,7 @@ const Pools = () => {
             </thead>
             <tbody>
               <tr>
-                <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                {/* <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                   1
                 </td>
                 <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
@@ -98,7 +99,7 @@ const Pools = () => {
                 </td>
                 <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                   74.21%
-                </td>
+                </td> */}
               </tr>
             </tbody>
           </table>
@@ -109,6 +110,7 @@ const Pools = () => {
             </div>
             <div className=""></div>
           </div>
+          <List />
         </div>
       </div>
     </div>

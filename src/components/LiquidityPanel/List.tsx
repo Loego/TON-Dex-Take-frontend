@@ -162,11 +162,11 @@ function Item({ positionInfo }: IItemProps) {
               title="Add"
               onClick={handleAddLiquidity}
             />
-            {/* <Button
+            <Button
               buttonType="primarySmall"
               title="Remove"
               onClick={handleRemoveClick}
-            /> */}
+            />
           </div>
         </div>
       </CSSTransition>
