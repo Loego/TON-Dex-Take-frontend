@@ -31,10 +31,14 @@ export default {
         transparent: "transparent",
         icon_color: "#1FC7D4",
       },
+      backdropBlur: {
+        "25px": "25px",
+      },
     },
     variants: {
       extend: {
         backgroundBlendMode: ["dark"],
+        backdropBlur: ["hover", "focus"],
       },
     },
     plugins: [],

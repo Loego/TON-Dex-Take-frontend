@@ -14,6 +14,7 @@ import LiquidityPage from "./components/LiquidityPage";
 import Staking from "./components/Stake";
 import Footer from "./components/Footer/Footer";
 import AppFooter from "./components/Footer/AppFooter";
+import Pools from "./components/Pools";
 config();
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
               {/* <Route path="/" element={<LandingPage />} /> */}
               <Route path="/exchange" element={<Exchange />} />
               <Route path="/swap" element={<SwapPanel />} />
-              <Route path="/liquidity" element={<LiquidityPage />} />
+              <Route path="/liquidity" element={<Pools />} />
               <Route path="/stake" element={<Staking />} />
               <Route path="/" element={<LandingPage />} />
             </Routes>

@@ -1,9 +1,8 @@
-
 :root {
   --tg-theme-bg-color: #efeff3;
   --tg-theme-button-color: #63d0f9;
   --tg-theme-button-text-color: black;
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
 .App {
@@ -19,7 +18,7 @@
   flex-direction: column;
   gap: 30px;
   align-items: center;
-  margin: 0 auto; 
+  margin: 0 auto;
   text-align: center;
 }
 

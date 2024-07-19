@@ -90,7 +90,7 @@ function Stake() {
       <div className="flex md:flex-row flex-col gap-10 w-full">
         <div className="md:w-[50%] w-full flex flex-col gap-10">
           <div className="w-full rounded-[12px] relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
-            <h2 className="text-black dark:text-white text-[20px] font-semibold pb-3">
+            <h2 className="text-black dark:text-white text-[18px] font-semibold pb-3">
               Stake
             </h2>
             <p className="text-black dark:text-white text-[16px] font-medium">
@@ -155,7 +155,7 @@ function Stake() {
         </div>
         <div className="md:w-[50%] w-full">
           <div className="w-full rounded-[12px] relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
-            <h2 className="text-black dark:text-white text-[20px] font-semibold pb-3">
+            <h2 className="text-black dark:text-white text-[18px] font-semibold pb-3">
               FAQ
             </h2>
 
