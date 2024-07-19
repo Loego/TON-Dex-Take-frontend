@@ -1,13 +1,20 @@
 import { useState } from "react";
 import List from "../LiquidityPanel/List";
+import { panel } from "../../redux/reducers/liquidity";
+import { useAppDispatch } from "../../redux/hooks";
 
 const Pools = () => {
+  const dispatch = useAppDispatch();
   const [filterDate, setFilterDate] = useState<"1D" | "1W" | "1M" | "All">(
     "1D"
   );
 
   const filterButton = (filter: "1D" | "1W" | "1M" | "All") => {
     setFilterDate(filter);
+  };
+
+  const handleAddLiquidity = () => {
+    dispatch(panel("add"));
   };
 
   return (
@@ -53,8 +60,11 @@ const Pools = () => {
             <div className="px-[9px] py-2 w-fit rounded-[12px] border border-[#BFD9FF] dark:border-[#353535] bg-[#F3F8FF] dark:bg-[#242424] backdrop:blur-[25px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-normal leading-[20px]">
               Boost a pool
             </div>
-            <div className="font-semibold text-[16px] text-[#0364F6] dark:text-[#B5D83F] leading-[20px] tracking-[-0.16px] underline cursor-pointer">
-              Connect wallet
+            <div
+              onClick={handleAddLiquidity}
+              className="font-semibold text-[16px] text-[#0364F6] dark:text-[#B5D83F] leading-[20px] tracking-[-0.16px] underline cursor-pointer"
+            >
+              + Add Liquidity
             </div>
           </div>
         </div>

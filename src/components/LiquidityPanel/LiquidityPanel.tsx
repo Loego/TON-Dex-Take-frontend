@@ -49,7 +49,6 @@ export const LiquidityPanel = () => {
       </div>
       <div className=" border-x bg-[#242424] border border-[#2B2649] px-12 py-7">
         <button className=" bg-btn_color w-full" onClick={handleAddLiquidity}>
-          {" "}
           + Add Liquidity
         </button>
       </div>
