@@ -41,10 +41,10 @@ function App() {
           isDarkMode ? "dark" : ""
         }`}
       >
-        <div className="bg-white dark:bg-black fixed top-0 left-0 bg-light-mode w-full h-full bg-no-repeat bg-center bg-cover -z-1 dark:opacity-50 blur-md" />
+        <div className="bg-white dark:bg-black fixed top-0 left-0 bg-light-mode w-full h-full bg-no-repeat bg-center bg-cover -z-50 dark:opacity-50 blur-md" />
         <Header toggleMode={toggleMode} isDarkMode={isDarkMode} />
-        <div className="flex-1 main w-full h-full flex flex-col overflow-auto">
-          <div className="flex-1 p-2 md:p-5">
+        <div className="flex-1 main w-full h-full flex flex-col overflow-auto z-0">
+          <div className="flex-1 p-2 md:p-5 z-0">
             <Routes>
               <Route path="/exchange" element={<Exchange />} />
               <Route path="/swap" element={<SwapPanel />} />
