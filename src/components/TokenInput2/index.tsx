@@ -34,7 +34,7 @@ export default function TokenInput({
 
   return (
     <div className="bg-[#f3f8ff] dark:bg-[#242424] border border-[#BFD9FF] dark:border-[#353535] rounded-[12px] min-h-[99px] flex flex-col flex-nowrap pt-[17px] pr-[15px] pb-[16.3px] pl-[18px] gap-[13px]">
-      <div className="flex flex-row justify-between items-center pr-[3px] pb-[3px]">
+      <div className="flex flex-row justify-between items-center pr-[3px] pb-[3px] gap-2">
         <div
           className="cursor-pointer py-[6.84px] pl-[10.3px] pr-[13.7px] flex flex-row items-center gap-[10.267px] rounded-[8px] border border-[#BFD9FF] dark:border-[#353535] bg-[#fff] dark:bg-[#353535] bg-blend-overlay backdrop-blur-[25px]"
           onClick={onSelectToken}
@@ -47,19 +47,19 @@ export default function TokenInput({
             ></img>
           ) : null}
           <div className="flex flex-row gap-[10px]">
-            <div className=" text-[#0C192B] dark:text-[#ECECEC] text-[12px] font-semibold leading-[1rem]">
+            <div className=" text-[#0C192B] dark:text-[#ECECEC] text-[12px] font-semibold leading-[1rem] whitespace-nowrap">
               {token !== null ? token.symbol : "Select Token"}
             </div>
             <div className=""></div>
           </div>
         </div>
         <input
-          className="dark:text-[#ECECEC] text-right text-[#212121] justify-end"
+          className="text-3xl dark:text-[#ECECEC] text-right text-[#212121] justify-end "
           placeholder="0.00"
           value={`${value}`}
           onChange={handleChange}
           type="number"
-        ></input>
+        />
       </div>
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-row items-center">

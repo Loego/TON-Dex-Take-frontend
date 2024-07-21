@@ -1,15 +1,14 @@
 <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="3" y="53" width="50" height="50" rx="25" transform="rotate(-90 3 53)" fill="#2D3542"/>
-<rect x="3" y="53" width="50" height="50" rx="25" transform="rotate(-90 3 53)" fill="url(#paint0_linear_27_967)"/>
-<rect x="3" y="53" width="50" height="50" rx="25" transform="rotate(-90 3 53)" stroke="#5598FD" stroke-width="6"/>
-<path d="M26.45 22.72L22.73 19L19.01 22.72" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M22.73 37V19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M29.55 33.28L33.27 37L36.99 33.28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M33.27 19V37" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<defs>
-<linearGradient id="paint0_linear_27_967" x1="0" y1="83.9999" x2="56" y2="83.9999" gradientUnits="userSpaceOnUse">
-<stop stop-color="#025DE7"/>
-<stop offset="1" stop-color="#0366FC"/>
-</linearGradient>
-</defs>
+    <rect x="3" y="53" width="50" height="50" rx="25" transform="rotate(-90 3 53)" fill="#2D3542" />
+    <rect x="3" y="53" width="50" height="50" rx="25" transform="rotate(-90 3 53)" fill="#0366FC" />
+    <rect x="3" y="53" width="50" height="50" rx="25" transform="rotate(-90 3 53)" stroke="#5598FD"
+        stroke-width="6" />
+    <path d="M26.45 22.72L22.73 19L19.01 22.72" stroke="white" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M22.73 37V19" stroke="white" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" />
+    <path d="M29.55 33.28L33.27 37L36.99 33.28" stroke="white" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M33.27 19V37" stroke="white" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" />
 </svg>

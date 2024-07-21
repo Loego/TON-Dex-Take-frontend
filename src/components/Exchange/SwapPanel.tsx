@@ -19,7 +19,6 @@ import {
 import { selectTokens } from "../../redux/reducers/tokens";
 import SwitchButton from "../SwitchButton/SwitchButton";
 import TokenInput from "../TokenInput2";
-import SwapHeader from "./SwapHeader";
 
 import "./TONConnectButton.scss";
 import { useTonClient } from "../../hook/useTonClient";
@@ -111,78 +110,78 @@ export const SwapPanel = () => {
   useInputBalanceEffect(swapState.from, swapState.to, syncTokenBalances);
 
   return (
-    <div className=" bg-layout_dark">
-      <div className="mx-auto px-4 lg:w-1/2 flex flex-col p-0 container pt-2 pb-5">
-        <div className="container lg:px-20 pt-14">
-          <div className="rounded-lg bg-[#FFFFFFCC] dark:bg-[#111111CC] border border-[#BFD9FF] dark:border-[#353535] pt-[35px] pb-[42px] px-[22px] shadow-light dark:shadow-dark !max-w-[500px] mx-auto">
-            <div className="flex flex-col">
-              <SwapHeader />
-              {!isPoolExist && (
-                <p className="text-[#565656] dark:text-[#ECECEC] text-normal text-[14px] mt-1">
-                  Pool doesn't exist
-                </p>
-              )}
-              <div className="relative shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-[29px]">
-                <TokenInput
-                  value={swapState.inputs.from}
-                  onChange={handleFromChange}
-                  token={swapState.from}
-                  onSelectToken={handleSelectFromToken}
-                />
-                <div className="absolute bottom-[-37px] left-[calc(50%-28px)]">
-                  <SwitchButton onClick={handleSwitch} />
-                </div>
-              </div>
-              <div className="shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-5">
-                <TokenInput
-                  value={swapState.inputs.to}
-                  onChange={handleToChange}
-                  token={swapState.to}
-                  onSelectToken={handleSelectToToken}
-                />
-              </div>
-              <span className="flex flex-row items-center gap-2 justify-end mb-2">
-                {swapState.conversionRate !== 0 &&
-                swapState.from !== null &&
-                swapState.to !== null ? (
-                  <div>
-                    <span className="text-[12px] font-semibold dark:text-[#ECECEC] text-[#565656]">
-                      1 {swapState.from?.symbol} = {swapState.conversionRate}{" "}
-                      {swapState.to?.symbol} ($
-                      {swapState.usdtRate})
-                    </span>
-                  </div>
-                ) : null}
-              </span>
+    <div className="h-full flex">
+      <div className="rounded-lg bg-white/70 backdrop-blur-sm dark:bg-black/70 border border-[#BFD9FF] dark:border-[#353535] p-4 md:p-8 shadow-light dark:shadow-dark !max-w-[500px] m-auto">
+        <div className="flex flex-col">
+          <span className="text-[18px] font-semibold text-[#565656] dark:text-[#ECECEC]">
+            Swap
+          </span>
+          {!isPoolExist && (
+            <p className="text-[#565656] dark:text-[#ECECEC] text-normal text-[14px] mt-1">
+              Pool doesn't exist
+            </p>
+          )}
+          <div className="relative shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-[29px]">
+            <TokenInput
+              value={swapState.inputs.from}
+              onChange={handleFromChange}
+              token={swapState.from}
+              onSelectToken={handleSelectFromToken}
+            />
+            <div className="absolute bottom-[-37px] left-[calc(50%-28px)]">
+              <SwitchButton onClick={handleSwitch} />
             </div>
-            {wallet ? (
-              isPoolExist ? (
-                <button
-                  className="swap-button py-[18px] text-center text-[16px] font-semibold leading-normal w-full"
-                  onClick={handleSwap}
-                  disabled={confirmDisabled}
-                >
-                  Swap
-                </button>
-              ) : (
-                <button
-                  onClick={() => navigate("/liquidity")}
-                  className="swap-button py-[18px] text-center text-[16px] font-semibold leading-normal w-full"
-                >
-                  Add liquidity
-                </button>
-              )
-            ) : (
+          </div>
+          <div className="shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-5">
+            <TokenInput
+              value={swapState.inputs.to}
+              onChange={handleToChange}
+              token={swapState.to}
+              onSelectToken={handleSelectToToken}
+            />
+          </div>
+          <span className="flex flex-row items-center gap-2 justify-end mb-2">
+            {swapState.conversionRate !== 0 &&
+            swapState.from !== null &&
+            swapState.to !== null ? (
+              <div>
+                <span className="text-[12px] font-semibold dark:text-[#ECECEC] text-[#565656]">
+                  1 {swapState.from?.symbol} = {swapState.conversionRate}{" "}
+                  {swapState.to?.symbol} ($
+                  {swapState.usdtRate})
+                </span>
+              </div>
+            ) : null}
+          </span>
+        </div>
+        <div className="mt-4">
+          {wallet ? (
+            isPoolExist ? (
               <button
-                className={`swap-button py-[18px] text-center text-[16px] font-semibold leading-normal w-full ${
-                  wallet ? "cursor-pointer" : "cursor-not-allowed"
-                }`}
-                disabled={true}
+                className="py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
+                onClick={handleSwap}
+                disabled={confirmDisabled}
               >
                 Swap
               </button>
-            )}
-          </div>
+            ) : (
+              <button
+                onClick={() => navigate("/liquidity")}
+                className="py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
+              >
+                Add liquidity
+              </button>
+            )
+          ) : (
+            <button
+              className={
+                "py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff] cursor-not-allowed"
+              }
+              disabled={true}
+            >
+              Swap
+            </button>
+          )}
         </div>
       </div>
     </div>

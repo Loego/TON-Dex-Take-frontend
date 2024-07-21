@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/img/logo.gif";
 import dark from "../../assets/dark.svg";
 import light from "../../assets/light.svg";
 import { TonConnectButton } from "@tonconnect/ui-react";
@@ -16,15 +16,17 @@ const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
     navigate(`/${path}`);
   };
   return (
-    <nav className="absolute top-0 w-full z-[1000] py-4 px-6 md:px-20 flex justify-between bg-[#ffffffcc] dark:bg-[#111111CC]">
-      <div className="flex justify-between items-center w-full md:w-auto">
+    <nav className="w-full z-[1000] py-4 px-6 md:px-20 grid grid-cols-[auto_auto] md:grid-cols-[1fr_auto_1fr] gap-5 bg-[#ffffffcc] dark:bg-[#111111CC] backdrop-blur-sm">
+      <div className="flex justify-between items-center md:w-auto">
         <div onClick={() => navigatorButton("/")}>
-          <img src={logo} alt="Logo" className="w-7 md:w-[38px]" />
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-14 aspect-square scale-125 hue-rotate-90"
+          />
         </div>
       </div>
-      <ul
-        className={`md:flex md:items-center md:gap-10 hidden absolute md:static top-full left-0 w-full md:w-auto transition-transform transform md:transform-none duration-300`}
-      >
+      <ul className="md:flex md:items-center md:gap-10 hidden absolute md:static top-full left-0 w-full md:w-auto transition-transform transform md:transform-none duration-300">
         <li
           onClick={() => navigatorButton("swap")}
           className="cursor-pointer text-lg font-semibold text-[#06A5FF] py-2 md:py-0 px-6 md:px-0"
@@ -44,7 +46,7 @@ const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
           Stake
         </li>
       </ul>
-      <div className="flex items-center gap-4">
+      <div className="flex justify-end items-center gap-4">
         <div
           onClick={toggleMode}
           className="min-w-5 bg-transparent border-none text-lg cursor-pointer dark:text-white/80"

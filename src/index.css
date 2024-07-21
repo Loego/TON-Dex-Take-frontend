@@ -124,9 +124,3 @@ input {
     appearance: none;
   }
 }
-
-.swap-button {
-  border-radius: 12px;
-  background: linear-gradient(90deg, #b5d73e 0%, #06a5ff 100%),
-    linear-gradient(90deg, #025de7 0%, #0366fc 100%);
-}

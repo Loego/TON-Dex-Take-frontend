@@ -10,7 +10,6 @@ import { retrieveTokens } from "./redux/reducers/tokens";
 import { selectAccount } from "./redux/reducers/account";
 import Modals from "./components/Modals";
 import { SwapPanel } from "./components/Exchange/SwapPanel";
-import LiquidityPage from "./components/LiquidityPage";
 import Staking from "./components/Stake";
 import Footer from "./components/Footer/Footer";
 import AppFooter from "./components/Footer/AppFooter";
@@ -37,10 +36,15 @@ function App() {
 
   return (
     <>
-      <div className={`${isDarkMode ? "dark" : ""} h-screen w-full relative`}>
+      <div
+        className={`h-screen w-full relative flex flex-col ${
+          isDarkMode ? "dark" : ""
+        }`}
+      >
+        <div className="bg-white dark:bg-black fixed top-0 left-0 bg-light-mode w-full h-full bg-no-repeat bg-center bg-cover -z-1 dark:opacity-50 blur-md" />
         <Header toggleMode={toggleMode} isDarkMode={isDarkMode} />
-        <div className="main min-h-screen pt-[67px] w-full bg-light-mode dark:bg-dark-mode bg-no-repeat bg-center bg-cover">
-          <div className="min-h-[calc(100vh-145px)] pb-12">
+        <div className="flex-1 main w-full h-full flex flex-col overflow-auto">
+          <div className="flex-1 p-2 md:p-5">
             <Routes>
               <Route path="/exchange" element={<Exchange />} />
               <Route path="/swap" element={<SwapPanel />} />
@@ -50,10 +54,10 @@ function App() {
             </Routes>
           </div>
           <Footer />
-          <Modals />
         </div>
         <AppFooter />
       </div>
+      <Modals />
     </>
   );
 }
