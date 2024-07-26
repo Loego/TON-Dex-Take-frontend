@@ -151,10 +151,12 @@ export const syncTokenBalances = createAsyncThunk(
     token1,
     token2,
     walletAddress,
+    client,
   }: {
     token1?: TokenBalanced | null
     token2?: TokenBalanced | null
     walletAddress: string
+    client: TonClient | undefined
   }) => {
     let balance1 = 0,
       balance2 = 0

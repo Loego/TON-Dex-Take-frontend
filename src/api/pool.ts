@@ -454,7 +454,9 @@ export const addLiquidity = async (
   token1: string,
   token2: string,
   value1: number,
-  value2: number
+  value2: number,
+  isToken1Ton: boolean = false,
+  isToken2Ton: boolean = false
 ): Promise<string> => {
   const routerAddress = import.meta.env.VITE_ROUTER_ADDRESS
 
@@ -522,8 +524,8 @@ export const addLiquidity = async (
     .endCell()
 
   const internalMessage1 = {
-    to: token1WalletAddress,
-    value: toNano(0.3),
+    to: isToken1Ton ? routerToken1WalletAddress : token1WalletAddress,
+    value: toNano(isToken1Ton ? value1 + 0.3 : 0.3),
     body: messageBody1,
   }
 
@@ -545,8 +547,8 @@ export const addLiquidity = async (
     .endCell()
 
   const internalMessage2 = {
-    to: token2WalletAddress,
-    value: toNano(0.3),
+    to: isToken2Ton ? routerToken2WalletAddress : token2WalletAddress,
+    value: toNano(isToken2Ton ? value2 + 0.3 : 0.3),
     body: messageBody2,
   }
 

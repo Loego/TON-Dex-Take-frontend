@@ -20,6 +20,7 @@ export function useTonConnect() {
 
   const getAddress = useCallback(() => {
     const addr = wallet?.account?.address
+
     if (addr) {
       setAddress(toUserFriendlyAddress(addr, true))
     }

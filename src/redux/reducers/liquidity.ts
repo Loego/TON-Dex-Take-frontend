@@ -18,8 +18,9 @@ import { RootState } from '../store'
 import type { LiquidityState } from '../types/liquidity'
 import { showModal } from './modals'
 import { notification } from './notifications'
-import { TonClient } from '@ton/ton'
+import { Address, fromNano, TonClient } from '@ton/ton'
 import { TokenBalanced } from '../types/tokens'
+import { useTonClient } from '../../hook/useTonClient'
 
 const initialState: LiquidityState = {
   panel: 'main',
@@ -168,7 +169,9 @@ export const confirmAddLiquidity = createAsyncThunk<
     token1.address,
     token2.address,
     inputs.token1,
-    inputs.token2
+    inputs.token2,
+    token1.symbol === 'TON',
+    token2.symbol === 'TON'
   )
 
   thunkAPI.dispatch(showModal(null))
@@ -277,18 +280,33 @@ export const syncTokenBalances = createAsyncThunk(
     token1,
     token2,
     walletAddress,
+    client,
   }: {
     token1?: TokenBalanced | null
     token2?: TokenBalanced | null
     walletAddress: string
+    client: TonClient | undefined
   }) => {
     let balance1 = 0,
       balance2 = 0
-    if (token1) {
-      balance1 = await tokenBalance(token1, walletAddress)
+
+    if (token1 && client) {
+      if (token1.symbol === 'TON') {
+        balance1 = Number(
+          fromNano(await client?.getBalance(Address.parse(walletAddress)))
+        )
+      } else {
+        balance1 = await tokenBalance(token1, walletAddress)
+      }
     }
-    if (token2) {
-      balance2 = await tokenBalance(token2, walletAddress)
+    if (token2 && client) {
+      if (token2.symbol === 'TON') {
+        balance2 = Number(
+          fromNano(await client?.getBalance(Address.parse(walletAddress)))
+        )
+      } else {
+        balance2 = await tokenBalance(token2, walletAddress)
+      }
     }
     return { balance1, balance2 }
   }
