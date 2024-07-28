@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   confirmAddLiquidity,
   selectLiquidity,
 } from "../../redux/reducers/liquidity";
-import Button from "../Button";
 import Header from "./Header";
 import styles from "./index.module.scss";
 import { useTonClient } from "../../hook/useTonClient";
@@ -29,16 +28,20 @@ export default function ConfirmAddLiquidity() {
   };
 
   return (
-    <div className={styles.container} onClick={preventClickThroughs}>
+    <div
+      onClick={preventClickThroughs}
+      className="flex flex-col flow gap-6 max-w-[450px] min-w-[280px] w-[90%] p-[2.5rem] rounded-lg bg-white/70 backdrop-blur-sm dark:bg-black/70 border border-[#BFD9FF] dark:border-[#353535] md:p-8 shadow-light dark:shadow-dark"
+    >
       <Header />
       <TransactionSummary />
       <Estimation />
       <TransactionInfo />
-      <Button
-        buttonType="primaryLarge"
-        title="Confirm Supply"
+      <button
+        className="py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
         onClick={handleConfirmClick}
-      />
+      >
+        Confirm Supply
+      </button>
     </div>
   );
 }
@@ -55,7 +58,7 @@ function TransactionSummary() {
       <h1>{position?.liquidityTokens.toFixed(4) ?? 0}</h1>
       <img src={token1?.logoURI} alt={token1?.name} />
       <img src={token2?.logoURI} alt={token2?.name} />
-      <span>
+      <span className="ml-2 text-[18px] font-semibold text-[#565656] dark:text-[#ECECEC]">
         {token1?.symbol}/{token2?.symbol} Pool Tokens
       </span>
     </div>

@@ -24,7 +24,7 @@ export const LandingPage = () => {
         </div>
         <div
           className="h-[150px] w-[350px] rounded-[12px] relative flex justify-between bg-white dark:bg-[#111111CC] border-[1px] dark:border-[#353535] border-[#BFD9FF] shadow-light dark:shadow-dark cursor-pointer"
-          onClick={() => navigatorButton("pools")}
+          onClick={() => navigatorButton("liquidity")}
         >
           <h2 className="text-[#06A5FF] font-semibold text-[28px] pt-4 pl-6">
             Pools

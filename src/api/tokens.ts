@@ -80,7 +80,6 @@ export const Test_1 = {
 
 export const Test_2 = {
   name: "Test 2",
-  // symbol: "AMBR",
   symbol: "TEST_2",
   address: "EQDN0CtaoPu1Oo00L4HVOU6enq0khYyZmCWSWnpGvzZCrEKV",
   chainId: 0,
