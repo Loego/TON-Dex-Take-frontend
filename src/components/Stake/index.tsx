@@ -12,7 +12,7 @@ const faqData = [
       "To stake, you need to hold a specific amount of the cryptocurrency and use a staking platform to lock your funds.",
   },
   {
-    question: "What is SCALE?",
+    question: "What is TAKE?",
     answer:
       "Staking can provide rewards in the form of additional tokens or coins, thus generating passive income.",
   },
@@ -22,7 +22,7 @@ const faqData = [
       "Staking involves risks, including market volatility and the potential loss of staked assets. Always do thorough research.",
   },
   {
-    question: "How can I unstake my SCALE tokens?",
+    question: "How can I unstake my TAKE tokens?",
     answer:
       "Staking involves risks, including market volatility and the potential loss of staked assets. Always do thorough research.",
   },
@@ -94,7 +94,7 @@ function Stake() {
               Stake
             </h2>
             <p className="text-black dark:text-white text-[16px] font-medium">
-              Earn a share of the protocol&apos;s fees while staking SCALE
+              Earn a share of the protocol&apos;s fees while staking TAKE
             </p>
             <div className="flex items-center justify-center pt-3 w-full">
               <div className="flex items-center gap-4 rounded-[12px] w-fit border p-2">
@@ -137,7 +137,7 @@ function Stake() {
 
               <div className="text-right py-2">
                 <h2 className="text-black dark:text-white text-[12px] font-semibold text-opacity-40">
-                  Est Network Fee: 0.0003 SCALE
+                  Est Network Fee: 0.0003 TAKE
                 </h2>
               </div>
 
