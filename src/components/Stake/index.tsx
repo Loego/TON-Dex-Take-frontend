@@ -12,7 +12,7 @@ const faqData = [
       "To stake, you need to hold a specific amount of the cryptocurrency and use a staking platform to lock your funds.",
   },
   {
-    question: "What is TAKE?",
+    question: "What is SCALE?",
     answer:
       "Staking can provide rewards in the form of additional tokens or coins, thus generating passive income.",
   },
@@ -22,7 +22,7 @@ const faqData = [
       "Staking involves risks, including market volatility and the potential loss of staked assets. Always do thorough research.",
   },
   {
-    question: "How can I unstake my TAKE tokens?",
+    question: "How can I unstake my SCALE tokens?",
     answer:
       "Staking involves risks, including market volatility and the potential loss of staked assets. Always do thorough research.",
   },
@@ -36,9 +36,9 @@ function Stake() {
   };
   return (
     <div className="flex flex-col gap-10 justify-center md:px-20 px-10 pt-10 md:pb-0 pb-24 items-center h-full w-full">
-      <div className="w-full rounded-[12px] relative p-6 grid md:grid-cols-4 grid-cols-2 gap-4 bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
+      <div className="w-full rounded-xl relative p-6 grid md:grid-cols-4 grid-cols-2 gap-4 bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
         <div>
-          <h2 className="text-black dark:text-white text-[16px] pb-3">
+          <h2 className="text-black dark:text-white text-base pb-3">
             Available to Stake
           </h2>
           <div className="flex items-center gap-3">
@@ -47,10 +47,10 @@ function Stake() {
               0.0
             </h2>
           </div>
-          <h2 className="text-black dark:text-white text-[16px] ">$ 0.00</h2>
+          <h2 className="text-black dark:text-white text-base ">$ 0.00</h2>
         </div>
         <div>
-          <h2 className="text-black dark:text-white text-[16px] pb-3">
+          <h2 className="text-black dark:text-white text-base pb-3">
             Staking
           </h2>
           <div className="flex items-center gap-3">
@@ -59,10 +59,10 @@ function Stake() {
               0.0
             </h2>
           </div>
-          <h2 className="text-black dark:text-white text-[16px] ">$ 0.00</h2>
+          <h2 className="text-black dark:text-white text-base ">$ 0.00</h2>
         </div>
         <div>
-          <h2 className="text-black dark:text-white text-[16px] pb-3">
+          <h2 className="text-black dark:text-white text-base pb-3">
             Rewards
           </h2>
           <div className="flex items-center gap-3">
@@ -70,12 +70,12 @@ function Stake() {
               15.23% APR
             </h2>
           </div>
-          <h2 className="text-black dark:text-white text-[16px] underline">
+          <h2 className="text-black dark:text-white text-base underline">
             More Info
           </h2>
         </div>
         <div>
-          <h2 className="text-black dark:text-white text-[16px] pb-3">
+          <h2 className="text-black dark:text-white text-base pb-3">
             Unstaking
           </h2>
           <div className="flex items-center gap-3">
@@ -84,24 +84,24 @@ function Stake() {
               0.0
             </h2>
           </div>
-          <h2 className="text-black dark:text-white text-[16px] ">$ 0.00</h2>
+          <h2 className="text-black dark:text-white text-base ">$ 0.00</h2>
         </div>
       </div>
       <div className="flex md:flex-row flex-col gap-10 w-full">
         <div className="md:w-[50%] w-full flex flex-col gap-10">
-          <div className="w-full rounded-[12px] relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
+          <div className="w-full rounded-xl relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
             <h2 className="text-black dark:text-white text-[18px] font-semibold pb-3">
               Stake
             </h2>
-            <p className="text-black dark:text-white text-[16px] font-medium">
-              Earn a share of the protocol&apos;s fees while staking TAKE
+            <p className="text-black dark:text-white text-base font-medium">
+              Earn a share of the protocol&apos;s fees while staking SCALE
             </p>
             <div className="flex items-center justify-center pt-3 w-full">
-              <div className="flex items-center gap-4 rounded-[12px] w-fit border p-2">
-                <button className="py-2 px-6 text-black dark:text-white bg-[#0364F733] rounded-[12px]">
+              <div className="flex items-center gap-4 rounded-xl w-fit border p-2">
+                <button className="py-2 px-6 text-black dark:text-white bg-[#0364F733] rounded-xl">
                   Stake
                 </button>
-                <button className="py-2 px-6 text-black dark:text-white rounded-[12px]">
+                <button className="py-2 px-6 text-black dark:text-white rounded-xl">
                   Unstake
                 </button>
               </div>
@@ -109,44 +109,44 @@ function Stake() {
 
             <div className="pt-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-black dark:text-white text-[12px] font-semibold">
+                <h2 className="text-black dark:text-white text-xs font-semibold">
                   Available Amount:
                 </h2>
-                <h2 className="text-black dark:text-white text-[12px] font-semibold">
+                <h2 className="text-black dark:text-white text-xs font-semibold">
                   2.8989 USDT (Max)
                 </h2>
               </div>
-              <div className="flex items-center my-4 justify-between border border-black dark:border-white p-3 rounded-[12px]">
+              <div className="flex items-center my-4 justify-between border border-black dark:border-white p-3 rounded-xl">
                 <input
                   type="number"
                   className="bg-transparent outline-none w-[400px] text-black dark:text-white"
                   placeholder="0.00"
                 />
-                <div className="bg-white dark:bg-gray-800 bg-opacity-90 w-fit p-2 rounded-[12px] dark:bg-opacity-90 text-black dark:text-white">
+                <div className="bg-white dark:bg-gray-800 bg-opacity-90 w-fit p-2 rounded-xl dark:bg-opacity-90 text-black dark:text-white">
                   MAX
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <h2 className="text-black dark:text-white text-[12px] font-semibold">
+                <h2 className="text-black dark:text-white text-xs font-semibold">
                   Available Amount:
                 </h2>
-                <h2 className="text-black dark:text-white text-[12px] font-semibold">
+                <h2 className="text-black dark:text-white text-xs font-semibold">
                   2.8989 USDT (Max)
                 </h2>
               </div>
 
               <div className="text-right py-2">
-                <h2 className="text-black dark:text-white text-[12px] font-semibold text-opacity-40">
-                  Est Network Fee: 0.0003 TAKE
+                <h2 className="text-black dark:text-white text-xs font-semibold text-opacity-40">
+                  Est Network Fee: 0.0003 SCALE
                 </h2>
               </div>
 
-              <button className="bg-gradient-to-tr from-[#B5D73E] to-[#06A5FF] w-full rounded-[12px] py-3">
+              <button className="bg-gradient-to-tr from-[#B5D73E] to-[#06A5FF] w-full rounded-xl py-3">
                 Stake
               </button>
             </div>
           </div>
-          <div className="w-full rounded-[12px] relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
+          <div className="w-full rounded-xl relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
             <h2 className="text-black dark:text-white text-xl font-semibold pb-3">
               History
             </h2>
@@ -154,7 +154,7 @@ function Stake() {
           </div>
         </div>
         <div className="md:w-[50%] w-full">
-          <div className="w-full rounded-[12px] relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
+          <div className="w-full rounded-xl relative p-6 flex flex-col bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90">
             <h2 className="text-black dark:text-white text-[18px] font-semibold pb-3">
               FAQ
             </h2>
@@ -162,7 +162,7 @@ function Stake() {
             {faqData.map((faq, index) => (
               <div
                 key={index}
-                className={`rounded-[12px] p-4 border border-gray-800 dark:border-white mb-4 cursor-pointer ${
+                className={`rounded-xl p-4 border border-gray-800 dark:border-white mb-4 cursor-pointer ${
                   openIndex === index ? "bg-gray-100 dark:bg-gray-700" : ""
                 }`}
                 onClick={() => toggleFAQ(index)}

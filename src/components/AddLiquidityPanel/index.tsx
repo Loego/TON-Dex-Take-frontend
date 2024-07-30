@@ -61,35 +61,33 @@ export default function AddLiquidityPanel() {
   }, [dispatch, liquidityState.token1, liquidityState.token2, client]);
 
   return (
-    <div className="pt-20 p-5">
-      <div className="rounded-lg bg-white/70 backdrop-blur-sm dark:bg-black/70 border border-[#BFD9FF] dark:border-[#353535] p-4 md:p-8 shadow-light dark:shadow-dark !max-w-[500px] m-auto">
-        <div className="flex flex-col">
-          <span className="text-[18px] font-semibold text-[#565656] dark:text-[#ECECEC]">
-            Add liquidity
-          </span>
-          <div className="relative shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-[29px]">
-            <TokenInput
-              value={liquidityState.inputs.token1}
-              onChange={handleFromChange}
-              token={liquidityState.token1}
-              onSelectToken={handleSelectFromToken}
-              showMax
-            />
-            {/* <div className="absolute bottom-[-37px] left-[calc(50%-28px)]">
+    <div className="rounded-lg bg-white/70 backdrop-blur-sm dark:bg-black/70 border border-[#BFD9FF] dark:border-[#353535] p-4 shadow-light dark:shadow-dark !max-w-[500px] m-auto">
+      <div className="flex flex-col">
+        <span className="text-[18px] font-semibold text-[#565656] dark:text-[#ECECEC]">
+          Add liquidity
+        </span>
+        <div className="relative shadow-containerLight dark:shadow-containerDark rounded-xl mt-3">
+          <TokenInput
+            value={liquidityState.inputs.token1}
+            onChange={handleFromChange}
+            token={liquidityState.token1}
+            onSelectToken={handleSelectFromToken}
+            showMax
+          />
+          {/* <div className="absolute bottom-[-37px] left-[calc(50%-28px)]">
               <SwitchButton onClick={handleSwitch} />
             </div> */}
-          </div>
-          <div className="shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-5">
-            <TokenInput
-              value={liquidityState.inputs.token2}
-              onChange={handleToChange}
-              token={liquidityState.token2}
-              onSelectToken={handleSelectToToken}
-            />
-          </div>
-          <Info />
-          <Actions />
         </div>
+        <div className="shadow-containerLight dark:shadow-containerDark rounded-xl mt-3">
+          <TokenInput
+            value={liquidityState.inputs.token2}
+            onChange={handleToChange}
+            token={liquidityState.token2}
+            onSelectToken={handleSelectToToken}
+          />
+        </div>
+        <Info />
+        <Actions />
       </div>
     </div>
   );

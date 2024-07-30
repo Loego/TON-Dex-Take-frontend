@@ -19,7 +19,7 @@ export default function Input({ onChange, value, placeholder }:IProps) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.verticalLine}/>
+      {/* <div className={styles.verticalLine}/> */}
       <div className={styles.input}>
         <input
           value={`${value}`}

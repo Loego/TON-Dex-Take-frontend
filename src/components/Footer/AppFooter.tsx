@@ -10,7 +10,7 @@ const AppFooter = () => {
           className="w-1/3 h-full flex flex-row items-center justify-center text-center px-6 md:px-0 gap-[9px] cursor-pointer hover:border-t-2 hover:border-[#06A5FF]"
         >
           <img className="w-6 h-6" src="/assets/img/swap.png" alt="swapImg" />
-          <div className="text-[12px] leading-[150%] font-semibold text-black">
+          <div className="text-xs leading-[150%] font-semibold text-black">
             Swap
           </div>
         </div>
@@ -19,7 +19,7 @@ const AppFooter = () => {
           className="w-1/3 h-full flex flex-row items-center justify-center text-center px-6 md:px-0 gap-[9px] cursor-pointer hover:border-t-2 hover:border-[#06A5FF]"
         >
           <img className="w-6 h-6" src="/assets/img/pools.png" alt="poolsImg" />
-          <div className="text-[12px] leading-[150%] font-semibold text-black">
+          <div className="text-xs leading-[150%] font-semibold text-black">
             Pools
           </div>
         </div>
@@ -28,7 +28,7 @@ const AppFooter = () => {
           className="w-1/3 h-full flex flex-row items-center justify-center text-center px-6 md:px-0 gap-[9px] cursor-pointer hover:border-t-2 hover:border-[#06A5FF]"
         >
           <img className="w-6 h-6" src="/assets/img/stake.png" alt="stakeImg" />
-          <div className="text-[12px] leading-[150%] font-semibold text-black">
+          <div className="text-xs leading-[150%] font-semibold text-black">
             Stake
           </div>
         </div>

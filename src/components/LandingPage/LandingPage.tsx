@@ -12,7 +12,7 @@ export const LandingPage = () => {
     <div className="pt-0 md:pt-24 flex justify-center h-full w-full">
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-2 md:gap-6">
         <div
-          className="h-[150px] w-[350px] rounded-[12px] relative flex justify-between bg-white dark:bg-[#111111CC] border-[1px] dark:border-[#353535] border-[#BFD9FF] shadow-light dark:shadow-dark cursor-pointer"
+          className="h-[150px] w-[350px] rounded-xl relative flex justify-between bg-white dark:bg-[#111111CC] border-[1px] dark:border-[#353535] border-[#BFD9FF] shadow-light dark:shadow-dark cursor-pointer"
           onClick={() => navigatorButton("swap")}
         >
           <h2 className="text-[#06A5FF] font-semibold text-[28px] pt-4 pl-6">
@@ -23,7 +23,7 @@ export const LandingPage = () => {
           </div>
         </div>
         <div
-          className="h-[150px] w-[350px] rounded-[12px] relative flex justify-between bg-white dark:bg-[#111111CC] border-[1px] dark:border-[#353535] border-[#BFD9FF] shadow-light dark:shadow-dark cursor-pointer"
+          className="h-[150px] w-[350px] rounded-xl relative flex justify-between bg-white dark:bg-[#111111CC] border-[1px] dark:border-[#353535] border-[#BFD9FF] shadow-light dark:shadow-dark cursor-pointer"
           onClick={() => navigatorButton("liquidity")}
         >
           <h2 className="text-[#06A5FF] font-semibold text-[28px] pt-4 pl-6">
@@ -34,7 +34,7 @@ export const LandingPage = () => {
           </div>
         </div>
         <div
-          className="h-[150px] w-[350px] rounded-[12px] relative flex justify-between bg-white dark:bg-[#111111CC] border-[1px] dark:border-[#353535] border-[#BFD9FF] shadow-light dark:shadow-dark cursor-pointer"
+          className="h-[150px] w-[350px] rounded-xl relative flex justify-between bg-white dark:bg-[#111111CC] border-[1px] dark:border-[#353535] border-[#BFD9FF] shadow-light dark:shadow-dark cursor-pointer"
           onClick={() => navigatorButton("stake")}
         >
           <h2 className="text-[#06A5FF] font-semibold text-[28px] pt-4 pl-6">

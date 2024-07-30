@@ -50,7 +50,9 @@ export default function List() {
 
   return (
     <div className={styles.list}>
-      <h3 className="text-[#565656] dark:text-[#ECECEC]">Your Pools</h3>
+      <h3 className="text-[#565656] dark:text-[#ECECEC] font-bold border-b border-solid border-black/10 dark:border-white/10">
+        Your Pools
+      </h3>
       {!connected ? (
         <NotConnected />
       ) : liquidity === null || liquidity.length === 0 ? (
@@ -75,7 +77,7 @@ export default function List() {
 
 function NotConnected() {
   return (
-    <div className={styles.emptyList}>
+    <div className={`${styles.emptyList} text-black/80 dark:text-white`}>
       <h5>Connect to a wallet to view your liquidity.</h5>
     </div>
   );

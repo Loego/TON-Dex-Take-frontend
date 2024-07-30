@@ -33,28 +33,27 @@ export default function TokenInput({
   };
 
   return (
-    <div className="bg-[#f3f8ff] dark:bg-[#242424] border border-[#BFD9FF] dark:border-[#353535] rounded-[12px] min-h-[99px] flex flex-col flex-nowrap pt-[17px] pr-[15px] pb-[16.3px] pl-[18px] gap-[13px]">
-      <div className="flex flex-row justify-between items-center pr-[3px] pb-[3px] gap-2">
+    <div className="bg-[#f3f8ff] dark:bg-[#242424] border border-[#BFD9FF] dark:border-[#353535] rounded-xl min-h-[99px] flex flex-col flex-nowrap pt-4 p-4 gap-3">
+      <div className="flex flex-row justify-between items-center pr-1 pb-1 gap-2">
         <div
-          className="cursor-pointer py-[6.84px] pl-[10.3px] pr-[13.7px] flex flex-row items-center gap-[10.267px] rounded-[8px] border border-[#BFD9FF] dark:border-[#353535] bg-[#fff] dark:bg-[#353535] bg-blend-overlay backdrop-blur-[25px]"
+          className="cursor-pointer px-2.5 py-1.5 flex flex-row items-center gap-2.5 rounded-lg border border-[#BFD9FF] dark:border-[#353535] bg-[#fff] dark:bg-[#353535] bg-blend-overlay backdrop-blur-xl min-w-max"
           onClick={onSelectToken}
         >
           {token !== null ? (
             <img
               src={token?.logoURI}
               alt={token.name}
-              className="w-[21px]"
+              className="w-[21px] rounded-full"
             ></img>
           ) : null}
           <div className="flex flex-row gap-[10px]">
-            <div className=" text-[#0C192B] dark:text-[#ECECEC] text-[12px] font-semibold leading-[1rem] whitespace-nowrap">
+            <div className=" text-[#0C192B] dark:text-[#ECECEC] text-xs font-semibold leading-[1rem] whitespace-nowrap">
               {token !== null ? token.symbol : "Select Token"}
             </div>
-            <div className=""></div>
           </div>
         </div>
         <input
-          className="text-3xl dark:text-[#ECECEC] text-right text-[#212121] justify-end "
+          className="text-3xl font-bold dark:text-[#ECECEC]/80 text-right text-[#212121]/80 justify-end "
           placeholder="0.00"
           value={`${value}`}
           onChange={handleChange}
@@ -63,16 +62,16 @@ export default function TokenInput({
       </div>
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-row items-center">
-          <div className="text-[#565656] dark:text-[#ECECEC] font-normal text-[12px]">
+          <div className="text-[#565656] dark:text-[#ECECEC] font-normal text-xs">
             Balance:
           </div>
-          <div className="text-[#565656] dark:text-[#ECECEC] font-semibold text-[12px] pl-[17px]">
+          <div className="text-[#565656] dark:text-[#ECECEC] font-semibold text-xs pl-4">
             {token?.balance ?? 0}&nbsp;{token !== null ? token.symbol : ""}
           </div>
           {showMax && token?.balance ? (
             <div
               onClick={handleMaxClick}
-              className="pl-2 text-[#565656] dark:text-[#ECECEC] font-normal text-[12px]"
+              className="pl-2 text-[#565656] dark:text-[#ECECEC] font-normal text-xs"
             >
               MAX
             </div>

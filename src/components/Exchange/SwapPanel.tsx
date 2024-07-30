@@ -116,7 +116,7 @@ export const SwapPanel = () => {
 
   return (
     <div className="h-full flex">
-      <div className="rounded-lg bg-white/70 backdrop-blur-sm dark:bg-black/70 border border-[#BFD9FF] dark:border-[#353535] p-4 md:p-8 shadow-light dark:shadow-dark !max-w-[500px] m-auto">
+      <div className="rounded-lg bg-white/70 backdrop-blur-sm dark:bg-black/70 border border-[#BFD9FF] dark:border-[#353535] p-4 shadow-light dark:shadow-dark !max-w-[500px] m-auto">
         <div className="flex flex-col">
           <span className="text-[18px] font-semibold text-[#565656] dark:text-[#ECECEC]">
             Swap
@@ -126,7 +126,7 @@ export const SwapPanel = () => {
               Pool doesn't exist
             </p>
           )}
-          <div className="relative shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-[29px]">
+          <div className="relative shadow-containerLight dark:shadow-containerDark rounded-xl mt-3">
             <TokenInput
               value={swapState.inputs.from}
               onChange={handleFromChange}
@@ -137,7 +137,7 @@ export const SwapPanel = () => {
               <SwitchButton onClick={handleSwitch} />
             </div>
           </div>
-          <div className="shadow-containerLight dark:shadow-containerDark rounded-[12px] mt-5">
+          <div className="shadow-containerLight dark:shadow-containerDark rounded-xl mt-5">
             <TokenInput
               value={swapState.inputs.to}
               onChange={handleToChange}
@@ -150,7 +150,7 @@ export const SwapPanel = () => {
             swapState.from !== null &&
             swapState.to !== null ? (
               <div>
-                <span className="text-[12px] font-semibold dark:text-[#ECECEC] text-[#565656]">
+                <span className="text-xs font-semibold dark:text-[#ECECEC] text-[#565656]">
                   1 {swapState.from?.symbol} = {swapState.conversionRate}{" "}
                   {swapState.to?.symbol} ($
                   {swapState.usdtRate})
@@ -163,7 +163,7 @@ export const SwapPanel = () => {
           {wallet ? (
             isPoolExist ? (
               <button
-                className="py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
+                className="py-[18px] text-center text-base font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
                 onClick={handleSwap}
                 disabled={confirmDisabled}
               >
@@ -172,7 +172,7 @@ export const SwapPanel = () => {
             ) : (
               <button
                 onClick={() => navigate("/liquidity")}
-                className="py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
+                className="py-[18px] text-center text-base font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
               >
                 Add liquidity
               </button>
@@ -180,7 +180,7 @@ export const SwapPanel = () => {
           ) : (
             <button
               className={
-                "py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff] cursor-not-allowed"
+                "py-[18px] text-center text-base font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff] cursor-not-allowed"
               }
               disabled={true}
             >

@@ -61,18 +61,27 @@ button:focus-visible {
 }
 
 .go3974562317 {
-  background: linear-gradient(to top right, #025de7, #0366fc) !important;
-  height: 56px !important;
-  width: 200px !important;
+  background: linear-gradient(
+    to right,
+    rgb(156, 190, 33),
+    rgb(5, 139, 216)
+  ) !important;
+}
+.go526437840 {
+  z-index: 1000;
 }
 #ton-connect-button button {
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   display: flex !important;
   justify-content: center !important;
   flex-direction: row !important;
   align-content: center !important;
   gap: 12px !important;
-  padding-left: 12px !important;
+  padding: 10px 20px 10px 20px !important;
+  color: white !important;
+}
+#ton-connect-button button * {
+  fill: white;
 }
 .go1487791704 {
   font-size: 14px !important;
@@ -84,12 +93,6 @@ button:focus-visible {
 }
 
 @media screen and (max-width: 460px) {
-  .go3974562317 {
-    background: linear-gradient(to top right, #025de7, #0366fc) !important;
-    height: 35px !important;
-    width: 135px !important;
-    padding: 0px !important;
-  }
   .go1487791704 {
     font-size: 12px !important;
     font-family: "Montserrat", sans-serif;
@@ -98,7 +101,7 @@ button:focus-visible {
     font-size: 12px !important;
     font-family: "Montserrat", sans-serif;
   }
-  #ton-connect-button button {
+  /* #ton-connect-button button {
     border-radius: 12px !important;
     display: flex !important;
     justify-content: center !important;
@@ -107,7 +110,7 @@ button:focus-visible {
     gap: 4px !important;
     padding-left: 0px !important;
     padding-right: 5px !important;
-  }
+  } */
 }
 
 input {
@@ -123,4 +126,20 @@ input {
   &::-webkit-outer-spin-button {
     appearance: none;
   }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  -webkit-background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fff8;
+  border-radius: 100px;
+  -webkit-background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }

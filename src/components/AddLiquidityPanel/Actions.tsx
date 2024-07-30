@@ -19,7 +19,7 @@ export default function Actions() {
   return (
     <div className="mt-5">
       <button
-        className="py-[18px] text-center text-[16px] font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
+        className="py-[18px] text-center text-base font-semibold leading-normal w-full bg-gradient-to-r from-[#b5d73e] to-[#06a5ff]"
         onClick={handleSupplyClick}
         disabled={supplyDisabled}
       >

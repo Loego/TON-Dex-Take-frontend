@@ -23,8 +23,12 @@ const Pools = () => {
     setFilterDate(filter);
   };
 
-  const handleAddLiquidity = () => {
-    dispatch(changePanel("add"));
+  const toggleAddLiquidityTab = () => {
+    if (panel === "add") {
+      dispatch(changePanel("main"));
+    } else {
+      dispatch(changePanel("add"));
+    }
   };
 
   const data = [
@@ -39,36 +43,35 @@ const Pools = () => {
 
   console.log(panel);
   return (
-    <div className="px-10">
-      <div className="max-w-[1100px] bg-[#fff]/80 dark:bg-[#111111]/80 flex flex-col mx-auto rounded-[12px] mt-[54px] shadow-light dark:shadow-dark border border-[#BFD9FF] dark:border-[#646464] backdrop:blur-[25px] backdrop-blur-[25px]">
-        <div className="pt-[35px] pb-[46px] px-[25px] flex flex-col gap-[13px]">
+    <div className="">
+      {/* <div className="max-w-[1100px] bg-[#fff]/80 dark:bg-[#111111]/80 flex flex-col mx-auto rounded-xl mt-12 shadow-light dark:shadow-dark border border-[#BFD9FF] dark:border-[#646464] backdrop-blur-xl">
+        <div className="px-6 py-8 flex flex-col gap-3">
           <div className="dark:text-[#ECECEC] text-[#565656] text-[18px] font-semibold">
             Pools
           </div>
-          <div className="relative rounded-[20px] border border-[#BFD9FF] dark:border-[#646464] dark:bg-white/40 dark:bg-blend-overlay backdrop-blur-[25px] py-[19.25px] pl-4 pr-[46.65px]">
+          <label className="relative rounded-[20px] border border-[#BFD9FF] dark:border-[#646464] dark:bg-white/40 dark:bg-blend-overlay backdrop-blur-xl py-3 px-6">
             <input
               type="string"
               placeholder="Search Pools"
-              className="text-[16px] text-[#666] dark:text-[#E4E4E4] leading-normal font-normal"
+              className="text-base text-[#666] dark:text-[#E4E4E4] leading-normal font-normal"
             />
-            <img src=""></img>
-          </div>
+          </label>
         </div>
-      </div>
-      <div className="mt-[60px] max-w-[1100px] mx-auto flex flex-col ">
-        <div className="text-[#565656] dark:text-[#ECECEC] text-[18px] font-semibold">
+      </div> */}
+      <div className="mt-16 max-w-[1100px] mx-auto flex flex-col gap-4">
+        {/* <div className="text-[#565656] dark:text-[#ECECEC] text-[18px] font-semibold">
           Top Pools
-        </div>
-        <div className="mt-[25px] flex flex-row md:justify-between items-center justify-center">
-          <div className="rounded-[16px] p-[5px] justify-center items-start border dark:border-[#646464] border-[#06A5FF] w-fit md:flex hidden flex-row bg-[#ffffff]/80 dark:bg-[#111111]/80">
+        </div> */}
+        <div className="mt-[25px] flex flex-col-reverse md:flex-row gap-2 items-center justify-center">
+          {/* <div className="items-center border dark:border-[#646464] border-[#06A5FF] px-2 py-2 rounded-2xl gap-2 flex flex-row bg-[#ffffff]/80 dark:bg-[#111111]/80">
             {["1D", "1W", "1M", "All"].map((filter) => (
               <div
                 key={filter}
                 className={`flex ${
                   filterDate === filter
-                    ? "border-[#BFD9FF] dark:border-[#353535] bg-[#E3F2FF] dark:bg-[#1A1A1A] rounded-[12px] border"
+                    ? "border-[#BFD9FF] dark:border-[#353535] bg-[#E3F2FF] dark:bg-[#1A1A1A] rounded-xl border"
                     : ""
-                } backdrop:blur-[25px] py-2 px-3 text-[#565656] dark:text-[#ECECEC] text-[14px] cursor-pointer`}
+                } backdrop-blur-xl py-2 px-3 text-[#565656] dark:text-[#ECECEC] text-[14px] cursor-pointer`}
                 onClick={() =>
                   filterButton(filter as "1D" | "1W" | "1M" | "All")
                 }
@@ -76,40 +79,43 @@ const Pools = () => {
                 {filter}
               </div>
             ))}
-          </div>
-          <div className="items-center border dark:border-[#646464] border-[#06A5FF] py-[5px] pl-[5px] pr-[15px] rounded-[16px] gap-[15px] flex flex-row bg-[#ffffff]/80 dark:bg-[#111111]/80">
-            <div className="px-[9px] py-2 w-fit rounded-[12px] border border-[#BFD9FF] dark:border-[#353535] bg-[#F3F8FF] dark:bg-[#242424] backdrop:blur-[25px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-normal leading-[20px]">
-              Boost a pool
-            </div>
-            <div
-              onClick={handleAddLiquidity}
-              className="font-semibold text-[16px] text-[#0364F6] dark:text-[#B5D83F] leading-[20px] tracking-[-0.16px] underline cursor-pointer"
+          </div> */}
+          <div className="items-center border dark:border-[#646464] border-[#06A5FF] px-2 py-2 rounded-2xl gap-2 flex flex-row bg-[#ffffff]/80 dark:bg-[#111111]/80">
+            <button
+              className="px-[9px] py-2 w-fit rounded-xl border border-[#BFD9FF] dark:border-[#353535] bg-[#F3F8FF] dark:bg-[#242424] backdrop-blur-xl text-[#565656] dark:text-[#ECECEC] text-base font-normal leading-[20px] opacity-50 pointer-events-none"
+              disabled
             >
-              + Add Liquidity
-            </div>
+              Boost a pool
+            </button>
+            <button
+              className="px-[9px] py-2 w-fit rounded-xl border border-[#BFD9FF] dark:border-[#353535] bg-[#06a5ff] backdrop-blur-xl text-[#fff]  text-base font-normal leading-[20px]"
+              onClick={toggleAddLiquidityTab}
+            >
+              {panel === "add" ? "Go to List" : "+ Add Liquidity"}
+            </button>
           </div>
         </div>
         {panel === "main" && (
-          <div className="px-[25px] pt-4 mt-[17px] pb-4 rounded-[16px] w-full border border-[#BFD9FF] dark:border-[#646464] shadow-light dark:shadow-dark bg-[#fff]/80 dark:bg-[#111111]/80 backdrop:blur-[25px]">
-            <table className="w-full">
+          <div className="px-6 pt-4 pb-4 rounded-2xl w-full border border-[#BFD9FF] dark:border-[#646464] shadow-light dark:shadow-dark bg-[#fff]/80 dark:bg-[#111111]/80 backdrop-blur-xl">
+            {/* <table className="w-full">
               <thead className="w-full">
                 <tr>
-                  <th className="!w-[30px] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  <th className="!w-[30px] text-start text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
                     #
                   </th>
-                  <th className="ml-[13.5px] w-[30%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  <th className="ml-[13.5px] w-[30%] text-start text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
                     Pool
                   </th>
-                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
                     TVL
                   </th>
-                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
                     Volume 24H
                   </th>
-                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
                     Fees 24H
                   </th>
-                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
+                  <th className="w-[15%] text-start text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal pb-[15px] border-b dark:border-[#646464] border-[#BFD9FF]">
                     APR
                   </th>
                 </tr>
@@ -117,35 +123,35 @@ const Pools = () => {
               <tbody>
                 {data.map((item) => (
                   <tr key={item?.id}>
-                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                       {item?.id}
                     </td>
-                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                       {item?.pool}
                     </td>
-                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                       {item?.tvl}
                     </td>
-                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                       {item?.volume24H}
                     </td>
-                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                       {item?.fees24H}
                     </td>
-                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
+                    <td className="py-[19px] text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal border-b border-[#BFD9FF] dark:border-[#646464]">
                       {item?.apr}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div className="w-full py-[19.5px] justify-center items-center gap-[15px] text-center">
+            <div className="w-full py-[19.5px] justify-center items-center gap-4 text-center">
               <div className=""></div>
-              <div className="text-[#565656] dark:text-[#ECECEC] text-[16px] font-medium leading-normal">
+              <div className="text-[#565656] dark:text-[#ECECEC] text-base font-medium leading-normal">
                 Page 1 of 1
               </div>
               <div className=""></div>
-            </div>
+            </div> */}
             <List />
           </div>
         )}

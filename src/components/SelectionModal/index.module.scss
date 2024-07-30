@@ -11,7 +11,9 @@
   gap: 24px;
   min-width: 280px;
   max-width: 500px;
-
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
   .title {
     display: flex;
     align-items: center;
@@ -46,8 +48,8 @@
   @include hide-scrollbar;
 
   .token {
-    height: 2rem;
     padding: 0.25rem;
+    padding-right: 1rem;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
