@@ -177,7 +177,7 @@ export default function LimitForm() {
         <button
           type="button"
           onClick={handleSubmit}
-          className=" bg-btn_color h-10 flex rounded-md text-center items-center justify-center"
+          className=" bg-[#1f93d6] h-10 flex rounded-md text-center items-center justify-center"
         >
           Submit
         </button>

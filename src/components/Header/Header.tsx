@@ -18,9 +18,7 @@ interface NavbarProps {
 
 const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
   const navigate = useNavigate();
-  const navigatorButton = (path: string) => {
-    navigate(`/${path}`);
-  };
+
   const dispatch = useAppDispatch();
 
   const client = useTonClient();
@@ -49,7 +47,7 @@ const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
   return (
     <nav className="w-full z-[100] py-2 px-6 md:px-20 grid grid-cols-[auto_auto] md:grid-cols-[1fr_auto_1fr] gap-5 bg-[#ffffffcc] dark:bg-[#111111CC] backdrop-blur-sm">
       <div className="flex justify-between items-center md:w-auto">
-        <div className="cursor-pointer" onClick={() => navigatorButton("/")}>
+        <div className="cursor-pointer" onClick={() => navigate("/")}>
           <img
             src={logo}
             alt="Logo"
@@ -59,19 +57,19 @@ const Header: React.FC<NavbarProps> = ({ toggleMode, isDarkMode }) => {
       </div>
       <ul className="md:flex md:items-center md:gap-10 hidden absolute md:static top-full left-0 w-full md:w-auto transition-transform transform md:transform-none duration-300">
         <li
-          onClick={() => navigatorButton("swap")}
+          onClick={() => navigate("/swap")}
           className="cursor-pointer text-lg font-semibold text-[#06A5FF] py-2 md:py-0 px-6 md:px-0"
         >
           Swap
         </li>
         <li
-          onClick={() => navigatorButton("liquidity")}
+          onClick={() => navigate("/liquidity")}
           className="cursor-pointer text-lg font-semibold text-[#06A5FF] py-2 md:py-0 px-6 md:px-0"
         >
           Pools
         </li>
         <li
-          onClick={() => navigatorButton("stake")}
+          onClick={() => navigate("/stake")}
           className="cursor-pointer text-lg font-semibold text-[#06A5FF] py-2 md:py-0 px-6 md:px-0"
         >
           Stake

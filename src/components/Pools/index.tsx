@@ -88,7 +88,7 @@ const Pools = () => {
               Boost a pool
             </button>
             <button
-              className="px-[9px] py-2 w-fit rounded-xl border border-[#BFD9FF] dark:border-[#353535] bg-[#06a5ff] backdrop-blur-xl text-[#fff]  text-base font-normal leading-[20px]"
+              className="px-[9px] py-2 w-fit rounded-xl border border-[#BFD9FF] dark:border-[#353535] bg-[#1f93d6] backdrop-blur-xl text-[#fff]  text-base font-normal leading-[20px]"
               onClick={toggleAddLiquidityTab}
             >
               {panel === "add" ? "Go to List" : "+ Add Liquidity"}
