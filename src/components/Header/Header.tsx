@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import logo from "../../assets/img/logo.gif";
+import logo from "../../assets/logo.svg";
 import dark from "../../assets/dark.svg";
 import light from "../../assets/light.svg";
 import { TonConnectButton } from "@tonconnect/ui-react";
